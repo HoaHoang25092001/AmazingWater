@@ -4,7 +4,6 @@ import { View, Text } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import BookIndexScreen from "../screens/auth/BookIndexScreen";
 import InputIndexScreen from "../screens/auth/InputIndexScreen";
-import LoginScreen from "../screens/auth/LoginScreen";
 
 // Stack Navigator cho mục Home (Feed) và các màn hình con mới
 
