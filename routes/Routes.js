@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SelectFactoryScreen from "../screens/auth/SelectFactoryScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import BookIndexScreen from "../screens/auth/BookIndexScreen";
+import BookIndexScreen from "../screens/user/BookIndexScreen";
 import InputIndexScreen from "../screens/auth/InputIndexScreen";
 
 const Stack = createNativeStackNavigator();
