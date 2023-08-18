@@ -3,12 +3,18 @@ import {
   Quicksand_700Bold,
   Quicksand_500Medium,
 } from "@expo-google-fonts/quicksand";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { AppLoading } from "expo";
 import {
   Avatar,
   Box,
   Button,
+  Center,
+  Checkbox,
   CheckIcon,
   FlatList,
   FormControl,
@@ -18,16 +24,21 @@ import {
   Input,
   Modal,
   Select,
+  Slider,
   Spacer,
+  Stack,
   Text,
   VStack,
 } from "native-base";
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import DatePicker from "react-native-modern-datepicker";
+import DatePicker, { getToday } from "react-native-modern-datepicker";
+import AccordionCustom from "../../components/AcordionCustom/AcordionCustom";
+import DateTimeCustom from "../../components/DateTimeCustom/DateTimeCustom";
 import Quicksand from "../../components/Fonts/QuickSand";
 import Pagination from "../../components/Pagination";
 import StaggerCustom from "../../components/StaggerCustom/StaggerCustom";
+import TableCreateMuti from "../../components/TableList/TableCreateMuti";
 import TableList from "../../components/TableList/TableList";
 import { colors } from "../../constants";
 
@@ -36,8 +47,13 @@ export default function BookIndexScreen() {
   const [date, setDate] = useState("");
   const [showPickDate, setShowPickDate] = useState(false);
   const [showDatePickerModal, setShowDatePickerModal] = useState(false);
+  const [showDateModal, setShowDateModal] = useState(false);
   const [selectedDate, setSelectedDate] = React.useState("MM-YYYY");
-
+  const [valueDate, setValueDate] = React.useState("---Chọn ngày---");
+  const [modalCreated, setModalCreated] = useState(false);
+  const [modalCreateMuti, setModalCreatedMuti] = useState(false);
+  const [onChangeValue, setOnChangeValue] = React.useState(0);
+  const [onChangeEndValue, setOnChangeEndValue] = React.useState(0);
   const data = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -316,6 +332,7 @@ export default function BookIndexScreen() {
     <HStack h={10} key={index}>
       <Box
         borderRightWidth={1}
+        borderLeftWidth={1}
         style={styles.boxContent}
         borderColor="muted.200"
         pl={["5", "4"]}
@@ -417,10 +434,65 @@ export default function BookIndexScreen() {
   if (fontsLoaded) {
     return (
       <View>
+        <AccordionCustom
+          setShowDatePickerModal={setShowDatePickerModal}
+          selectedDate={selectedDate}
+        />
         <TableList title={title} data={data} renderItem={renderItem} />
+        <StaggerCustom
+          setModalVisible={setModalVisible}
+          setModalCreated={setModalCreated}
+          setModalCreatedMuti={setModalCreatedMuti}
+        />
 
-        <StaggerCustom setModalVisible={setModalVisible} />
         {/*Modal dialog */}
+        <Modal
+          isOpen={showDatePickerModal}
+          onClose={() => setShowDatePickerModal(false)}
+          size="lg"
+          _backdrop={{
+            _dark: {
+              bg: "coolGray.800",
+            },
+            bg: "warmGray.50",
+          }}
+        >
+          <Modal.Content maxWidth="100%" maxH="600">
+            <Modal.CloseButton />
+            <Modal.Header>Chọn tháng</Modal.Header>
+            <Modal.Body>
+              <DatePicker
+                mode="monthYear"
+                selectorStartingYear={2000}
+                onMonthYearChange={(selectedDate) =>
+                  setSelectedDate(selectedDate)
+                }
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button.Group space={2}>
+                <Button
+                  variant="ghost"
+                  colorScheme="blueGray"
+                  onPress={() => {
+                    setShowDatePickerModal(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onPress={() => {
+                    setShowDatePickerModal(false);
+                    // Set the selectedDate value to the input when Save is pressed
+                    setSelectedDate(selectedDate);
+                  }}
+                >
+                  Save
+                </Button>
+              </Button.Group>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
 
         <Modal
           isOpen={modalVisible}
@@ -432,90 +504,252 @@ export default function BookIndexScreen() {
         >
           <Modal.Content>
             <Modal.CloseButton />
-            <Modal.Header>Tìm kiếm</Modal.Header>
+            <Modal.Header>Chỉ số</Modal.Header>
 
             <Modal.Body>
-              <Button onPress={() => setShowDatePickerModal(true)}>
-                Chọn tháng
-              </Button>
-              <FormControl mt="3">
-                <FormControl.Label>Chọn tháng</FormControl.Label>
-                <Input isReadOnly value={selectedDate} />
-              </FormControl>
-              <Modal
-                isOpen={showDatePickerModal}
-                onClose={() => setShowDatePickerModal(false)}
-                size="lg"
-                _backdrop={{
-                  _dark: {
-                    bg: "coolGray.800",
-                  },
-                  bg: "warmGray.50",
-                }}
-              >
-                <Modal.Content maxWidth="100%" maxH="600">
-                  <Modal.CloseButton />
-                  <Modal.Header>Chọn tháng</Modal.Header>
-                  <Modal.Body>
-                    <DatePicker
-                      mode="monthYear"
-                      selectorStartingYear={2000}
-                      onMonthYearChange={(selectedDate) =>
-                        setSelectedDate(selectedDate)
-                      }
-                    />
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button.Group space={2}>
-                      <Button
-                        variant="ghost"
-                        colorScheme="blueGray"
-                        onPress={() => {
-                          setShowDatePickerModal(false);
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        onPress={() => {
-                          setShowDatePickerModal(false);
-                          // Set the selectedDate value to the input when Save is pressed
-                          setSelectedDate(selectedDate);
-                        }}
-                      >
-                        Save
-                      </Button>
-                    </Button.Group>
-                  </Modal.Footer>
-                </Modal.Content>
-              </Modal>
-              {searchLabel.map((item, index) => (
-                <FormControl mt="3" key={index}>
-                  <FormControl.Label>{item.label}</FormControl.Label>
-                  <Input />
-                </FormControl>
-              ))}
+              <Box alignItems="center" w="100%">
+                <Stack space={4} alignItems="center" w="75%" maxW="300">
+                  <Slider
+                    defaultValue={10}
+                    colorScheme="cyan"
+                    onChange={(v) => {
+                      setOnChangeValue(Math.floor(v));
+                    }}
+                    onChangeEnd={(v) => {
+                      v && setOnChangeEndValue(Math.floor(v));
+                    }}
+                  >
+                    <Slider.Track>
+                      <Slider.FilledTrack />
+                    </Slider.Track>
+                    <Slider.Thumb />
+                  </Slider>
+                  <Text textAlign="center">{onChangeEndValue}%</Text>
+                  <Slider
+                    defaultValue={10}
+                    colorScheme="warning"
+                    onChange={(v) => {
+                      setOnChangeValue(Math.floor(v));
+                    }}
+                    onChangeEnd={(v) => {
+                      v && setOnChangeEndValue(Math.floor(v));
+                    }}
+                  >
+                    <Slider.Track>
+                      <Slider.FilledTrack />
+                    </Slider.Track>
+                    <Slider.Thumb />
+                  </Slider>
+                  <Text textAlign="center">{onChangeEndValue}%</Text>
+                </Stack>
+              </Box>
             </Modal.Body>
-            <Modal.Footer>
-              <Button
-                flex="1"
-                onPress={() => {
-                  setModalVisible(false);
-                }}
-              >
-                Tìm kiếm
-              </Button>{" "}
-              <Button
-                flex="1"
-                onPress={() => {
-                  setModalVisible(false);
-                }}
-              >
-                Tìm mới
-              </Button>
-            </Modal.Footer>
           </Modal.Content>
         </Modal>
+
+        <Modal
+          isOpen={modalCreated}
+          onClose={() => setModalCreated(false)}
+          avoidKeyboard
+          justifyContent="center"
+          bottom="4"
+          size="xl"
+        >
+          <Modal.Content>
+            <Modal.CloseButton />
+            <Modal.Header>Tạo sổ</Modal.Header>
+
+            <Modal.Body>
+              <TableList title={title} data={data} renderItem={renderItem} />
+              <Center>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Kỳ ghi chỉ số</FormControl.Label>
+                  <Input />
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Ngày hóa đơn</FormControl.Label>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    colorScheme={"gray"}
+                    onPress={() => setShowDateModal(true)}
+                  >
+                    {valueDate}
+                  </Button>
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Ngày đầu kỳ</FormControl.Label>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    colorScheme={"gray"}
+                    onPress={() => setShowDateModal(true)}
+                  >
+                    {valueDate}
+                  </Button>
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Ngày cuối kỳ</FormControl.Label>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    colorScheme={"gray"}
+                    onPress={() => setShowDateModal(true)}
+                  >
+                    {valueDate}
+                  </Button>
+                </FormControl>
+                <HStack space={2} mt={10}>
+                  <Checkbox value="one">Tạo biểu mẫu</Checkbox>
+                  <Checkbox value="two">Ghi chỉ số online</Checkbox>
+                </HStack>
+                <Checkbox mt={3} mb={2} value="three">
+                  Không SD kỳ
+                </Checkbox>
+              </Center>
+              <Modal.Footer>
+                <Button.Group space={2}>
+                  <Button
+                    variant={"outline"}
+                    leftIcon={
+                      <Icon as={MaterialIcons} name="add-circle" size="sm" />
+                    }
+                  >
+                    Tạo sổ đồng loạt
+                  </Button>
+                  <Button
+                    colorScheme={"warning"}
+                    onPress={() => {
+                      setModalCreated(false);
+                    }}
+                  >
+                    Đóng
+                  </Button>
+                </Button.Group>
+              </Modal.Footer>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+        <Modal
+          isOpen={modalCreateMuti}
+          onClose={() => setModalCreatedMuti(false)}
+          avoidKeyboard
+          justifyContent="center"
+          bottom="4"
+          size="xl"
+        >
+          <Modal.Content>
+            <Modal.CloseButton />
+            <Modal.Header>Tạo sổ đồng loạt</Modal.Header>
+
+            <Modal.Body>
+              <TableCreateMuti renderItem={renderItem} />
+              <Center>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Cán bộ đọc</FormControl.Label>
+                  <Input />
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Tên sổ</FormControl.Label>
+                  <Input />
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Kỳ ghi chỉ số</FormControl.Label>
+                  <Input />
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Ngày hóa đơn</FormControl.Label>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    colorScheme={"gray"}
+                    onPress={() => setModalCreatedMuti(true)}
+                  >
+                    {valueDate}
+                  </Button>
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Ngày đầu kỳ</FormControl.Label>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    colorScheme={"gray"}
+                    onPress={() => setModalCreatedMuti(true)}
+                  >
+                    {valueDate}
+                  </Button>
+                </FormControl>
+                <FormControl w="90%" maxW="300px">
+                  <FormControl.Label>Ngày cuối kỳ</FormControl.Label>
+                  <Button
+                    variant="outline"
+                    size="md"
+                    colorScheme={"gray"}
+                    onPress={() => setModalCreatedMuti(true)}
+                  >
+                    {valueDate}
+                  </Button>
+                </FormControl>
+                <HStack space={2} mt={10}>
+                  <Checkbox value="one">Tạo biểu mẫu</Checkbox>
+                  <Checkbox value="two">Ghi chỉ số online</Checkbox>
+                </HStack>
+                <Checkbox mt={3} mb={2} value="three">
+                  Không SD kỳ
+                </Checkbox>
+              </Center>
+              <VStack space={2} alignItems="center">
+                <Button
+                  variant={"solid"}
+                  w={"90%"}
+                  style={{ backgroundColor: "#0ce3bc" }}
+                  leftIcon={
+                    <Icon as={MaterialIcons} name="picture-as-pdf" size="sm" />
+                  }
+                >
+                  Xuất bảng kê
+                </Button>
+                <Button
+                  variant={"solid"}
+                  w={"90%"}
+                  style={{ backgroundColor: "#5d87ff" }}
+                  leftIcon={
+                    <Icon as={MaterialIcons} name="add-circle" size="sm" />
+                  }
+                >
+                  Tạo sổ và tạo tiếp
+                </Button>
+                <Button
+                  variant={"solid"}
+                  w={"90%"}
+                  style={{ backgroundColor: "#5d87ff" }}
+                  leftIcon={
+                    <Icon as={MaterialIcons} name="add-circle" size="sm" />
+                  }
+                >
+                  Tạo sổ và đóng
+                </Button>
+                <Button
+                  colorScheme={"solid"}
+                  w={"90%"}
+                  style={{ backgroundColor: "#fa896b" }}
+                  leftIcon={<Icon as={MaterialIcons} name="close" size="sm" />}
+                  onPress={() => {
+                    setModalCreatedMuti(false);
+                  }}
+                >
+                  Đóng
+                </Button>
+              </VStack>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+        <DateTimeCustom
+          showDateModal={showDateModal}
+          setShowDateModal={setShowDateModal}
+          valueDate={valueDate}
+          setValueDate={setValueDate}
+        />
       </View>
     );
   }
@@ -566,6 +800,7 @@ const styles = StyleSheet.create({
   boxTitle: {
     width: 120,
     borderBottomWidth: 1,
+    borderTopWidth: 1,
     backgroundColor: "rgb(250,250,250)",
   },
 });

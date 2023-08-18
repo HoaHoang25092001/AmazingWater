@@ -15,18 +15,30 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import IconButtonCustom from "./IconButtonCustom";
 
-const StaggerCustom = ({ setModalVisible }) => {
+const StaggerCustom = ({
+  setModalVisible,
+  setModalCreated,
+  setModalCreatedMuti,
+}) => {
   const { isOpen, onToggle } = useDisclose();
   const [isOpenTooltip, setOpenTooltip] = useState(false);
   const handleTooltip = () => {
     onToggle();
     setOpenTooltip(true);
   };
+
   const handleModalPicker = () => {
     setModalVisible(true);
     onToggle();
   };
-
+  const handleModalCreate = () => {
+    setModalCreated(true);
+    onToggle();
+  };
+  const handleModalCreateMuti = () => {
+    setModalCreatedMuti(true);
+    onToggle();
+  };
   const icons = [
     {
       id: "1",
@@ -34,6 +46,7 @@ const StaggerCustom = ({ setModalVisible }) => {
       name: "plus-circle",
       bg: "blue.600",
       type: "MaterialCommunityIcons",
+      handle: handleModalCreate,
     },
     {
       id: "2",
@@ -41,6 +54,7 @@ const StaggerCustom = ({ setModalVisible }) => {
       name: "plus-circle-multiple",
       bg: "blue.500",
       type: "MaterialCommunityIcons",
+      handle: handleModalCreateMuti,
     },
     {
       id: "3",
@@ -97,19 +111,12 @@ const StaggerCustom = ({ setModalVisible }) => {
       name: "bar-chart",
       type: "MaterialIcons",
       bg: "coolGray.600",
-    },
-    {
-      id: "11",
-      label: "Tìm kiếm",
-      name: "search",
-      bg: "blue.600",
-      type: "MaterialIcons",
       handle: handleModalPicker,
     },
   ];
 
   return (
-    <View alignItems="flex-end" position="absolute" left={"85%"}>
+    <View alignItems="flex-end" position="absolute" left={"85%"} top={"10%"}>
       <Box alignItems="center" minH="220">
         <Stagger
           visible={isOpen}
@@ -179,6 +186,7 @@ const StaggerCustom = ({ setModalVisible }) => {
                   variant="solid"
                   bg={item.bg}
                   colorScheme="red"
+                  position={"relative"}
                   borderRadius="full"
                   onPress={item.handle}
                   icon={

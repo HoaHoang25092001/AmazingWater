@@ -93,16 +93,16 @@ const Pagination = ({
           accessibilityLabel="Selection"
           placeholder="10"
           _selectedItem={{
-            bg: "teal.600",
-            endIcon: <CheckIcon size="5" />,
+            bg: "teal.300",
+            endIcon: <CheckIcon size="2" />,
           }}
           mt={1}
           onValueChange={handleValue}
         >
-          <Select.Item label="10" value="10" />
-          <Select.Item label="20" value="20" />
-          <Select.Item label="50" value="50" />
-          <Select.Item label="100" value="100" />
+          <Select.Item label="10 / Trang" value="10" />
+          <Select.Item label="20 / Trang" value="20" />
+          <Select.Item label="50 / Trang" value="50" />
+          <Select.Item label="100 / Trang" value="100" />
         </Select>
       </View>
     </View>
