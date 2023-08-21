@@ -1,6 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Routes from "./routes/Routes";
+import Routes from "./routes/routes";
 import { NativeBaseProvider } from "native-base";
 import { SSRProvider } from "@react-aria/ssr";
 
