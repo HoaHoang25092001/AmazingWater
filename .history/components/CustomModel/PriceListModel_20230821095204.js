@@ -62,13 +62,13 @@ const styles = StyleSheet.create({
     },
     modelHeader: {
         fontWeight: "600",
-        fontSize: 23,
+        fontSize: 22,
         marginBottom: 20
     },
     modelContent: {
         width: 280,
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         backgroundColor: "rgba(0,0,0,0.02)",
         padding: 30,
         borderRadius: 10
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FA896B",
         alignItems: "center",
         borderRadius: 5,
-        marginTop: 15
+        marginTop: 20
     },
     updateButtonModel: {
         width: 280,
@@ -95,19 +95,15 @@ const styles = StyleSheet.create({
         color: "white",
         textAlign: "center",
         fontSize: 14,
-        padding: 8,
+        padding: 5
     },
     tableHeader: {
         fontWeight: "600",
-        fontSize: 16,
-        marginBottom: 25
+        fontSize: 18,
+        marginBottom: 30
     },
     tableContent: {
-        fontSize: 15,
-        marginBottom: 15,
-        backgroundColor: colors.white,
-        paddingVertical: 10,
-        color: "#5A6A85",
-        fontWeight: "500",
+        fontSize: 16,
+        marginBottom: 30,
     }
 })

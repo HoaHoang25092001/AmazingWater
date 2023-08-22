@@ -23,7 +23,7 @@ const PriceListModel = ({ visible, onClose }) => {
                     </View>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.updateButtonModel}>
-                            <Text style={styles.closeButtonModelText}>Cập Nhật</Text>
+                            <Text style={styles.closeButtonModelText}>Cập nhật</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
@@ -61,53 +61,47 @@ const styles = StyleSheet.create({
         // elevation: 5,
     },
     modelHeader: {
-        fontWeight: "600",
-        fontSize: 23,
-        marginBottom: 20
+        fontWeight: "500",
+        fontSize: 24,
+        marginBottom: 40
     },
     modelContent: {
         width: 280,
         flexDirection: "row",
-        justifyContent: "space-around",
-        backgroundColor: "rgba(0,0,0,0.02)",
-        padding: 30,
-        borderRadius: 10
+        justifyContent: "space-between"
     },
     closeButtonModel: {
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#FA896B",
+        backgroundColor: colors.warning_500,
         alignItems: "center",
         borderRadius: 5,
-        marginTop: 15
+        marginTop: 20
     },
     updateButtonModel: {
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#71D1F8",
+        backgroundColor: colors.blue_400,
         alignItems: "center",
         borderRadius: 5,
-        marginTop: 15
+        marginTop: 20
     },
     closeButtonModelText: {
         color: "white",
         textAlign: "center",
-        fontSize: 14,
-        padding: 8,
+        fontSize: 16,
+        padding: 8
     },
     tableHeader: {
         fontWeight: "600",
-        fontSize: 16,
-        marginBottom: 25
+        fontSize: 18,
+        marginBottom: 30
     },
     tableContent: {
-        fontSize: 15,
-        marginBottom: 15,
-        backgroundColor: colors.white,
-        paddingVertical: 10,
-        color: "#5A6A85",
-        fontWeight: "500",
+        fontSize: 16,
+        marginBottom: 30,
+        borderBottomColor: "rgba(255, 255, 255)"
     }
 })
