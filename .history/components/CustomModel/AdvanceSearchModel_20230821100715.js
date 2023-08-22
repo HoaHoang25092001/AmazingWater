@@ -42,7 +42,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                 <View style={styles.modalView}>
                     <Text style={styles.modelHeader}>Tìm kiếm nâng cao</Text>
                     <Text style={styles.modelTitleField}>Loại khách hàng</Text>
-                    <Box maxW="280">
+                    <Box maxW="300">
                         <Select selectedValue={service} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Loại khách hàng" _selectedItem={{
                             bg: "white",
                             endIcon: <CheckIcon size="5" />
@@ -68,7 +68,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                         </Select>
                     </Box>
                     <Text style={styles.modelTitleField}>Phạm vi</Text>
-                    <Box maxW="280">
+                    <Box maxW="300">
                         <Select selectedValue={scope} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Phạm vi" _selectedItem={{
                             bg: "white",
                             endIcon: <CheckIcon size="5" />
@@ -94,10 +94,10 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                         </Select>
                     </Box>
                     <Text style={styles.modelTitleField}>Vùng</Text>
-                    <Box maxW="280">
+                    <Box maxW="400">
                         <Select selectedValue={region} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Vùng" _selectedItem={{
                             bg: "white",
-                            endIcon: <CheckIcon size="5" />
+                            endIcon: <CheckIcon size="" />
                         }} _light={{
                             bg: "white",
                             _hover: {
@@ -120,7 +120,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                         </Select>
                     </Box>
                     <Text style={styles.modelTitleField}>Khu vực</Text>
-                    <Box maxW="280">
+                    <Box maxW="400">
                         <Select selectedValue={area} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Khu vực" _selectedItem={{
                             bg: "white",
                             endIcon: <CheckIcon size="2" />
@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
     },
     modalView: {
         width: "100%",
@@ -281,7 +282,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 5,
         color: "#000000E0",
-        textAlign: "left"
     },
     searchButtonModel: {
         width: 280,
@@ -315,20 +315,20 @@ const styles = StyleSheet.create({
     closeButtonModelText: {
         color: "white",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 16,
         padding: 7
     },
     searchButtonModelText: {
         color: "#1677FF",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 16,
         padding: 7
     },
     dateReadStart: {
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "gray",
-        height: 35,
+        height: 40,
         fontSize: 18,
         justifyContent: "center",
         width: 280

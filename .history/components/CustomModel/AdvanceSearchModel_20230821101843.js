@@ -321,14 +321,14 @@ const styles = StyleSheet.create({
     searchButtonModelText: {
         color: "#1677FF",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 16,
         padding: 7
     },
     dateReadStart: {
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "gray",
-        height: 35,
+        height: 40,
         fontSize: 18,
         justifyContent: "center",
         width: 280

@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     modelContent: {
         width: 280,
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         backgroundColor: "rgba(0,0,0,0.02)",
         padding: 30,
         borderRadius: 10
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginBottom: 15,
         backgroundColor: colors.white,
-        paddingVertical: 10,
+        padding: 10,
         color: "#5A6A85",
         fontWeight: "500",
     }
