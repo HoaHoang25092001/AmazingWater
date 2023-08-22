@@ -54,6 +54,7 @@ export default function BookIndexScreen() {
   const [modalCreateMuti, setModalCreatedMuti] = useState(false);
   const [onChangeValue, setOnChangeValue] = React.useState(0);
   const [onChangeEndValue, setOnChangeEndValue] = React.useState(0);
+  const [isOverlayVisible, setOverlayVisible] = useState(false);
   const data = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -434,6 +435,7 @@ export default function BookIndexScreen() {
   if (fontsLoaded) {
     return (
       <View>
+        {isOverlayVisible && <View style={styles.overlay} />}
         <AccordionCustom
           setShowDatePickerModal={setShowDatePickerModal}
           selectedDate={selectedDate}
@@ -443,6 +445,7 @@ export default function BookIndexScreen() {
           setModalVisible={setModalVisible}
           setModalCreated={setModalCreated}
           setModalCreatedMuti={setModalCreatedMuti}
+          setOverlayVisible={setOverlayVisible}
         />
 
         {/*Modal dialog */}

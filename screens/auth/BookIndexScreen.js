@@ -18,6 +18,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import Quicksand from "../../components/Fonts/QuickSand";
 
 export default function BookIndexScreen() {
+  const [isOverlayVisible, setOverlayVisible] = useState(false);
   const data = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -270,6 +271,18 @@ export default function BookIndexScreen() {
     return (
       <View>
         {/* Tiêu đề của bảng */}
+        {isOverlayVisible && (
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)", // Màu overlay
+            }}
+          />
+        )}
         <ScrollView horizontal>
           <Box>
             <ScrollView>
@@ -330,5 +343,10 @@ const styles = StyleSheet.create({
     width: 120,
     borderBottomWidth: 1,
     backgroundColor: "rgb(250,250,250)",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
   },
 });

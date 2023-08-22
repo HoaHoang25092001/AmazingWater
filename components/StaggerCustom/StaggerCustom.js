@@ -7,6 +7,7 @@ import {
   HStack,
   Icon,
   IconButton,
+  PresenceTransition,
   Stagger,
   Tooltip,
   useDisclose,
@@ -19,25 +20,35 @@ const StaggerCustom = ({
   setModalVisible,
   setModalCreated,
   setModalCreatedMuti,
+  setOverlayVisible
 }) => {
   const { isOpen, onToggle } = useDisclose();
   const [isOpenTooltip, setOpenTooltip] = useState(false);
+ 
   const handleTooltip = () => {
     onToggle();
     setOpenTooltip(true);
+    setOverlayVisible(!isOpen);
   };
 
   const handleModalPicker = () => {
     setModalVisible(true);
     onToggle();
+    setOverlayVisible(!isOpen);
   };
   const handleModalCreate = () => {
     setModalCreated(true);
     onToggle();
+    setOverlayVisible(!isOpen);
   };
   const handleModalCreateMuti = () => {
     setModalCreatedMuti(true);
     onToggle();
+    setOverlayVisible(!isOpen);
+  };
+  const handleToggleStagger = () => {
+    onToggle();
+    setOverlayVisible(!isOpen); // Nếu isOpen là true, overlay sẽ bị ẩn; nếu isOpen là false, overlay sẽ hiển thị.
   };
   const icons = [
     {
@@ -117,6 +128,7 @@ const StaggerCustom = ({
 
   return (
     <View alignItems="flex-end" position="absolute" left={"85%"} top={"10%"}>
+      
       <Box alignItems="center" minH="220">
         <Stagger
           visible={isOpen}
