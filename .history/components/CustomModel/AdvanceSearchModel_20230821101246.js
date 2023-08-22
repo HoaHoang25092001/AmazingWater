@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
+        
     },
     modalView: {
         width: "100%",
@@ -281,7 +282,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 5,
         color: "#000000E0",
-        textAlign: "left"
+        flexDirection: "row",
+        alignItems: "flex-start"
     },
     searchButtonModel: {
         width: 280,
@@ -315,20 +317,20 @@ const styles = StyleSheet.create({
     closeButtonModelText: {
         color: "white",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 16,
         padding: 7
     },
     searchButtonModelText: {
         color: "#1677FF",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 16,
         padding: 7
     },
     dateReadStart: {
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "gray",
-        height: 35,
+        height: 40,
         fontSize: 18,
         justifyContent: "center",
         width: 280

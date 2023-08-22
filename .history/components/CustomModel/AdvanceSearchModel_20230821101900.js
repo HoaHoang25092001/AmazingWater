@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "gray",
-        height: 35,
+        height: 40,
         fontSize: 18,
         justifyContent: "center",
         width: 280

@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginBottom: 15,
         backgroundColor: colors.white,
-        paddingVertical: 10,
+        padding: 10,
         color: "#5A6A85",
         fontWeight: "500",
     }
