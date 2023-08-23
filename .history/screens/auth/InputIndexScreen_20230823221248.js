@@ -36,8 +36,8 @@ export default function InputIndexScreen() {
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [service, setService] = useState("");
-
-
+  
+  
 
   const data = [
     {

@@ -35,9 +35,13 @@ export default function InputIndexScreen() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [service, setService] = useState("");
-
-
+  const [service, setService] = React.useState("");
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  // Hàm xử lý khi người dùng chuyển đổi trang
+  const paginatedData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const data = [
     {
@@ -151,12 +155,6 @@ export default function InputIndexScreen() {
       hoadon: "Hóa đơn 1",
     },
   ];
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  // Hàm xử lý khi người dùng chuyển đổi trang
-  const paginatedData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
   const title = [
     {
       id: "1",
@@ -391,7 +389,7 @@ export default function InputIndexScreen() {
             {/* Nội dung của bảng */}
             <ScrollView style={{ height: 400 }}>
               <FlatList
-                data={paginatedData}
+                data={data}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
               />

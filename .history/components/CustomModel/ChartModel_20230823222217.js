@@ -10,7 +10,7 @@ const ChartModel = ({ visible, onClose }) => {
     const data = [20, 10, 40, 45, 4, 24, 25, 35, 53, 53, 24, 50, 20, 30]
     return (
         <View style={styles.centeredView}>
-            <Modal visible={visible} animationType="slide" backdropColor="black" backdropOpacity={0.7} hasBackdrop={true}>
+            <Modal visible={visible} animationType="slide" backdropColor="black">
                 <View style={styles.modalView}>
                     <Text style={styles.modelHeader}>Xem biểu đồ </Text>
                     <Text style={styles.chartHeader}>Biểu đồ sử dụng nước </Text>

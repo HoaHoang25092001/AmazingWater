@@ -397,15 +397,15 @@ export default function InputIndexScreen() {
               />
             </ScrollView>
           </Box>
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            service={service}
+            setService={setService}
+            setItemsPerPage={setItemsPerPage}
+          />
         </ScrollView>
-        <Pagination
-          totalPages={totalPages}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          service={service}
-          setService={setService}
-          setItemsPerPage={setItemsPerPage}
-        />
         <View style={styles.touchableOpacityContainer}>
           <Popover
             isOpen={popoverOpen}

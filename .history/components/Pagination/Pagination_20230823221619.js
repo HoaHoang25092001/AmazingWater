@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 100
+    marginBottom: 70
   },
   paginationButton: {
     paddingVertical: 5,

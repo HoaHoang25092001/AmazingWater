@@ -40,7 +40,7 @@ const ImportFileModel = ({ visible, onClose }) => {
     };
     return (
         <View style={styles.centeredView}>
-            <Modal visible={visible} animationType="slide" backdropColor="black" backdropOpacity={0.7} hasBackdrop={true}>
+            <Modal visible={visible} animationType="slide" animationType="slide" backdropColor="black" backdropOpacity={0.7} hasBackdrop={true}>
                 <View style={styles.modalView}>
                     <Text style={styles.modelHeader}>Nhập tệp </Text>
                     <View style={styles.modelContent}>
