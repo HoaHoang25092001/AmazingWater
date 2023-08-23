@@ -23,6 +23,7 @@ import {
   IconButton,
   Input,
   Modal,
+  Progress,
   Select,
   Slider,
   Spacer,
@@ -48,8 +49,10 @@ export default function BookIndexScreen() {
   const [showPickDate, setShowPickDate] = useState(false);
   const [showDatePickerModal, setShowDatePickerModal] = useState(false);
   const [showDateModal, setShowDateModal] = useState(false);
+  const [showDateModalMuti, setShowDateModalMuti] = useState(false);
   const [selectedDate, setSelectedDate] = React.useState("MM-YYYY");
   const [valueDate, setValueDate] = React.useState("---Chọn ngày---");
+  const [valueDateMuti, setValueDateMuti] = React.useState("---Chọn ngày---");
   const [modalCreated, setModalCreated] = useState(false);
   const [modalCreateMuti, setModalCreatedMuti] = useState(false);
   const [onChangeValue, setOnChangeValue] = React.useState(0);
@@ -435,18 +438,21 @@ export default function BookIndexScreen() {
   if (fontsLoaded) {
     return (
       <View>
-        {isOverlayVisible && <View style={styles.overlay} />}
-        <AccordionCustom
-          setShowDatePickerModal={setShowDatePickerModal}
-          selectedDate={selectedDate}
-        />
-        <TableList title={title} data={data} renderItem={renderItem} />
-        <StaggerCustom
-          setModalVisible={setModalVisible}
-          setModalCreated={setModalCreated}
-          setModalCreatedMuti={setModalCreatedMuti}
-          setOverlayVisible={setOverlayVisible}
-        />
+        <VStack space={4}>
+          <AccordionCustom
+            setShowDatePickerModal={setShowDatePickerModal}
+            selectedDate={selectedDate}
+          />
+          <TableList title={title} data={data} renderItem={renderItem} />
+
+          <StaggerCustom
+            setModalVisible={setModalVisible}
+            setModalCreated={setModalCreated}
+            setModalCreatedMuti={setModalCreatedMuti}
+            setOverlayVisible={setOverlayVisible}
+            style={{ zIndex: 999, position: "absolute" }}
+          />
+        </VStack>
 
         {/*Modal dialog */}
         <Modal
@@ -511,40 +517,14 @@ export default function BookIndexScreen() {
 
             <Modal.Body>
               <Box alignItems="center" w="100%">
-                <Stack space={4} alignItems="center" w="75%" maxW="300">
-                  <Slider
-                    defaultValue={10}
-                    colorScheme="cyan"
-                    onChange={(v) => {
-                      setOnChangeValue(Math.floor(v));
-                    }}
-                    onChangeEnd={(v) => {
-                      v && setOnChangeEndValue(Math.floor(v));
-                    }}
-                  >
-                    <Slider.Track>
-                      <Slider.FilledTrack />
-                    </Slider.Track>
-                    <Slider.Thumb />
-                  </Slider>
-                  <Text textAlign="center">{onChangeEndValue}%</Text>
-                  <Slider
-                    defaultValue={10}
-                    colorScheme="warning"
-                    onChange={(v) => {
-                      setOnChangeValue(Math.floor(v));
-                    }}
-                    onChangeEnd={(v) => {
-                      v && setOnChangeEndValue(Math.floor(v));
-                    }}
-                  >
-                    <Slider.Track>
-                      <Slider.FilledTrack />
-                    </Slider.Track>
-                    <Slider.Thumb />
-                  </Slider>
-                  <Text textAlign="center">{onChangeEndValue}%</Text>
-                </Stack>
+                <Box w="90%" maxW="400">
+                  <VStack space="md">
+                    <VStack mx="4" space="md">
+                      <Progress colorScheme="primary" value={10} />
+                      <Progress colorScheme="warning" value={10} />
+                    </VStack>
+                  </VStack>
+                </Box>
               </Box>
             </Modal.Body>
           </Modal.Content>
@@ -666,9 +646,9 @@ export default function BookIndexScreen() {
                     variant="outline"
                     size="md"
                     colorScheme={"gray"}
-                    onPress={() => setModalCreatedMuti(true)}
+                    onPress={() => setShowDateModalMuti(true)}
                   >
-                    {valueDate}
+                    {valueDateMuti}
                   </Button>
                 </FormControl>
                 <FormControl w="90%" maxW="300px">
@@ -677,9 +657,9 @@ export default function BookIndexScreen() {
                     variant="outline"
                     size="md"
                     colorScheme={"gray"}
-                    onPress={() => setModalCreatedMuti(true)}
+                    onPress={() => setShowDateModalMuti(true)}
                   >
-                    {valueDate}
+                    {valueDateMuti}
                   </Button>
                 </FormControl>
                 <FormControl w="90%" maxW="300px">
@@ -688,9 +668,9 @@ export default function BookIndexScreen() {
                     variant="outline"
                     size="md"
                     colorScheme={"gray"}
-                    onPress={() => setModalCreatedMuti(true)}
+                    onPress={() => setShowDateModalMuti(true)}
                   >
-                    {valueDate}
+                    {valueDateMuti}
                   </Button>
                 </FormControl>
                 <HStack space={2} mt={10}>
@@ -752,6 +732,12 @@ export default function BookIndexScreen() {
           setShowDateModal={setShowDateModal}
           valueDate={valueDate}
           setValueDate={setValueDate}
+        />
+        <DateTimeCustom
+          showDateModal={showDateModalMuti}
+          setShowDateModal={setShowDateModalMuti}
+          valueDate={valueDateMuti}
+          setValueDate={setValueDateMuti}
         />
       </View>
     );

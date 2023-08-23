@@ -20,11 +20,11 @@ const StaggerCustom = ({
   setModalVisible,
   setModalCreated,
   setModalCreatedMuti,
-  setOverlayVisible
+  setOverlayVisible,
 }) => {
   const { isOpen, onToggle } = useDisclose();
   const [isOpenTooltip, setOpenTooltip] = useState(false);
- 
+
   const handleTooltip = () => {
     onToggle();
     setOpenTooltip(true);
@@ -127,8 +127,7 @@ const StaggerCustom = ({
   ];
 
   return (
-    <View alignItems="flex-end" position="absolute" left={"85%"} top={"10%"}>
-      
+    <View alignItems="flex-end" position="absolute" left={"85%"} top={50}>
       <Box alignItems="center" minH="220">
         <Stagger
           visible={isOpen}
@@ -225,6 +224,7 @@ const StaggerCustom = ({
           size="lg"
           onPress={handleTooltip}
           bg="cyan.400"
+          style={{ position: "relative", zIndex: -999 }}
           icon={
             <Icon
               as={MaterialCommunityIcons}

@@ -37,7 +37,11 @@ const AccordionCustom = ({ setShowDatePickerModal, selectedDate }) => {
       style={styles.accordionTitle}
       title="Tìm kiếm"
     >
-      <ScrollView>
+      <ScrollView
+        style={{
+          backgroundColor: "white",
+        }}
+      >
         <FormControl mt="3" style={styles.formControl}>
           <FormControl.Label>Chọn tháng</FormControl.Label>
           <Button

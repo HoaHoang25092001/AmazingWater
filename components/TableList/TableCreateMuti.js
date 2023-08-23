@@ -158,7 +158,6 @@ const TableCreateMuti = () => {
   ];
   const [isCheckBox, setIsCheckBox] = useState(false);
   const [isCheckAll, setIsCheckAll] = useState(false);
-  const [list, setList] = useState([]);
 
   useEffect(() => {
     console.log("Data", isCheckBox);
