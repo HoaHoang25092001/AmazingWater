@@ -4,7 +4,6 @@ import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Box, CheckIcon, Select } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
 const AdvanceSearchModel = ({ visible, onClose }) => {
@@ -46,7 +45,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                     <Box maxW="280">
                         <Select selectedValue={service} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Loại khách hàng" _selectedItem={{
                             bg: "white",
-                            endIcon: <CheckIcon size="5" />
+                            endIcon: <CheckIcon size={5} />
                         }} _light={{
                             bg: "white",
                             _hover: {
@@ -163,20 +162,17 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
 
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.searchButtonModel}>
-                            <Ionicons name="search-outline" size={16} color="#1677FF" style={styles.icon} />
                             <Text style={styles.searchButtonModelText}>Tìm kiếm</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.clearButtonModel}>
-                            <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
                             <Text style={styles.closeButtonModelText}>Xóa  điều kiện TK</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                            <Ionicons name="close" size={16} color={colors.white} style={styles.icon} />
-                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                            <Text style={styles.closeButtonModelText}>X Đóng</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -302,7 +298,7 @@ const styles = StyleSheet.create({
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#5D87FF",
+        backgroundColor: colors.blue_400,
         alignItems: "center",
         borderRadius: 5,
         marginTop: 20,
@@ -311,7 +307,7 @@ const styles = StyleSheet.create({
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#FA896B",
+        backgroundColor: colors.warning_500,
         alignItems: "center",
         borderRadius: 5,
         marginTop: 20

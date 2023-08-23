@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Modal from "react-native-modal";
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Box, Progress, VStack, Center, NativeBaseProvider } from "native-base";
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
 const StateModel = ({ visible, onClose }) => {
@@ -15,23 +14,25 @@ const StateModel = ({ visible, onClose }) => {
                         <Box w="100%" maxW="400">
                             <VStack space="md">
                                 <VStack space="md">
-                                    <Progress colorScheme="lime" value={10} height={2.5} mb={2} />
-                                    <Progress colorScheme="secondary" value={20} height={2.5} mb={2} />
-                                    <Progress colorScheme="tertiary" value={30} height={2.5} mb={2} />
-                                    <Progress colorScheme="warning" value={40} height={2.5} mb={2} />
-                                    <Progress colorScheme="green" value={50} height={2.5} mb={2} />
-                                    <Progress colorScheme="rose" value={60} height={2.5} mb={2} />
-                                    <Progress colorScheme="fuchsia" value={70} height={2.5} mb={2} />
-                                    <Progress colorScheme="indigo" value={80} height={2.5} mb={2} />
-                                    <Progress colorScheme="lightBlue" value={90} height={2.5} mb={2} />
+                                    <View style={{}}>
+                                        <Progress colorScheme="lime" value={10} />
+                                        <Text >100</Text>
+                                    </View>
+                                    <Progress colorScheme="secondary" value={20} />
+                                    <Progress colorScheme="tertiary" value={30} />
+                                    <Progress colorScheme="warning" value={40} />
+                                    <Progress colorScheme="green" value={50} />
+                                    <Progress colorScheme="rose" value={60} />
+                                    <Progress colorScheme="fuchsia" value={70} />
+                                    <Progress colorScheme="indigo" value={80} />
+                                    <Progress colorScheme="lightBlue" value={90} />
                                 </VStack>
                             </VStack>
                         </Box>
                     </View>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                        <Ionicons name="close" size={18} color={colors.white} style={styles.icon} />
-                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                            <Text style={styles.closeButtonModelText}>X Đóng</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -69,18 +70,18 @@ const styles = StyleSheet.create({
         marginBottom: 40
     },
     closeButtonModel: {
-        width: 150,
+        width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#FA896B",
+        backgroundColor: colors.warning_500,
         alignItems: "center",
-        borderRadius: 7,
+        borderRadius: 5,
         marginTop: 20
     },
     closeButtonModelText: {
         color: "white",
         textAlign: "center",
         fontSize: 16,
-        padding: 9
+        padding: 8
     },
 })

@@ -5,7 +5,6 @@ import * as ImagePicker from "expo-image-picker";
 import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import { TextArea } from 'native-base'
-import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
 const ImportFileModel = ({ visible, onClose }) => {
@@ -66,14 +65,12 @@ const ImportFileModel = ({ visible, onClose }) => {
                     </View>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.updateButtonModel}>
-                            <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
                             <Text style={styles.closeButtonModelText}>Cập nhật</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                            <Ionicons name="close" size={20} color={colors.white} style={styles.icon} />
-                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                            <Text style={styles.closeButtonModelText}>X Đóng</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -153,7 +150,7 @@ const styles = StyleSheet.create({
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#FE896B",
+        backgroundColor: colors.warning_500,
         alignItems: "center",
         borderRadius: 5,
         marginTop: 20
@@ -171,7 +168,7 @@ const styles = StyleSheet.create({
         color: "white",
         textAlign: "center",
         fontSize: 16,
-        padding: 7
+        padding: 8
     },
     tableHeader: {
         fontWeight: "600",
@@ -191,7 +188,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: 280,
         marginBottom: 10
-    },
+    }, 
     label: {
         marginBottom: 10,
         marginTop: 20,

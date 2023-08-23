@@ -24,13 +24,13 @@ const PriceListModel = ({ visible, onClose }) => {
                     </View>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.updateButtonModel}>
-                            <Ionicons name="reload-outline" size={18} color={colors.white} style={styles.icon} />
+                            <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
                             <Text style={styles.closeButtonModelText}>Cập Nhật</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                            <Ionicons name="close" size={20} color={colors.white} style={styles.icon} />
+                            <Ionicons name="close" size={16} color={colors.white} style={styles.icon} />
                             <Text style={styles.closeButtonModelText}>Đóng</Text>
                         </View>
                     </TouchableOpacity>

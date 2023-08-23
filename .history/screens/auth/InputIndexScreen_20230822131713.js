@@ -247,10 +247,9 @@ export default function InputIndexScreen() {
         pr={["5", "5"]}
         py="2"
       >
-      <View style={{flexDirection: "row", justifyContent: "space-around"}}>
+      <View style={{flexDirection: "row"}}>
       <Ionicons name='image-outline' size={24} color={colors.dark} style={styles.icon} />
       <Ionicons name='lock-closed-outline' size={24} color={colors.dark} style={styles.icon} />
-      <Ionicons name="caret-down-sharp" size={24} color="red" />
       </View>
       </Box>
       <Box
@@ -444,12 +443,12 @@ const styles = StyleSheet.create({
     fontFamily: "Quicksand_700Bold",
   },
   boxContent: {
-    width: 150,
+    width: 120,
     borderBottomWidth: 1,
     backgroundColor: "white",
   },
   boxTitle: {
-    width: 150,
+    width: 120,
     borderBottomWidth: 1,
     backgroundColor: "rgb(250,250,250)",
   },

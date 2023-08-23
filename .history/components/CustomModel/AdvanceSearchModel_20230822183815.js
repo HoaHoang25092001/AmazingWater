@@ -169,14 +169,12 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.clearButtonModel}>
-                            <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
                             <Text style={styles.closeButtonModelText}>Xóa  điều kiện TK</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                            <Ionicons name="close" size={16} color={colors.white} style={styles.icon} />
-                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                            <Text style={styles.closeButtonModelText}>X Đóng</Text>
                         </View>
                     </TouchableOpacity>
 

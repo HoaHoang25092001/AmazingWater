@@ -22,7 +22,6 @@ import { PriceListModel, StateModel } from "../../components/CustomModel";
 import ChartModel from "../../components/CustomModel/ChartModel";
 import ImportFileModel from "../../components/CustomModel/ImportFileModel";
 import WaterUseSituation from "../../components/CustomModel/WaterUseSituationModel";
-import { Ionicons } from '@expo/vector-icons';
 
 export default function InputIndexScreen() {
   const [showAdvanceSearchModel, setShowAdvanceSearchModel] = useState(false);
@@ -247,11 +246,7 @@ export default function InputIndexScreen() {
         pr={["5", "5"]}
         py="2"
       >
-      <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-      <Ionicons name='image-outline' size={24} color={colors.dark} style={styles.icon} />
-      <Ionicons name='lock-closed-outline' size={24} color={colors.dark} style={styles.icon} />
-      <Ionicons name="caret-down-sharp" size={24} color="red" />
-      </View>
+        <Text style={styles.textContent}>image</Text>
       </Box>
       <Box
         borderRightWidth={1}
@@ -393,12 +388,12 @@ export default function InputIndexScreen() {
             onClose={() => setPopoverOpen(false)}
             trigger={triggerProps => {
               return (
-                <View  style={styles.buttonPopover}>
-                  <Text {...triggerProps} style={{fontSize: 25, color: "white"}}>+</Text>
+                <View style={styles.buttonPopover}>
+                  <Text {...triggerProps} style={{alignItems: "center", fontSize: 22, color: "white"}}>+</Text>
                 </View>
               );
             }}>
-            <Popover.Content accessibilityLabel="Delete Customerd" w="48" pb={8} pr={4} borderBottomColor={colors.white} borderBottomWidth="0">
+            <Popover.Content accessibilityLabel="Delete Customerd" w="48" pb={4} pr={4} borderBottomColor={colors.white} borderBottomWidth="0">
               <Popover.Body>
                 <View style={styles.buttonContainer}>
                   <CustomButton text={"Tìm kiếm"} color={colors.blue_700} icon="search" onPress={() => { setShowAdvanceSearchModel(true); closePopover(); }} />
@@ -444,18 +439,18 @@ const styles = StyleSheet.create({
     fontFamily: "Quicksand_700Bold",
   },
   boxContent: {
-    width: 150,
+    width: 120,
     borderBottomWidth: 1,
     backgroundColor: "white",
   },
   boxTitle: {
-    width: 150,
+    width: 120,
     borderBottomWidth: 1,
     backgroundColor: "rgb(250,250,250)",
   },
   touchableOpacityContainer: {
     position: 'absolute',
-    bottom: 20, // Y position from the bottom
+    bottom: 50, // Y position from the bottom
     right: 40, // X position from the right
   },
   buttonContainer: {
@@ -464,8 +459,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   buttonPopover: {
-    width: 55,
-    height: 55,
+    width: 50,
+    height: 50,
     borderRadius: 30,
     backgroundColor: colors.info_500,
     alignItems: "center",

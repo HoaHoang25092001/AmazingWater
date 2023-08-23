@@ -32,8 +32,8 @@ const ChartModel = ({ visible, onClose }) => {
                     <Text style={styles.modelHeader}>Tháng năm</Text>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                            <Ionicons name="close" size={20} color={colors.white} style={styles.icon} />
-                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                            <Ionicons name="close" size={16} color={colors.white} style={styles.icon} />
+                            <Text style={styles.closeButtonModelText}>X Đóng</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -81,13 +81,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#FA896B",
         alignItems: "center",
-        borderRadius: 7,
+        borderRadius: 5,
         marginTop: 20
     },
     closeButtonModelText: {
         color: "white",
         textAlign: "center",
         fontSize: 16,
-        padding: 7
+        padding: 8
     },
 })

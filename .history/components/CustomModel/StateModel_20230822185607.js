@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
         color: "white",
         textAlign: "center",
         fontSize: 16,
-        padding: 9
+        padding: 8
     },
 })

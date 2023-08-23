@@ -99,26 +99,23 @@ const WaterUseSituation = ({ visible, onClose }) => {
 
                         <TouchableOpacity onPress={onClose}>
                             <View style={styles.searchButtonModel}>
-                                <Ionicons name="search-outline" size={18} color="#1677FF" style={styles.icon} />
+                            <Ionicons name="search-outline" size={18} color="#1677FF" style={styles.icon} />
                                 <Text style={styles.searchButtonModelText}>Tìm kiếm</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={onClose}>
                             <View style={styles.exportButtonModel}>
-                                <Ionicons name="bar-chart-outline" size={18} color={colors.white} style={styles.icon} />
                                 <Text style={styles.closeButtonModelText}>Xuất biểu đồ nước</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={onClose}>
                             <View style={styles.saveButtonModel}>
-                                <Ionicons name="save-outline" size={18} color={colors.white} style={styles.icon} />
                                 <Text style={styles.closeButtonModelText}>Lưu biểu đồ</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={onClose}>
                             <View style={styles.closeButtonModel}>
-                                <Ionicons name="close" size={18} color={colors.white} style={styles.icon} />
-                                <Text style={styles.closeButtonModelText}>Đóng</Text>
+                                <Text style={styles.closeButtonModelText}>X Đóng</Text>
                             </View>
                         </TouchableOpacity>
 

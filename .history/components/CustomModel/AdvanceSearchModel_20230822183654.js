@@ -169,14 +169,12 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.clearButtonModel}>
-                            <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
                             <Text style={styles.closeButtonModelText}>Xóa  điều kiện TK</Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                            <Ionicons name="close" size={16} color={colors.white} style={styles.icon} />
-                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                            <Text style={styles.closeButtonModelText}>X Đóng</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -302,7 +300,7 @@ const styles = StyleSheet.create({
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#5D87FF",
+        backgroundColor: colors.blue_400,
         alignItems: "center",
         borderRadius: 5,
         marginTop: 20,
@@ -311,7 +309,7 @@ const styles = StyleSheet.create({
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#FA896B",
+        backgroundColor: colors.warning_500,
         alignItems: "center",
         borderRadius: 5,
         marginTop: 20

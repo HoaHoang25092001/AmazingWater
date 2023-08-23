@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Modal from "react-native-modal";
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { BarChart, Grid, XAxis } from 'react-native-svg-charts';
-import { Ionicons } from '@expo/vector-icons';
+import { BarChart, Grid, XAxis } from 'react-native-svg-charts'
 import { colors } from '../../constants';
 
 const ChartModel = ({ visible, onClose }) => {
@@ -32,8 +31,7 @@ const ChartModel = ({ visible, onClose }) => {
                     <Text style={styles.modelHeader}>Tháng năm</Text>
                     <TouchableOpacity onPress={onClose}>
                         <View style={styles.closeButtonModel}>
-                            <Ionicons name="close" size={20} color={colors.white} style={styles.icon} />
-                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                            <Text style={styles.closeButtonModelText}>X Đóng</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -79,15 +77,15 @@ const styles = StyleSheet.create({
         width: 280,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: "#FA896B",
+        backgroundColor: colors.warning_500,
         alignItems: "center",
-        borderRadius: 7,
+        borderRadius: 5,
         marginTop: 20
     },
     closeButtonModelText: {
         color: "white",
         textAlign: "center",
         fontSize: 16,
-        padding: 7
+        padding: 8
     },
 })

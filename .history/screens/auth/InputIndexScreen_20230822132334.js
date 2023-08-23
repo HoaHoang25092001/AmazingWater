@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   boxTitle: {
-    width: 150,
+    width: 120,
     borderBottomWidth: 1,
     backgroundColor: "rgb(250,250,250)",
   },

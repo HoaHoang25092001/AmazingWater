@@ -69,18 +69,18 @@ const styles = StyleSheet.create({
         marginBottom: 40
     },
     closeButtonModel: {
-        width: 150,
+        width: 280,
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor: "#FA896B",
         alignItems: "center",
-        borderRadius: 7,
+        borderRadius: 5,
         marginTop: 20
     },
     closeButtonModelText: {
         color: "white",
         textAlign: "center",
         fontSize: 16,
-        padding: 9
+        padding: 8
     },
 })
