@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from 'react-n
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
-import { TextArea, Modal, FormControl, } from 'native-base'
+import { TextAreaBox, CheckIcon, Select, Modal, FormControl, } from 'native-base'
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
@@ -44,25 +44,27 @@ const ImportFileModel = ({ visible, onClose }) => {
                     <Modal.CloseButton />
                     <Modal.Header>Nhập tệp</Modal.Header>
                     <Modal.Body>
-                        <Text style={styles.label}>Chọn tệp</Text>
-                        <Button title="Chọn tệp từ máy" color="#FFAE1F" onPress={handleChoosePhoto} />
-                        {photo && (
-                            <TouchableOpacity style={styles.imageHolder} onPress={handleChoosePhoto}>
-                                <Image
-                                    source={{ uri: photo }}
-                                    style={{ width: 200, height: 200 }}
-                                />
+                        <View style={styles.modelContent}>
+                            <Text style={styles.label}>Chọn tệp</Text>
+                            <Button title="Chọn tệp từ máy" color="#FFAE1F" onPress={handleChoosePhoto} />
+                            {photo && (
+                                <TouchableOpacity style={styles.imageHolder} onPress={handleChoosePhoto}>
+                                    <Image
+                                        source={{ uri: photo }}
+                                        style={{ width: 200, height: 200 }}
+                                    />
+                                </TouchableOpacity>
+                            )}
+                            <Text style={styles.label}>Chọn tháng</Text>
+                            <TouchableOpacity
+                                style={styles.monthReadStart}
+                                onPress={handleOnPressStartMonth}
+                            >
+                                <Text style={{ marginLeft: 15 }}>07/2023</Text>
                             </TouchableOpacity>
-                        )}
-                        <Text style={styles.label}>Chọn tháng</Text>
-                        <TouchableOpacity
-                            style={styles.monthReadStart}
-                            onPress={handleOnPressStartMonth}
-                        >
-                            <Text style={{ marginLeft: 15 }}>07/2023</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.label}>Dữ liệu chỉ số trong tệp</Text>
-                        <TextArea h={20} placeholder="Dữ liệu chỉ số trong tệp" w="280" maxW="300" mt={2} />\
+                            <Text style={styles.label}>Dữ liệu chỉ số trong tệp</Text>
+                            <TextArea h={20} placeholder="Dữ liệu chỉ số trong tệp" w="280" maxW="300" mt={2} />
+                        </View>
                     </Modal.Body>
                     <Modal.Footer>
                         <TouchableOpacity onPress={onClose}>
@@ -78,7 +80,6 @@ const ImportFileModel = ({ visible, onClose }) => {
                             </View>
                         </TouchableOpacity>
                     </Modal.Footer>
-
                     {/*Create model for start date */}
                     <Modal
                         transparent={true}

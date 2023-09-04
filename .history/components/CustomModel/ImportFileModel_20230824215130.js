@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import Modal from "react-native-modal";
 import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from 'react-native';
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
-import { TextArea, Modal, FormControl, } from 'native-base'
+import { TextArea } from 'native-base'
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
@@ -39,11 +40,10 @@ const ImportFileModel = ({ visible, onClose }) => {
     };
     return (
         <View style={styles.centeredView}>
-            <Modal isOpen={visible} closeOnOverlayClick={true}>
-                <Modal.Content maxWidth="400px">
-                    <Modal.CloseButton />
-                    <Modal.Header>Nhập tệp</Modal.Header>
-                    <Modal.Body>
+            <Modal visible={visible} animationType="slide" backdropColor="black" backdropOpacity={0.7} hasBackdrop={true} animationOut="slideInDown">
+                <View style={styles.modalView}>
+                    <Text style={styles.modelHeader}>Nhập tệp </Text>
+                    <View style={styles.modelContent}>
                         <Text style={styles.label}>Chọn tệp</Text>
                         <Button title="Chọn tệp từ máy" color="#FFAE1F" onPress={handleChoosePhoto} />
                         {photo && (
@@ -62,27 +62,26 @@ const ImportFileModel = ({ visible, onClose }) => {
                             <Text style={{ marginLeft: 15 }}>07/2023</Text>
                         </TouchableOpacity>
                         <Text style={styles.label}>Dữ liệu chỉ số trong tệp</Text>
-                        <TextArea h={20} placeholder="Dữ liệu chỉ số trong tệp" w="280" maxW="300" mt={2} />\
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <TouchableOpacity onPress={onClose}>
-                            <View style={styles.updateButtonModel}>
-                                <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
-                                <Text style={styles.closeButtonModelText}>Cập nhật</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={onClose}>
-                            <View style={styles.closeButtonModel}>
-                                <Ionicons name="close" size={20} color={colors.white} style={styles.icon} />
-                                <Text style={styles.closeButtonModelText}>Đóng</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </Modal.Footer>
+                        <TextArea h={20} placeholder="Dữ liệu chỉ số trong tệp" w="280" maxW="300" mt={2} />
+                    </View>
+                    <TouchableOpacity onPress={onClose}>
+                        <View style={styles.updateButtonModel}>
+                            <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
+                            <Text style={styles.closeButtonModelText}>Cập nhật</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onClose}>
+                        <View style={styles.closeButtonModel}>
+                            <Ionicons name="close" size={20} color={colors.white} style={styles.icon} />
+                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                        </View>
+                    </TouchableOpacity>
 
                     {/*Create model for start date */}
                     <Modal
+                        animationType="slide"
                         transparent={true}
-                        isOpen={openStartMonthPicker}
+                        visible={openStartMonthPicker}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -112,7 +111,7 @@ const ImportFileModel = ({ visible, onClose }) => {
                             </View>
                         </View>
                     </Modal>
-                </Modal.Content>
+                </View>
             </Modal>
         </View>
     )

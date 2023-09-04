@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         marginBottom: 40
     },
     closeButtonModel: {
-        width: 280,
+        width: 150,
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor: "#FA896B",

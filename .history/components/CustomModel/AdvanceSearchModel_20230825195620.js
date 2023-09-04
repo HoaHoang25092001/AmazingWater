@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Box, CheckIcon, Select, Modal, FormControl,} from 'native-base';
+import { Box, CheckIcon, Select, Button, Modal, FormControl, Input, Center } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
@@ -38,7 +38,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
     }
     return (
         <View style={styles.centeredView}>
-            <Modal isOpen={visible} closeOnOverlayClick={true}>
+            <Modal isOpen={visible} >
                 <Modal.Content maxWidth="400px">
                     <Modal.CloseButton />
                     <Modal.Header>Tìm kiếm nâng cao</Modal.Header>
@@ -193,8 +193,9 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
 
                     {/*Create model for start date */}
                     <Modal
+                        animationType="slide"
                         transparent={true}
-                        isOpen={openStartDatePicker}
+                        visible={openStartDatePicker}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -227,8 +228,9 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
 
                     {/*Create model for end date */}
                     <Modal
+                        animationType="slide"
                         transparent={true}
-                        isOpen={openEndDatePicker}
+                        visible={openEndDatePicker}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>

@@ -42,7 +42,7 @@ const WaterUseSituation = ({ visible, onClose }) => {
     return (
 
         <View style={styles.centeredView}>
-            <Modal isOpen={visible} closeOnOverlayClick={true}>
+            <Modal isOpen={visible}>
                 <Modal.Content maxWidth="400px">
                     <Modal.CloseButton />
                     <Modal.Header>Xem tình hình sử dụng nước</Modal.Header>
@@ -140,11 +140,11 @@ const WaterUseSituation = ({ visible, onClose }) => {
                             </View>
                         </TouchableOpacity>
                     </Modal.Footer>
-
                     {/*Create model for start date */}
                     <Modal
+                        animationType="slide"
                         transparent={true}
-                        isOpen={openStartDatePicker}
+                        visible={openStartDatePicker}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -177,8 +177,9 @@ const WaterUseSituation = ({ visible, onClose }) => {
 
                     {/*Create model for end date */}
                     <Modal
+                        animationType="slide"
                         transparent={true}
-                        isOpen={openEndDatePicker}
+                        visible={openEndDatePicker}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>

@@ -30,7 +30,6 @@
     "react-native-gesture-handler": "^2.3.2",
     "react-native-internet-connection-alert": "^0.1.9",
     "react-native-link": "^4.1.0",
-    "react-native-modal": "^13.0.1",
     "react-native-modern-datepicker": "^1.0.0-beta.91",
     "react-native-paper": "^5.9.1",
     "react-native-progress": "^5.0.0",

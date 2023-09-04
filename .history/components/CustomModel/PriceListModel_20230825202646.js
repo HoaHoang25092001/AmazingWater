@@ -12,6 +12,7 @@ const PriceListModel = ({ visible, onClose }) => {
                     <Modal.CloseButton />
                     <Modal.Header>Bảng giá</Modal.Header>
                     <Modal.Body>
+                        <Text style={styles.modelHeader}>Bảng giá </Text>
                         <View style={styles.modelContent}>
                             <View>
                                 <Text style={styles.tableHeader}>Mức</Text>

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Button, Image } from 'react-n
 import * as ImagePicker from "expo-image-picker";
 import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
-import { TextArea, Modal, FormControl, } from 'native-base'
+import { TextAreaBox, CheckIcon, Select, Modal, FormControl, } from 'native-base'
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
@@ -62,7 +62,7 @@ const ImportFileModel = ({ visible, onClose }) => {
                             <Text style={{ marginLeft: 15 }}>07/2023</Text>
                         </TouchableOpacity>
                         <Text style={styles.label}>Dữ liệu chỉ số trong tệp</Text>
-                        <TextArea h={20} placeholder="Dữ liệu chỉ số trong tệp" w="280" maxW="300" mt={2} />\
+                        <TextAreaBox h={20} placeholder="Dữ liệu chỉ số trong tệp" w="280" maxW="300" mt={2} />\
                     </Modal.Body>
                     <Modal.Footer>
                         <TouchableOpacity onPress={onClose}>

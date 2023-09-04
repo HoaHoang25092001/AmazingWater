@@ -421,7 +421,7 @@ export default function InputIndexScreen() {
             trigger={triggerProps => {
               return (
                 <View style={styles.buttonPopover}>
-                  <Text {...triggerProps} style={{ fontSize: 20, color: "white" }}>+</Text>
+                  <Text {...triggerProps} style={{ fontSize: 25, color: "white" }}>+</Text>
                 </View>
               );
             }}>

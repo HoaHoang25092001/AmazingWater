@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Box, CheckIcon, Select, Modal, FormControl,} from 'native-base';
+import { Box, CheckIcon, Select, Button, Modal, FormControl, Input, Center } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 

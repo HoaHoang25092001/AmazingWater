@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-native-modern-datepicker';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Box, CheckIcon, Select, Modal, FormControl,} from 'native-base';
+import { Box, CheckIcon, Select, Button, Modal, FormControl, Input, Center } from 'native-base';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../constants';
 
@@ -38,9 +38,9 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
     }
     return (
         <View style={styles.centeredView}>
-            <Modal isOpen={visible} closeOnOverlayClick={true}>
+            <Modal isOpen={visible} >
+                <Modal.CloseButton />
                 <Modal.Content maxWidth="400px">
-                    <Modal.CloseButton />
                     <Modal.Header>Tìm kiếm nâng cao</Modal.Header>
                     <Modal.Body>
                         <FormControl>
@@ -130,7 +130,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                         <FormControl mt="3">
                             <FormControl.Label>Khu vực</FormControl.Label>
                             <Box maxW="280">
-                                <Select selectedValue={area} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Vùng" _selectedItem={{
+                                <Select selectedValue={region} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Vùng" _selectedItem={{
                                     bg: "white",
                                     endIcon: <CheckIcon size="5" />
                                 }} _light={{
@@ -155,46 +155,49 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                                 </Select>
                             </Box>
                         </FormControl>
-                        <Text style={styles.modelTitleField}>Ngày đọc từ</Text>
-                        <TouchableOpacity
-                            style={styles.dateReadStart}
-                            onPress={handleOnPressStartDate}
-                        >
-                            <Text style={{ marginLeft: 15 }}>{selectedStartDate}</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.modelTitleField}>Đến</Text>
-                        <TouchableOpacity
-                            style={styles.dateReadStart}
-                            onPress={handleOnPressEndDate}
-                        >
-                            <Text style={{ marginLeft: 15 }}>{selectedEndDate}</Text>
-                        </TouchableOpacity>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <TouchableOpacity onPress={onClose}>
-                            <View style={styles.searchButtonModel}>
-                                <Ionicons name="search-outline" size={16} color="#1677FF" style={styles.icon} />
-                                <Text style={styles.searchButtonModelText}>Tìm kiếm</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={onClose}>
-                            <View style={styles.clearButtonModel}>
-                                <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
-                                <Text style={styles.closeButtonModelText}>Xóa  điều kiện TK</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={onClose}>
-                            <View style={styles.closeButtonModel}>
-                                <Ionicons name="close" size={16} color={colors.white} style={styles.icon} />
-                                <Text style={styles.closeButtonModelText}>Đóng</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </Modal.Footer>
+
+                    <Text style={styles.modelTitleField}>Khu vực</Text>
+                    
+                    <Text style={styles.modelTitleField}>Ngày đọc từ</Text>
+                    <TouchableOpacity
+                        style={styles.dateReadStart}
+                        onPress={handleOnPressStartDate}
+                    >
+                        <Text style={{ marginLeft: 15 }}>{selectedStartDate}</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.modelTitleField}>Đến</Text>
+                    <TouchableOpacity
+                        style={styles.dateReadStart}
+                        onPress={handleOnPressEndDate}
+                    >
+                        <Text style={{ marginLeft: 15 }}>{selectedEndDate}</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={onClose}>
+                        <View style={styles.searchButtonModel}>
+                            <Ionicons name="search-outline" size={16} color="#1677FF" style={styles.icon} />
+                            <Text style={styles.searchButtonModelText}>Tìm kiếm</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onClose}>
+                        <View style={styles.clearButtonModel}>
+                            <Ionicons name="reload-outline" size={16} color={colors.white} style={styles.icon} />
+                            <Text style={styles.closeButtonModelText}>Xóa  điều kiện TK</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={onClose}>
+                        <View style={styles.closeButtonModel}>
+                            <Ionicons name="close" size={16} color={colors.white} style={styles.icon} />
+                            <Text style={styles.closeButtonModelText}>Đóng</Text>
+                        </View>
+                    </TouchableOpacity>
 
                     {/*Create model for start date */}
                     <Modal
+                        animationType="slide"
                         transparent={true}
-                        isOpen={openStartDatePicker}
+                        visible={openStartDatePicker}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -227,8 +230,9 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
 
                     {/*Create model for end date */}
                     <Modal
+                        animationType="slide"
                         transparent={true}
-                        isOpen={openEndDatePicker}
+                        visible={openEndDatePicker}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>

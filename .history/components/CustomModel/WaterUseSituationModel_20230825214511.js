@@ -42,7 +42,7 @@ const WaterUseSituation = ({ visible, onClose }) => {
     return (
 
         <View style={styles.centeredView}>
-            <Modal isOpen={visible} closeOnOverlayClick={true}>
+            <Modal isOpen={visible}>
                 <Modal.Content maxWidth="400px">
                     <Modal.CloseButton />
                     <Modal.Header>Xem tình hình sử dụng nước</Modal.Header>
@@ -140,7 +140,6 @@ const WaterUseSituation = ({ visible, onClose }) => {
                             </View>
                         </TouchableOpacity>
                     </Modal.Footer>
-
                     {/*Create model for start date */}
                     <Modal
                         transparent={true}

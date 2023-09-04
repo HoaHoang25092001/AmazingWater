@@ -9,7 +9,7 @@ const CustomButton = ({ text, onPress, icon, color }) => {
             <TouchableOpacity style={{flex: 1,
                 flexDirection: 'row',
                 paddingVertical: 8,
-                paddingHorizontal: 5,
+                paddingHorizontal: 8,
                 width: "100%",
                 marginBottom: 10,
                 alignItems: "center",
