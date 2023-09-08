@@ -46,10 +46,6 @@ const StaggerCustom = ({
     onToggle();
     setOverlayVisible(!isOpen);
   };
-  const handleToggleStagger = () => {
-    onToggle();
-    setOverlayVisible(!isOpen); // Nếu isOpen là true, overlay sẽ bị ẩn; nếu isOpen là false, overlay sẽ hiển thị.
-  };
   const icons = [
     {
       id: "1",
