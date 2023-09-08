@@ -6,10 +6,8 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import BookIndexScreen from "../screens/user/BookIndexScreen";
 import InputIndexScreen from "../screens/auth/InputIndexScreen";
-import MyComponent from "../screens/user/TestTable";
 import WriteIndex from "../screens/user/WriteIndex";
 import WriteIndexDetail from "../screens/user/WriteIndexDetail";
-import Test from "../screens/user/Test";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
