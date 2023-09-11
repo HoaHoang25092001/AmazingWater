@@ -13,8 +13,8 @@ import CustomInput from "../../components/CustomInput/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { TextInput } from "react-native";
 import { Button } from "native-base";
-import { loginUser } from "../../authThunks";
 import { useNavigation } from "@react-navigation/native";
+import { loginUser } from "../../store/asyncAction";
 
 const image = {
   uri: "https://nha-may-nuoc-frontend.vercel.app/static/media/bia.bc4041acd559e5dfda26.gif",
@@ -33,11 +33,17 @@ const LoginScreen = ({ navigation }) => {
   const token = useSelector((state) => state.auth.token);
   const error = useSelector((state) => state.auth.error);
   console.log("Token here", token);
-  console.log("Error123", error);
+
   const handleLogin = () => {
     dispatch(loginUser(credentials));
-
-    navigation.navigate("mydrawer");
+    console.log("Error12123", error);
+    if (!token) {
+      navigation.navigate("login");
+      console.log("Error123", error);
+    } else {
+      console.log("Error456", error);
+      navigation.navigate("mydrawer");
+    }
   };
   return (
     <KeyboardAvoidingView style={styles.container}>

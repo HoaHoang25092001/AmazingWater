@@ -1,21 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import * as apis from '../api'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { loginApi } from "../api/user";
+import { loginSuccess, loginStart, loginFailure } from "./appSlice";
 
-export const login = createAsyncThunk(
-    // Tên action
-    'user/login',
-    // Code async logic, tham số đầu tiên data là dữ liệu truyền vào khi gọi action
-    async (data, { rejectWithValue }) => {
-        // Gọi lên API backend
-        const response = await apis.login()
-        console.log(response)
-
-        // Nếu bị lỗi thì reject
-        if (!response.success) {
-            return rejectWithValue(response);
-        }
-
-        // Còn không thì trả về dữ liệu
-        return response;
+export const loginUser = createAsyncThunk(
+  "auth/authenticate",
+  async (credentials, { dispatch }) => {
+    try {
+      dispatch(loginStart());
+      const data = await loginApi(credentials);
+      dispatch(loginSuccess(data));
+      // Store the token in AsyncStorage after successful login
+      await AsyncStorage.setItem("username", data.token);
+    } catch (error) {
+      console.log("Errorrrrrrrrr:", error.Message);
+      dispatch(loginFailure(error.Message));
     }
-)
+  }
+);

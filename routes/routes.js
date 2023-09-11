@@ -11,11 +11,11 @@ import PaymentRecordListScreen from "../screens/user/PaymentRecordListScreen";
 import InvoiceInformationScreen from "../screens/user/InvoiceInformationScreen";
 import WriteIndex from "../screens/user/WriteIndex";
 import WriteIndexDetail from "../screens/user/WriteIndexDetail";
-import store from "../store";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { Text, View } from "native-base";
+import store from "../store/store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
