@@ -10,6 +10,11 @@ import {
 import { colors } from "../../constants";
 
 import CustomInput from "../../components/CustomInput/CustomInput";
+import { useDispatch, useSelector } from "react-redux";
+import { TextInput } from "react-native";
+import { Button } from "native-base";
+import { loginUser } from "../../authThunks";
+import { useNavigation } from "@react-navigation/native";
 
 const image = {
   uri: "https://nha-may-nuoc-frontend.vercel.app/static/media/bia.bc4041acd559e5dfda26.gif",
@@ -20,8 +25,20 @@ const height = Dimensions.get("window").height;
 const overlayHeight = height / 3;
 
 const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const error = useSelector((state) => state.auth.error);
+  console.log("Token here", token);
+  console.log("Error123", error);
+  const handleLogin = () => {
+    dispatch(loginUser(credentials));
+
+    navigation.navigate("mydrawer");
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <ImageBackground
@@ -39,27 +56,26 @@ const LoginScreen = ({ navigation }) => {
 
           <View style={styles.formContainer}>
             <CustomInput
-              value={username}
-              setValue={setUsername}
               placeholder={"Username"}
               placeholderTextColor={colors.muted}
               radius={5}
               icon="person"
+              onChangeText={(text) =>
+                setCredentials({ ...credentials, username: text })
+              }
             />
             <CustomInput
-              value={password}
-              setValue={setPassword}
               secureTextEntry={true}
               placeholder={"Password"}
               placeholderTextColor={colors.muted}
               radius={5}
               icon="lock-closed"
+              onChangeText={(text) =>
+                setCredentials({ ...credentials, password: text })
+              }
             />
             <View style={styles.loginButton}>
-              <Text
-                style={styles.loginButtonText}
-                onPress={() => navigation.navigate("mydrawer")}
-              >
+              <Text style={styles.loginButtonText} onPress={handleLogin}>
                 Đăng nhập
               </Text>
             </View>

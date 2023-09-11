@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SelectFactoryScreen from "../screens/auth/SelectFactoryScreen";
@@ -11,12 +11,18 @@ import PaymentRecordListScreen from "../screens/user/PaymentRecordListScreen";
 import InvoiceInformationScreen from "../screens/user/InvoiceInformationScreen";
 import WriteIndex from "../screens/user/WriteIndex";
 import WriteIndexDetail from "../screens/user/WriteIndexDetail";
-
+import store from "../store";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { Text, View } from "native-base";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-function MyDrawer() {
+const MyDrawer = () => {
+  const token = useSelector((state) => state.auth.token);
+  console.log("Token herer", token);
   return (
     <Drawer.Navigator useLegacyImplementation initialRouteName="Sổ đọc chỉ số">
       <Drawer.Screen
@@ -52,23 +58,39 @@ function MyDrawer() {
       />
     </Drawer.Navigator>
   );
-}
+};
+const RootNavigation = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="selectfactory"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack.Screen name="selectfactory" component={SelectFactoryScreen} />
+      <Stack.Screen name="login" component={LoginScreen} />
+      <Stack.Screen name="mydrawer" component={MyDrawer} />
+      <Stack.Screen
+        name="PaymentRecordListScreen"
+        component={PaymentRecordListScreen}
+      />
+      <Stack.Screen
+        name="PaymentRecordScreen"
+        component={PaymentRecordScreen}
+      />
+      <Stack.Screen
+        name="InvoiceInformationScreen"
+        component={InvoiceInformationScreen}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const Routes = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="selectfactory"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="selectfactory" component={SelectFactoryScreen} />
-        <Stack.Screen name="login" component={LoginScreen} />
-        <Stack.Screen name="mydrawer" component={MyDrawer} />
-        <Stack.Screen name="PaymentRecordListScreen" component={PaymentRecordListScreen} />
-        <Stack.Screen name="PaymentRecordScreen" component={PaymentRecordScreen} />
-        <Stack.Screen name="InvoiceInformationScreen" component={InvoiceInformationScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <RootNavigation />
+      </NavigationContainer>
+    </Provider>
   );
 };
 export default Routes;

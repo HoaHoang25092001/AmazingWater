@@ -429,7 +429,6 @@ export default function BookIndexScreen({ navigation }) {
 
   //pagination
   // Tính tổng số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
-
   const [fontsLoaded] = useFonts({
     Quicksand_700Bold,
     Quicksand_500Medium,
@@ -443,7 +442,6 @@ export default function BookIndexScreen({ navigation }) {
             selectedDate={selectedDate}
           />
           <TableList title={title} data={data} />
-
           <MenuButton
             setModalVisible={setModalVisible}
             setModalCreated={setModalCreated}

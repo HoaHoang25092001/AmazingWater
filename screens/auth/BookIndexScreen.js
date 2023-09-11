@@ -15,10 +15,12 @@ import {
 } from "native-base";
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
+import { useSelector } from "react-redux";
 import Quicksand from "../../components/Fonts/QuickSand";
 
 export default function BookIndexScreen() {
   const [isOverlayVisible, setOverlayVisible] = useState(false);
+  const { user, isLoading, error } = useSelector((state) => state.auth);
   const data = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -317,6 +319,7 @@ export default function BookIndexScreen() {
               />
             </ScrollView>
           </Box>
+         
         </ScrollView>
       </View>
     );
