@@ -6,8 +6,12 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import BookIndexScreen from "../screens/user/BookIndexScreen";
 import InputIndexScreen from "../screens/auth/InputIndexScreen";
+import PaymentRecordScreen from "../screens/user/PaymentRecordScreen";
+import PaymentRecordListScreen from "../screens/user/PaymentRecordListScreen";
+import InvoiceInformationScreen from "../screens/user/InvoiceInformationScreen";
 import WriteIndex from "../screens/user/WriteIndex";
 import WriteIndexDetail from "../screens/user/WriteIndexDetail";
+
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,6 +41,11 @@ function MyDrawer() {
         options={{ drawerLabel: "Ghi Chỉ Số Chi Tiết" }}
       />
       <Drawer.Screen
+        name="Sổ thanh toán"
+        component={PaymentRecordScreen}
+        options={{ drawerLabel: "Sổ thanh toán" }}
+      />
+      <Drawer.Screen
         name="Đăng xuất"
         component={LoginScreen}
         options={{ drawerLabel: "Đăng xuất" }}
@@ -55,6 +64,9 @@ const Routes = () => {
         <Stack.Screen name="selectfactory" component={SelectFactoryScreen} />
         <Stack.Screen name="login" component={LoginScreen} />
         <Stack.Screen name="mydrawer" component={MyDrawer} />
+        <Stack.Screen name="PaymentRecordListScreen" component={PaymentRecordListScreen} />
+        <Stack.Screen name="PaymentRecordScreen" component={PaymentRecordScreen} />
+        <Stack.Screen name="InvoiceInformationScreen" component={InvoiceInformationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

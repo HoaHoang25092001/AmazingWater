@@ -8,6 +8,7 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppLoading } from "expo";
 import {
   Avatar,
@@ -35,6 +36,7 @@ import {
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import DatePicker, { getToday } from "react-native-modern-datepicker";
+import { useDispatch, useSelector } from "react-redux";
 import AccordionCustom from "../../components/AcordionCustom/AcordionCustom";
 import DateTimeCustom from "../../components/DateTimeCustom/DateTimeCustom";
 import Quicksand from "../../components/Fonts/QuickSand";
@@ -325,6 +327,7 @@ export default function BookIndexScreen({ navigation }) {
     { label: "Kỳ GSC" },
     { label: "Tên sổ" },
   ];
+
   const handleOpenDatePickerModal = () => {
     setShowDatePickerModal(true);
   };
