@@ -42,6 +42,7 @@ const DateTimeCustom = ({
               mode="calendar"
               minuteInterval={30}
               style={{ borderRadius: 10 }}
+              locale="vi_VN"
             />
           </Modal.Body>
           <Modal.Footer>

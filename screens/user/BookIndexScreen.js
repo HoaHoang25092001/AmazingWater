@@ -29,6 +29,7 @@ import {
   Spacer,
   Stack,
   Text,
+  Tooltip,
   VStack,
 } from "native-base";
 import React, { useState } from "react";
@@ -37,13 +38,14 @@ import DatePicker, { getToday } from "react-native-modern-datepicker";
 import AccordionCustom from "../../components/AcordionCustom/AcordionCustom";
 import DateTimeCustom from "../../components/DateTimeCustom/DateTimeCustom";
 import Quicksand from "../../components/Fonts/QuickSand";
+import MenuButton from "../../components/MenuButton/MenuButton";
 import Pagination from "../../components/Pagination";
 import StaggerCustom from "../../components/StaggerCustom/StaggerCustom";
 import TableCreateMuti from "../../components/TableList/TableCreateMuti";
 import TableList from "../../components/TableList/TableList";
 import { colors } from "../../constants";
 
-export default function BookIndexScreen() {
+export default function BookIndexScreen({ navigation }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [date, setDate] = useState("");
   const [showPickDate, setShowPickDate] = useState(false);
@@ -55,8 +57,6 @@ export default function BookIndexScreen() {
   const [valueDateMuti, setValueDateMuti] = React.useState("---Chọn ngày---");
   const [modalCreated, setModalCreated] = useState(false);
   const [modalCreateMuti, setModalCreatedMuti] = useState(false);
-  const [onChangeValue, setOnChangeValue] = React.useState(0);
-  const [onChangeEndValue, setOnChangeEndValue] = React.useState(0);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const data = [
     {
@@ -282,10 +282,6 @@ export default function BookIndexScreen() {
   ];
   const title = [
     {
-      id: "1",
-      name: "#",
-    },
-    {
       id: "2",
       name: "Tuyến đọc",
     },
@@ -443,14 +439,14 @@ export default function BookIndexScreen() {
             setShowDatePickerModal={setShowDatePickerModal}
             selectedDate={selectedDate}
           />
-          <TableList title={title} data={data} renderItem={renderItem} />
+          <TableList title={title} data={data} />
 
-          <StaggerCustom
+          <MenuButton
             setModalVisible={setModalVisible}
             setModalCreated={setModalCreated}
             setModalCreatedMuti={setModalCreatedMuti}
             setOverlayVisible={setOverlayVisible}
-            style={{ zIndex: 999, position: "absolute" }}
+            navigation={navigation}
           />
         </VStack>
 
@@ -476,6 +472,7 @@ export default function BookIndexScreen() {
                 onMonthYearChange={(selectedDate) =>
                   setSelectedDate(selectedDate)
                 }
+                locale="vi_VN"
               />
             </Modal.Body>
             <Modal.Footer>
@@ -519,10 +516,11 @@ export default function BookIndexScreen() {
               <Box alignItems="center" w="100%">
                 <Box w="90%" maxW="400">
                   <VStack space="md">
-                    <VStack mx="4" space="md">
-                      <Progress colorScheme="primary" value={10} />
-                      <Progress colorScheme="warning" value={10} />
-                    </VStack>
+                    <Progress size={"md"} colorScheme="primary" value={10} />
+                    <Text>10%</Text>
+
+                    <Progress size={"md"} colorScheme="warning" value={20} />
+                    <Text>20%</Text>
                   </VStack>
                 </Box>
               </Box>
@@ -593,7 +591,7 @@ export default function BookIndexScreen() {
               <Modal.Footer>
                 <Button.Group space={2}>
                   <Button
-                    variant={"outline"}
+                    colorScheme="primary"
                     leftIcon={
                       <Icon as={MaterialIcons} name="add-circle" size="sm" />
                     }
