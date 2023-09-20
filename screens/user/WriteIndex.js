@@ -11,6 +11,7 @@ import {
   VStack,
 } from "native-base";
 import React, { useState } from "react";
+import { SafeAreaView } from "react-native";
 import { Button, StyleSheet, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { color } from "react-native-reanimated";
@@ -144,8 +145,9 @@ const WriteIndex = ({ navigation }) => {
   };
 
   return (
-    <View>
-      {/*<Button title="Show Date Picker" onPress={showDatePicker} />
+    <SafeAreaView>
+      <View>
+        {/*<Button title="Show Date Picker" onPress={showDatePicker} />
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
@@ -154,41 +156,42 @@ const WriteIndex = ({ navigation }) => {
         locale={"vi-VN"}
   />*/}
 
-      <View style={{ alignItems: "flex-start", justifyContent: "center" }}>
-        <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            paddingVertical: 8,
-            paddingHorizontal: 8,
-            marginLeft: 10,
-            marginTop: 5,
-            marginBottom: 5,
-            alignItems: "center",
-            borderRadius: 10,
-            backgroundColor: colors.blue_400,
-          }}
-          onPress={() => navigation.navigate("Sổ đọc chỉ số")}
-        >
-          <View>
-            <Ionicons
-              name={"arrow-back-circle-outline"}
-              size={20}
-              style={styles.icon}
-            />
-          </View>
-          <View style={styles.buttonTextContainer}>
-            <Text style={styles.buttonText}>Trở về</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+        <View style={{ alignItems: "flex-start", justifyContent: "center" }}>
+          <TouchableOpacity
+            style={{
+              flexDirection: "row",
+              paddingVertical: 8,
+              paddingHorizontal: 8,
+              marginLeft: 10,
+              marginTop: 5,
+              marginBottom: 5,
+              alignItems: "center",
+              borderRadius: 10,
+              backgroundColor: colors.blue_400,
+            }}
+            onPress={() => navigation.navigate("Sổ đọc chỉ số")}
+          >
+            <View>
+              <Ionicons
+                name={"arrow-back-circle-outline"}
+                size={20}
+                style={styles.icon}
+              />
+            </View>
+            <View style={styles.buttonTextContainer}>
+              <Text style={styles.buttonText}>Trở về</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      <FlatList
-        data={data}
-        navigation={navigation}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+        <FlatList
+          data={data}
+          navigation={navigation}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

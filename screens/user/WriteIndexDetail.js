@@ -23,6 +23,7 @@ import {
   VStack,
 } from "native-base";
 import React, { useState } from "react";
+import { SafeAreaView } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import CameraCustom from "../../components/CameraCustom/CameraCustom";
@@ -163,8 +164,9 @@ const WriteIndexDetail = ({ navigation }) => {
   );
 
   return (
-    <View>
-      {/*<Button title="Show Date Picker" onPress={showDatePicker} />
+    <SafeAreaView>
+      <View>
+        {/*<Button title="Show Date Picker" onPress={showDatePicker} />
     <DateTimePickerModal
       isVisible={isDatePickerVisible}
       mode="date"
@@ -173,104 +175,104 @@ const WriteIndexDetail = ({ navigation }) => {
       locale={"vi-VN"}
 />*/}
 
-      <View style={{ margin: 10 }}>
-        <HStack justifyContent="space-between">
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              paddingVertical: 8,
-              paddingHorizontal: 8,
-              marginTop: 5,
-              marginBottom: 5,
-              alignItems: "center",
-              borderRadius: 10,
-              backgroundColor: colors.blue_400,
-            }}
-            onPress={() => navigation.navigate("WriteIndex")}
-          >
-            <View>
-              <Ionicons
-                name={"arrow-back-circle-outline"}
-                size={20}
-                style={styles.icon}
-              />
-            </View>
-            <View style={styles.buttonTextContainer}>
-              <Text style={styles.buttonText}>Trở về</Text>
-            </View>
-          </TouchableOpacity>
-          <View>
-            <Select
-              minHeight={38}
-              minWidth="250"
-              backgroundColor={"white"}
-              accessibilityLabel="Selection"
-              placeholder={selectedItem.fullName}
-              _selectedItem={{
-                bg: "teal.300",
-                endIcon: <CheckIcon size="2" />,
+        <View style={{ margin: 10 }}>
+          <HStack justifyContent="space-between">
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                paddingVertical: 8,
+                paddingHorizontal: 8,
+                marginTop: 5,
+                marginBottom: 5,
+                alignItems: "center",
+                borderRadius: 10,
+                backgroundColor: colors.blue_400,
               }}
-              mt={1}
+              onPress={() => navigation.navigate("WriteIndex")}
             >
-              <Select.Item
-                label={selectedItem.fullName}
-                value={selectedItem.fullName}
-              />
-            </Select>
-          </View>
-        </HStack>
-      </View>
-
-      <FlatList h={"85%"} data={data} renderItem={renderItem} />
-
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <Modal.Content minWidth="350" minH="500">
-          <Modal.CloseButton />
-          <Modal.Header>{selectedItem.fullName}</Modal.Header>
-          <Modal.Body>
-            <HStack>
               <View>
-                <Select
-                  minHeight={30}
-                  minWidth="50%"
-                  backgroundColor={"white"}
-                  accessibilityLabel="Selection"
-                  placeholder={selectedItem.fullName}
-                  _selectedItem={{
-                    bg: "teal.300",
-                    endIcon: <CheckIcon size="2" />,
-                  }}
-                  mt={1}
-                >
-                  <Select.Item
-                    label={selectedItem.fullName}
-                    value={selectedItem.fullName}
-                  />
-                </Select>
-              </View>
-              <Button marginLeft={8} minHeight={5} minWidth={8} padding={0}>
                 <Ionicons
-                  color={"white"}
-                  name={"save-outline"}
-                  size={18}
+                  name={"arrow-back-circle-outline"}
+                  size={20}
                   style={styles.icon}
                 />
-              </Button>
-            </HStack>
-            <Center width={"100%"} marginTop={5}>
-              <Box
-                borderWidth={1}
-                width="90%"
-                padding={5}
-                borderRadius={10}
-                borderColor={"#f0f0f0"}
+              </View>
+              <View style={styles.buttonTextContainer}>
+                <Text style={styles.buttonText}>Trở về</Text>
+              </View>
+            </TouchableOpacity>
+            <View>
+              <Select
+                minHeight={38}
+                minWidth="250"
+                backgroundColor={"white"}
+                accessibilityLabel="Selection"
+                placeholder={selectedItem.fullName}
+                _selectedItem={{
+                  bg: "teal.300",
+                  endIcon: <CheckIcon size="2" />,
+                }}
+                mt={1}
               >
-                <Text textAlign={"center"} fontSize={25} fontWeight={700}>
-                  Sinh hoạt ABC
-                </Text>
-              </Box>
-            </Center>
-            {/* <Center width={"100%"} marginTop={5}>
+                <Select.Item
+                  label={selectedItem.fullName}
+                  value={selectedItem.fullName}
+                />
+              </Select>
+            </View>
+          </HStack>
+        </View>
+
+        <FlatList h={"85%"} data={data} renderItem={renderItem} />
+
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Modal.Content minWidth="350" minH="500">
+            <Modal.CloseButton />
+            <Modal.Header>{selectedItem.fullName}</Modal.Header>
+            <Modal.Body>
+              <HStack>
+                <View>
+                  <Select
+                    minHeight={30}
+                    minWidth="50%"
+                    backgroundColor={"white"}
+                    accessibilityLabel="Selection"
+                    placeholder={selectedItem.fullName}
+                    _selectedItem={{
+                      bg: "teal.300",
+                      endIcon: <CheckIcon size="2" />,
+                    }}
+                    mt={1}
+                  >
+                    <Select.Item
+                      label={selectedItem.fullName}
+                      value={selectedItem.fullName}
+                    />
+                  </Select>
+                </View>
+                <Button marginLeft={8} minHeight={5} minWidth={8} padding={0}>
+                  <Ionicons
+                    color={"white"}
+                    name={"save-outline"}
+                    size={18}
+                    style={styles.icon}
+                  />
+                </Button>
+              </HStack>
+              <Center width={"100%"} marginTop={5}>
+                <Box
+                  borderWidth={1}
+                  width="90%"
+                  padding={5}
+                  borderRadius={10}
+                  borderColor={"#f0f0f0"}
+                >
+                  <Text textAlign={"center"} fontSize={25} fontWeight={700}>
+                    Sinh hoạt ABC
+                  </Text>
+                </Box>
+              </Center>
+              {/* <Center width={"100%"} marginTop={5}>
               <FlatList
                 nestedScrollEnabled={true}
                 scrollEnabled={false}
@@ -278,142 +280,146 @@ const WriteIndexDetail = ({ navigation }) => {
                 renderItem={render}
               />
                 </Center>*/}
-            {list.map((item, itemI) => (
-              <HStack h={10} key={item.title + itemI.toString()}>
-                <Box
-                  borderBottomWidth={2}
-                  backgroundColor={"gray.400"}
-                  borderColor="muted.200"
-                  w={100}
-                  py="2"
-                >
-                  <Text
-                    textAlign={"center"}
-                    color={"gray.500"}
-                    fontSize={20}
-                    fontWeight={700}
+              {list.map((item, itemI) => (
+                <HStack h={10} key={item.title + itemI.toString()}>
+                  <Box
+                    borderBottomWidth={2}
+                    backgroundColor={"gray.400"}
+                    borderColor="muted.200"
+                    w={100}
+                    py="2"
                   >
-                    Tháng {itemI + 1}
-                  </Text>
-                </Box>
-                <Box
-                  borderBottomWidth={1}
-                  borderColor="muted.200"
-                  w={100}
-                  pl={["5", "4"]}
-                  pr={["5", "5"]}
-                  py="2"
-                >
-                  <Text textAlign={"center"} fontSize={20} fontWeight={700}>
-                    {item.title}
-                  </Text>
-                </Box>
-                <Box
-                  borderBottomWidth={1}
-                  borderColor="muted.200"
-                  w={100}
-                  pl={["5", "4"]}
-                  pr={["5", "5"]}
-                  py="2"
-                >
-                  <Text textAlign={"center"} fontSize={20} fontWeight={700}>
-                    {item.title}
-                  </Text>
-                </Box>
-              </HStack>
-            ))}
-            <Center width={"100%"} marginTop={5}>
-              <Box
-                borderWidth={1}
-                width="90%"
-                padding={5}
-                borderRadius={10}
-                borderColor={"#f0f0f0"}
-              >
-                <VStack space={4}>
-                  <HStack space={2}>
-                    <Input
-                      flex={1}
-                      onChangeText={(v) => setInputValue(v)}
-                      value={inputValue}
-                      placeholder="Thêm chỉ số"
-                      fontWeight={700}
-                      fontSize={25}
+                    <Text
                       textAlign={"center"}
-                    />
-                    <IconButton
-                      borderRadius="sm"
-                      variant="solid"
-                      icon={
-                        <Icon
-                          as={Feather}
-                          name="plus"
-                          size="sm"
-                          color="warmGray.50"
-                        />
-                      }
-                      onPress={() => {
-                        addItem(inputValue);
-                        setInputValue("");
-                      }}
-                    />
-                  </HStack>
-                </VStack>
-              </Box>
-            </Center>
-            <Divider mt={5} mb={5} />
-            <Text ml={3} fontSize={20} fontWeight={700}>
-              Mục đích sử dụng
-            </Text>
-            <Input ml={3} mt={5} variant="outline" value="Sinh hoạt ABC" />
+                      color={"gray.500"}
+                      fontSize={20}
+                      fontWeight={700}
+                    >
+                      Tháng {itemI + 1}
+                    </Text>
+                  </Box>
+                  <Box
+                    borderBottomWidth={1}
+                    borderColor="muted.200"
+                    w={100}
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text textAlign={"center"} fontSize={20} fontWeight={700}>
+                      {item.title}
+                    </Text>
+                  </Box>
+                  <Box
+                    borderBottomWidth={1}
+                    borderColor="muted.200"
+                    w={100}
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text textAlign={"center"} fontSize={20} fontWeight={700}>
+                      {item.title}
+                    </Text>
+                  </Box>
+                </HStack>
+              ))}
+              <Center width={"100%"} marginTop={5}>
+                <Box
+                  borderWidth={1}
+                  width="90%"
+                  padding={5}
+                  borderRadius={10}
+                  borderColor={"#f0f0f0"}
+                >
+                  <VStack space={4}>
+                    <HStack space={2}>
+                      <Input
+                        flex={1}
+                        onChangeText={(v) => setInputValue(v)}
+                        value={inputValue}
+                        placeholder="Thêm chỉ số"
+                        fontWeight={700}
+                        fontSize={25}
+                        textAlign={"center"}
+                      />
+                      <IconButton
+                        borderRadius="sm"
+                        variant="solid"
+                        icon={
+                          <Icon
+                            as={Feather}
+                            name="plus"
+                            size="sm"
+                            color="warmGray.50"
+                          />
+                        }
+                        onPress={() => {
+                          addItem(inputValue);
+                          setInputValue("");
+                        }}
+                      />
+                    </HStack>
+                  </VStack>
+                </Box>
+              </Center>
+              <Divider mt={5} mb={5} />
+              <Text ml={3} fontSize={20} fontWeight={700}>
+                Mục đích sử dụng
+              </Text>
+              <Input ml={3} mt={5} variant="outline" value="Sinh hoạt ABC" />
 
-            <Divider mt={5} mb={5} />
-            <Text ml={3} fontSize={20} fontWeight={700}>
-              Hình ảnh
-            </Text>
-            <Center>
-              <Button title="Camera" onPress={handleCamera} width={150}>
-                Sử dụng camera
-              </Button>
-            </Center>
+              <Divider mt={5} mb={5} />
+              <Text ml={3} fontSize={20} fontWeight={700}>
+                Hình ảnh
+              </Text>
+              <Center>
+                <Button title="Camera" onPress={handleCamera} width={150}>
+                  Sử dụng camera
+                </Button>
+              </Center>
 
-            <ImagePickerCustom />
+              <ImagePickerCustom />
 
-            <Divider mt={5} mb={5} />
-            <Text ml={3} fontSize={20} fontWeight={700}>
-              Số hiệu đồng hồ
-            </Text>
-            <Input ml={3} mt={5} variant="outline" value="12345" />
-            <Divider mt={5} mb={5} />
-            <Text ml={3} fontSize={20} fontWeight={700}>
-              Số điện thoại
-            </Text>
-            <Input ml={3} mt={5} variant="outline" />
-            <Divider mt={5} mb={5} />
-            <Text ml={3} fontSize={20} fontWeight={700}>
-              Loại đồng hồ
-            </Text>
-            <Input ml={3} mt={5} variant="outline" />
-            <Divider mt={5} mb={5} />
-            <Text ml={3} fontSize={20} fontWeight={700}>
-              Mã vạch
-            </Text>
-            <Input ml={3} mt={5} variant="outline" />
-            <Divider mt={5} mb={5} />
-            <Text ml={3} fontSize={20} fontWeight={700}>
-              Ghi chú
-            </Text>
-            <Input ml={3} mt={5} variant="outline" />
-          </Modal.Body>
-        </Modal.Content>
-      </Modal>
-      <Modal isOpen={showModalCamera} onClose={() => setShowModalCamera(false)}>
-        <Modal.Content width="100%" height="100%">
-          <Modal.CloseButton />
-          <CameraCustom />
-        </Modal.Content>
-      </Modal>
-    </View>
+              <Divider mt={5} mb={5} />
+              <Text ml={3} fontSize={20} fontWeight={700}>
+                Số hiệu đồng hồ
+              </Text>
+              <Input ml={3} mt={5} variant="outline" value="12345" />
+              <Divider mt={5} mb={5} />
+              <Text ml={3} fontSize={20} fontWeight={700}>
+                Số điện thoại
+              </Text>
+              <Input ml={3} mt={5} variant="outline" />
+              <Divider mt={5} mb={5} />
+              <Text ml={3} fontSize={20} fontWeight={700}>
+                Loại đồng hồ
+              </Text>
+              <Input ml={3} mt={5} variant="outline" />
+              <Divider mt={5} mb={5} />
+              <Text ml={3} fontSize={20} fontWeight={700}>
+                Mã vạch
+              </Text>
+              <Input ml={3} mt={5} variant="outline" />
+              <Divider mt={5} mb={5} />
+              <Text ml={3} fontSize={20} fontWeight={700}>
+                Ghi chú
+              </Text>
+              <Input ml={3} mt={5} variant="outline" />
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+        <Modal
+          isOpen={showModalCamera}
+          onClose={() => setShowModalCamera(false)}
+        >
+          <Modal.Content width="100%" height="100%">
+            <Modal.CloseButton />
+            <CameraCustom />
+          </Modal.Content>
+        </Modal>
+      </View>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({

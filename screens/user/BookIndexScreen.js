@@ -33,9 +33,10 @@ import {
   Tooltip,
   VStack,
 } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import DatePicker, { getToday } from "react-native-modern-datepicker";
+import { Toast } from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
 import AccordionCustom from "../../components/AcordionCustom/AcordionCustom";
 import DateTimeCustom from "../../components/DateTimeCustom/DateTimeCustom";
@@ -433,6 +434,12 @@ export default function BookIndexScreen({ navigation }) {
     Quicksand_700Bold,
     Quicksand_500Medium,
   });
+
+  const isLoading = useSelector((state) => state.auth.isLoading);
+
+  useEffect(() => {
+    console.log("Loading", isLoading);
+  }, []);
   if (fontsLoaded) {
     return (
       <View>
