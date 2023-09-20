@@ -6,13 +6,6 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import BookIndexScreen from "../screens/user/BookIndexScreen";
 import InputIndexScreen from "../screens/auth/InputIndexScreen";
-import PaymentRecordScreen from "../screens/user/PaymentRecordScreen";
-import PaymentRecordListScreen from "../screens/user/PaymentRecordListScreen";
-import InvoiceInformationScreen from "../screens/user/InvoiceInformationScreen";
-import ForgetPasswordScreen from "../screens/auth/ForgetPasswordScreen";
-import ConfirmOTPScreen from "../screens/auth/ConfirmOTPScreen";
-import Toast from 'react-native-toast-message';
-import InvoiceScreen from "../screens/user/InvoiceScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -31,16 +24,6 @@ function MyDrawer() {
         options={{ drawerLabel: "Nhập chỉ số" }}
       />
       <Drawer.Screen
-        name="Sổ thanh toán"
-        component={PaymentRecordScreen}
-        options={{ drawerLabel: "Sổ thanh toán" }}
-      />
-      <Drawer.Screen
-        name="Hóa đơn"
-        component={InvoiceScreen}
-        options={{ drawerLabel: "Hóa đơn" }}
-      />
-      <Drawer.Screen
         name="Đăng xuất"
         component={LoginScreen}
         options={{ drawerLabel: "Đăng xuất" }}
@@ -51,24 +34,16 @@ function MyDrawer() {
 
 const Routes = () => {
   return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="selectfactory"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="selectfactory" component={SelectFactoryScreen} />
-          <Stack.Screen name="login" component={LoginScreen} />
-          <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen} />
-          <Stack.Screen name="ConfirmOTPScreen" component={ConfirmOTPScreen} />
-          <Stack.Screen name="mydrawer" component={MyDrawer} />
-          <Stack.Screen name="PaymentRecordListScreen" component={PaymentRecordListScreen} />
-          <Stack.Screen name="PaymentRecordScreen" component={PaymentRecordScreen} />
-          <Stack.Screen name="InvoiceInformationScreen" component={InvoiceInformationScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-      <Toast />
-    </>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="selectfactory"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="selectfactory" component={SelectFactoryScreen} />
+        <Stack.Screen name="login" component={LoginScreen} />
+        <Stack.Screen name="mydrawer" component={MyDrawer} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 export default Routes;
