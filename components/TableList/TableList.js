@@ -17,7 +17,7 @@ const TableList = ({ title, data }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [service, setService] = React.useState("");
   const totalPages = Math.ceil(data.length / itemsPerPage);
-  const [boxTitleWidth, setBoxTitleWidth] = useState(150);
+  const [boxTitleWidth, setBoxTitleWidth] = useState(300);
   // Hàm xử lý khi người dùng chuyển đổi trang
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
@@ -99,7 +99,7 @@ const TableList = ({ title, data }) => {
         pr={["5", "5"]}
         py="2"
       >
-        <Text style={styles.textContent}>{item.tuyen}</Text>
+        <Text style={styles.textContent}>{item.tenTuyenDoc}</Text>
       </Box>
       <Box
         borderRightWidth={1}
@@ -119,7 +119,7 @@ const TableList = ({ title, data }) => {
         pr={["5", "5"]}
         py="2"
       >
-        <Text style={styles.textContent}>{item.tenso}</Text>
+        <Text style={styles.textContent}>{item.tenSo}</Text>
       </Box>
       <Box
         borderRightWidth={1}
@@ -139,7 +139,9 @@ const TableList = ({ title, data }) => {
         pr={["5", "5"]}
         py="2"
       >
-        <Text style={styles.textContent}>{item.chotso}</Text>
+        <Text style={styles.textContent}>
+          {item.chotSo ? "Đã chốt" : "Chưa chốt"}
+        </Text>
       </Box>
       <Box
         borderRightWidth={1}
@@ -149,7 +151,13 @@ const TableList = ({ title, data }) => {
         pr={["5", "5"]}
         py="2"
       >
-        <Text style={styles.textContent}>{item.trangthai}</Text>
+        <Text style={styles.textContent}>
+          {item.trangThai === 1
+            ? "Đang ghi"
+            : item.trangThai === 2
+            ? "Đã ngừng"
+            : ""}
+        </Text>
       </Box>
       <Box
         borderRightWidth={1}
@@ -159,7 +167,14 @@ const TableList = ({ title, data }) => {
         pr={["5", "5"]}
         py="2"
       >
-        <Text style={styles.textContent}>{item.ngaychot}</Text>
+        <Text style={styles.textContent}>
+          {item.ngayChot
+            ? `${item.ngayChot.substring(8, 10)}/${item.ngayChot.substring(
+                5,
+                7
+              )}/${item.ngayChot.substring(0, 4)}`
+            : ""}
+        </Text>
       </Box>
       <Box
         borderRightWidth={1}
@@ -169,7 +184,7 @@ const TableList = ({ title, data }) => {
         pr={["5", "5"]}
         py="2"
       >
-        <Text style={styles.textContent}>{item.hoadon}</Text>
+        <Text style={styles.textContent}>{item.hoaDon}</Text>
       </Box>
     </HStack>
   );

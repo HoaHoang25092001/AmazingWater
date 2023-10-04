@@ -6,6 +6,7 @@ import {
   HStack,
   Icon,
   Input,
+  Modal,
   Pressable,
   ScrollView,
   View,
@@ -20,23 +21,66 @@ import { StyleSheet } from "react-native";
 import { DefaultTheme, List } from "react-native-paper";
 import { color } from "react-native-reanimated";
 import { colors } from "../../constants";
+import { filterSoDocApi } from "../../api/user";
+import { useState } from "react";
+import DatePicker, {
+  getFormatedDate,
+  getToday,
+} from "react-native-modern-datepicker";
+import { parseISO, format } from "date-fns";
+import { useEffect } from "react";
 
-const AccordionCustom = ({ setShowDatePickerModal, selectedDate }) => {
+const AccordionCustom = ({ data, setData }) => {
   const [expanded, setExpanded] = React.useState(true);
   const [value, setValue] = React.useState("");
+  const [showDatePickerModal, setShowDatePickerModal] = useState(false);
+  const [selectedDate, setSelectedDate] = React.useState("MM/YYYY");
+  const [responseData, setResponseData] = useState(null); // State to store the response data
+  const [selectedCanBo, setSelectedCanBo] = useState(null);
+  const [selectedTuyenDoc, setSelectedTuyenDoc] = useState(null);
+  const [selectedTrangThai, setSelectedTrangThai] = useState(null);
+  const [selectedKhuVuc, setSelectedKhuVuc] = useState(null);
+  const [selectedKyGhi, setSelectedKyGhi] = useState(null);
+  const [selectedTenSo, setSelectedTenSo] = useState(null);
 
-  const handleChange = () => {
-    console.log("handleChange");
+  const handleFilterSoDoc = async () => {
+    // console.log("Before date:", selectedDate);
+    // const selectedDateStr = parseISO(selectedDate);
+    // const formattedDate = format(selectedDateStr, "MM/yyyy");
+    // console.log("Date:", formattedDate);
+    const filterParams = {
+      thangSoDoc: selectedDate,
+      canboDocId: selectedCanBo,
+      tuyenDocId: selectedTuyenDoc,
+      trangThaiSoDoc: 1,
+      khuVucId: selectedKhuVuc,
+      kyGhiChiSoId: selectedKyGhi,
+      tenSo: selectedTenSo,
+    };
+    try {
+      const filterData = await filterSoDocApi(filterParams);
+      console.log("Respone data filter", filterData.data);
+      setData(filterData.data);
+      setResponseData(filterData.data);
+      console.log("Respone data ben kia", data);
+    } catch (error) {
+      // Handle errors here
+      console.error("Error:", error);
+    }
   };
-  const theme = {
-    ...DefaultTheme,
-    // Specify custom property
-    myOwnProperty: true,
-    // Specify custom property in nested object
-    colors: {
-      myOwnColor: "red",
-    },
+  const handleTimMoi = () => {
+    setSelectedDate();
+    setSelectedCanBo();
+    setSelectedTuyenDoc();
+    setSelectedTrangThai();
+    setSelectedKhuVuc();
+    setSelectedKyGhi();
+    setSelectedTenSo();
   };
+  // useEffect(() => {
+  //   setData(responseData);
+  //   console.log("data123123", responseData);
+  // }, [handleFilterSoDoc]);
   const [fontsLoaded] = useFonts({
     Quicksand_700Bold,
     Quicksand_500Medium,
@@ -59,50 +103,81 @@ const AccordionCustom = ({ setShowDatePickerModal, selectedDate }) => {
         >
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Chọn tháng</FormControl.Label>
-            <Button
+            {/*<Button
               variant="outline"
               size="md"
               colorScheme={"gray"}
               onPress={() => setShowDatePickerModal(true)}
             >
               {selectedDate}
-            </Button>
+        </Button>*/}
+            <Input
+              size="md"
+              value={selectedDate}
+              onChangeText={(text) => setSelectedDate(text)}
+            />
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Cán bộ đọc</FormControl.Label>
-            <Input size="md" />
+            <Input
+              size="md"
+              value={selectedCanBo}
+              onChangeText={(text) => setSelectedCanBo(text)}
+            />
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Tuyến đọc</FormControl.Label>
-            <Input />
+            <Input
+              size="md"
+              value={selectedTuyenDoc}
+              onChangeText={(text) => setSelectedTuyenDoc(text)}
+            />
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Trạng thái</FormControl.Label>
-            <Input />
+            <Input
+              size="md"
+              value={selectedTrangThai}
+              onChangeText={(text) => setSelectedTrangThai(text)}
+            />
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Khu vực</FormControl.Label>
-            <Input />
+            <Input
+              size="md"
+              value={selectedKhuVuc}
+              onChangeText={(text) => setSelectedKhuVuc(text)}
+            />
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Kỳ GSC</FormControl.Label>
-            <Input />
+            <Input
+              size="md"
+              value={selectedKyGhi}
+              onChangeText={(text) => setSelectedKyGhi(text)}
+            />
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Tên sổ</FormControl.Label>
-            <Input />
+            <Input
+              size="md"
+              value={selectedTenSo}
+              onChangeText={(text) => setSelectedTenSo(text)}
+            />
           </FormControl>
           <Center>
             <HStack mt="3" mb="3" style={{ alignContent: "space-between" }}>
               <Button.Group space={2}>
                 <Button
                   variant={"outline"}
+                  onPress={handleFilterSoDoc}
                   leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
                 >
                   Tìm kiếm
                 </Button>
                 <Button
                   variant={"outline"}
+                  onPress={handleTimMoi}
                   leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
                 >
                   Tìm mới
@@ -110,6 +185,49 @@ const AccordionCustom = ({ setShowDatePickerModal, selectedDate }) => {
               </Button.Group>
             </HStack>
           </Center>
+          <Modal
+            isOpen={showDatePickerModal}
+            onClose={() => setShowDatePickerModal(false)}
+            size="lg"
+          >
+            <Modal.Content width={"90%"} maxH="600">
+              <Modal.CloseButton />
+              <Modal.Header>Chọn tháng</Modal.Header>
+              <Modal.Body>
+                <DatePicker
+                  width="100%"
+                  mode="monthYear"
+                  selectorStartingYear={2000}
+                  selected={getFormatedDate(new Date(), "MM/yyyy")}
+                  onMonthYearChange={(selectedDate) =>
+                    setSelectedDate(selectedDate)
+                  }
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button.Group space={2}>
+                  <Button
+                    variant="ghost"
+                    colorScheme="blueGray"
+                    onPress={() => {
+                      setShowDatePickerModal(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onPress={() => {
+                      setShowDatePickerModal(false);
+                      // Set the selectedDate value to the input when Save is pressed
+                      setSelectedDate(selectedDate);
+                    }}
+                  >
+                    Save
+                  </Button>
+                </Button.Group>
+              </Modal.Footer>
+            </Modal.Content>
+          </Modal>
         </ScrollView>
       </List.Accordion>
     );

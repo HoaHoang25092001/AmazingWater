@@ -19,7 +19,7 @@ const Pagination = ({
 
   const getPageNumbers = () => {
     const pageNumbers = [];
-    const maxVisiblePageNumbers = 5; // Số lượng số trang hiển thị tối đa
+    const maxVisiblePageNumbers = 4; // Số lượng số trang hiển thị tối đa
     const halfVisiblePageNumbers = Math.floor(maxVisiblePageNumbers / 2);
 
     if (totalPages <= maxVisiblePageNumbers) {
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 100
+    marginBottom: 100,
   },
   paginationButton: {
     paddingVertical: 5,

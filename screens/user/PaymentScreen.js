@@ -536,7 +536,7 @@ const PaymentScreen = () => {
                   h="50"
                   w="50"
                   {...triggerProps}
-                  borderRadius={"50%"}
+                  borderRadius={"50"}
                 >
                   <Ionicons
                     name={"add-outline"}

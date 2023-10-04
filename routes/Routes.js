@@ -131,21 +131,32 @@ const MyDrawer = ({ service }) => {
               ))}
             </Select>
           </Center>
-          <List.Section title="Accordions">
-            <List.Accordion
+          <List.Accordion
+            fontFamily="Quicksand_500Medium"
+            title="Ghi chỉ số & hóa đơn"
+            left={(props) => (
+              <List.Icon {...props} color="black" icon="pencil" />
+            )}
+            titleStyle={{ color: "black" }}
+          >
+            <DrawerItem
+              label="Sổ đọc chỉ số"
               fontFamily="Quicksand_500Medium"
-              title="Sổ ghi chỉ số"
-              left={(props) => <List.Icon {...props} icon="folder" />}
-            >
-              <List.Item title="First item" />
-              <List.Item title="Second item" />
-              <DrawerItem
-                label="Sổ đọc chỉ số"
-                fontFamily="Quicksand_500Medium"
-                onPress={() => navigation.navigate("Sổ đọc chỉ số")}
-              />
-            </List.Accordion>
-          </List.Section>
+              onPress={() => navigation.navigate("Sổ đọc chỉ số")}
+            />
+          </List.Accordion>
+          <List.Accordion
+            fontFamily="Quicksand_500Medium"
+            title="Thu tiền"
+            left={(props) => <List.Icon {...props} color="black" icon="cash" />}
+            titleStyle={{ color: "black", paddingTop: 10 }}
+          >
+            <DrawerItem
+              label="Thanh toán"
+              fontFamily="Quicksand_500Medium"
+              onPress={() => navigation.navigate("Thanh toán")}
+            />
+          </List.Accordion>
 
           <DrawerItemList {...props} />
         </DrawerContentScrollView>
