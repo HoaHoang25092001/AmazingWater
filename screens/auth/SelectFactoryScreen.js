@@ -19,6 +19,7 @@ import {
 import { useSelector } from "react-redux";
 import { colors } from "../../constants";
 import { Ionicons } from "@expo/vector-icons";
+import { useService } from "../../ServiceContext";
 
 const windowWidth = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -29,9 +30,9 @@ const image = {
 };
 
 const SelectFactoryScreen = ({ navigation }) => {
-  const [service, setService] = useState("");
   const [error, setError] = useState("");
   const nhaMays = useSelector((state) => state.auth.nhaMays);
+  const { service, setService } = useService();
   const handleService = (itemValue) => {
     setService(itemValue);
     console.log("Service", service);
@@ -41,7 +42,7 @@ const SelectFactoryScreen = ({ navigation }) => {
       setError("Vui lòng chọn nhà máy");
       console.log("Error", error);
     } else {
-      navigation.navigate("mydrawer", { dataService: service });
+      navigation.navigate("mydrawer");
     }
   };
   return (
@@ -96,7 +97,7 @@ const SelectFactoryScreen = ({ navigation }) => {
                   <Select.Item
                     key={item.nhaMayId}
                     label={item.tenNhaMay}
-                    value={item.tenNhaMay}
+                    value={item.nhaMayId}
                     color="green.500"
                     fontFamily={"Quicksand_700Bold"}
                   />

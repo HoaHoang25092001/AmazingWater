@@ -2,6 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import {
   Button,
   Center,
+  CheckIcon,
   FormControl,
   HStack,
   Icon,
@@ -9,6 +10,7 @@ import {
   Modal,
   Pressable,
   ScrollView,
+  Select,
   View,
 } from "native-base";
 import {
@@ -21,7 +23,7 @@ import { StyleSheet } from "react-native";
 import { DefaultTheme, List } from "react-native-paper";
 import { color } from "react-native-reanimated";
 import { colors } from "../../constants";
-import { filterSoDocApi } from "../../api/user";
+import { filterSoDocApi, soDocChiSoApi } from "../../api/user";
 import { useState } from "react";
 import DatePicker, {
   getFormatedDate,
@@ -42,6 +44,7 @@ const AccordionCustom = ({ data, setData }) => {
   const [selectedKhuVuc, setSelectedKhuVuc] = useState(null);
   const [selectedKyGhi, setSelectedKyGhi] = useState(null);
   const [selectedTenSo, setSelectedTenSo] = useState(null);
+  const [allData, setAllData] = useState();
 
   const handleFilterSoDoc = async () => {
     // console.log("Before date:", selectedDate);
@@ -68,6 +71,20 @@ const AccordionCustom = ({ data, setData }) => {
       console.error("Error:", error);
     }
   };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await soDocChiSoApi();
+        console.log("Data API:", response.data);
+        const data = response.data;
+        setAllData(data);
+      } catch (error) {
+        console.error("Lỗi data API:", error);
+        // Xử lý lỗi ở đây nếu cần
+      }
+    }
+    fetchData();
+  }, []);
   const handleTimMoi = () => {
     setSelectedDate();
     setSelectedCanBo();
@@ -127,19 +144,42 @@ const AccordionCustom = ({ data, setData }) => {
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Tuyến đọc</FormControl.Label>
-            <Input
-              size="md"
-              value={selectedTuyenDoc}
-              onChangeText={(text) => setSelectedTuyenDoc(text)}
-            />
+
+            <Select
+              selectedValue={selectedTuyenDoc}
+              minWidth="200"
+              accessibilityLabel="Chọn tuyến đọc"
+              placeholder="Chọn tuyến đọc"
+              _selectedItem={{
+                bg: "teal.600",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={1}
+              onValueChange={(itemValue) => setSelectedTuyenDoc(itemValue)}
+            >
+              {allData?.map((item) => (
+                <Select.Item label={item.tenTuyenDoc} value={item.tuyenDocId} />
+              ))}
+            </Select>
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Trạng thái</FormControl.Label>
-            <Input
-              size="md"
-              value={selectedTrangThai}
-              onChangeText={(text) => setSelectedTrangThai(text)}
-            />
+
+            <Select
+              selectedValue={selectedTrangThai}
+              minWidth="200"
+              accessibilityLabel="Chọn trạng thái"
+              placeholder="Chọn trạng thái"
+              _selectedItem={{
+                bg: "teal.600",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              mt={1}
+              onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+            >
+              <Select.Item label="Đang ghi" value="1" />
+              <Select.Item label="Đã ngưng" value="2" />
+            </Select>
           </FormControl>
           <FormControl mt="3" style={styles.formControl}>
             <FormControl.Label>Khu vực</FormControl.Label>

@@ -24,6 +24,18 @@ export const soDocChiSoApi = async () => {
     throw error.response.data;
   }
 };
+export const soDocChiSoTheoNMApi = async (nhaMayId) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/api/so-doc-chi-so/get-so-doc-chi-so-by-nha-may-id?nhaMayId=${nhaMayId}`
+    );
+    console.log("Data get theo nha may id:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("data error", error.response.data);
+    throw error.response.data;
+  }
+};
 
 export const filterSoDocApi = async (filterParams) => {
   try {
