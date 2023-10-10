@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as apis from "../api"
 import { loginApi, soDocChiSoApi } from "../api/user";
 import {
   loginSuccess,
@@ -12,21 +13,22 @@ import {
 } from "./appSlice";
 import { useSelector } from "react-redux";
 
+
 export const loginUser = createAsyncThunk(
-  "auth/authenticate",
-  async (credentials, { dispatch }) => {
-    try {
-      dispatch(loginStart());
-      const data = await loginApi(credentials);
-      dispatch(loginSuccess(data));
-      // Store the token in AsyncStorage after successful login
-      console.log("respone data", data.username);
-      await AsyncStorage.setItem("username", data.username);
-    } catch (error) {
-      console.log("Errorrrrrrrrr:", error.Message);
-      dispatch(loginFailure(error.Message));
+    "auth/authenticate",
+    async (credentials, { dispatch }) => {
+        try {
+            dispatch(loginStart());
+            const data = await loginApi(credentials);
+            dispatch(loginSuccess(data));
+            // Store the token in AsyncStorage after successful login
+            console.log("respone data", data.username);
+            await AsyncStorage.setItem("username", data.username);
+        } catch (error) {
+            console.log("Errorrrrrrrrr:", error.Message);
+            dispatch(loginFailure(error.Message));
+        }
     }
-  }
 );
 export const soDocChiSo = createAsyncThunk(
   "so-doc-chi-so/get-all",
@@ -44,7 +46,7 @@ export const soDocChiSo = createAsyncThunk(
   }
 );
 export const logoutUser = () => (dispatch) => {
-  dispatch(logout());
+    dispatch(logout());
 
-  console.log("logged out");
+    console.log("logged out");
 };
