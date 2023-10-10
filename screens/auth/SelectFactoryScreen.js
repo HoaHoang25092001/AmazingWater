@@ -26,7 +26,7 @@ const height = Dimensions.get("window").height;
 const overlayHeight = height / 5;
 
 const image = {
-  uri: "https://nha-may-nuoc-fe.vercel.app/static/media/bia.bc4041acd559e5dfda26.gif",
+  uri: "https://nmn-dev.amazingtech.vn/static/media/bia.bc4041acd559e5dfda26.gif",
 };
 
 const SelectFactoryScreen = ({ navigation }) => {

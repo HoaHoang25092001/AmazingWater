@@ -50,3 +50,21 @@ export const filterSoDocApi = async (filterParams) => {
     throw error.response.data;
   }
 };
+export const tuyenDocAllApi = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/tuyen-doc/get-all`);
+    return response.data;
+  } catch (error) {
+    console.log("data error", error.response.data);
+    throw error.response.data;
+  }
+};
+export const khuVucAllApi = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/khu-vuc/get-all`);
+    return response.data;
+  } catch (error) {
+    console.log("data error", error.response.data);
+    throw error.response.data;
+  }
+};
