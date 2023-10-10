@@ -159,10 +159,6 @@ const TableCreateMuti = () => {
   const [isCheckBox, setIsCheckBox] = useState(false);
   const [isCheckAll, setIsCheckAll] = useState(false);
 
-  useEffect(() => {
-    console.log("Data", isCheckBox);
-  }, [isCheckBox]);
-
   const totalPages = Math.ceil(data.length / itemsPerPage);
   // Hàm xử lý khi người dùng chuyển đổi trang
   const paginatedData = data.slice(
