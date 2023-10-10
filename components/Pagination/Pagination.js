@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { Box, CheckIcon, Select } from "native-base";
-
 const Pagination = ({
   totalPages,
   currentPage,
@@ -17,10 +16,11 @@ const Pagination = ({
     setService(itemValue), setItemsPerPage(itemValue);
   };
 
+  const maxVisiblePageNumbers = 4; // Số lượng số trang hiển thị tối đa
+  const halfVisiblePageNumbers = Math.floor(maxVisiblePageNumbers / 2);
+
   const getPageNumbers = () => {
     const pageNumbers = [];
-    const maxVisiblePageNumbers = 5; // Số lượng số trang hiển thị tối đa
-    const halfVisiblePageNumbers = Math.floor(maxVisiblePageNumbers / 2);
 
     if (totalPages <= maxVisiblePageNumbers) {
       // Nếu tổng số trang nhỏ hơn hoặc bằng maxVisiblePageNumbers, hiển thị tất cả các số trang
@@ -32,12 +32,18 @@ const Pagination = ({
       for (let i = 1; i <= maxVisiblePageNumbers; i++) {
         pageNumbers.push(i);
       }
-      pageNumbers.push("...");
+      if (currentPage < totalPages - halfVisiblePageNumbers) {
+        // Chỉ hiển thị "..." khi currentPage không ở phía cuối danh sách trang
+        pageNumbers.push("...");
+      }
       pageNumbers.push(totalPages);
-    } else if (currentPage > totalPages - halfVisiblePageNumbers) {
+    } else if (currentPage >= totalPages - halfVisiblePageNumbers) {
       // Nếu trang hiện tại nằm ở phía cuối, hiển thị các số trang cuối cùng
       pageNumbers.push(1);
-      pageNumbers.push("...");
+      if (currentPage > halfVisiblePageNumbers + 1) {
+        // Chỉ hiển thị "..." khi currentPage không ở phía đầu danh sách trang
+        pageNumbers.push("...");
+      }
       for (
         let i = totalPages - maxVisiblePageNumbers + 1;
         i <= totalPages;
@@ -48,7 +54,10 @@ const Pagination = ({
     } else {
       // Nếu trang hiện tại nằm ở giữa, hiển thị các số trang ở giữa
       pageNumbers.push(1);
-      pageNumbers.push("...");
+      if (currentPage > halfVisiblePageNumbers + 1) {
+        // Chỉ hiển thị "..." khi currentPage không ở phía đầu danh sách trang
+        pageNumbers.push("...");
+      }
       for (
         let i = currentPage - halfVisiblePageNumbers;
         i <= currentPage + halfVisiblePageNumbers;
@@ -56,12 +65,16 @@ const Pagination = ({
       ) {
         pageNumbers.push(i);
       }
-      pageNumbers.push("...");
+      if (currentPage < totalPages - halfVisiblePageNumbers) {
+        // Chỉ hiển thị "..." khi currentPage không ở phía cuối danh sách trang
+        pageNumbers.push("...");
+      }
       pageNumbers.push(totalPages);
     }
 
     return pageNumbers;
   };
+
   return (
     <View style={styles.paginationBtn}>
       <View style={styles.paginationContainer}>
@@ -71,13 +84,19 @@ const Pagination = ({
             style={[
               styles.paginationButton,
               currentPage === pageNumber && styles.paginationButtonActive,
+              pageNumber === "..." && styles.paginationButtonEllipsis,
             ]}
-            onPress={() => handlePageChange(pageNumber)}
+            onPress={() => {
+              if (pageNumber !== "...") {
+                handlePageChange(pageNumber);
+              }
+            }}
           >
             <Text
               style={[
                 styles.paginationText,
                 currentPage === pageNumber && styles.paginationTextActive,
+                pageNumber === "..." && styles.paginationTextEllipsis,
               ]}
             >
               {pageNumber}
@@ -121,7 +140,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 100
+    marginBottom: 100,
   },
   paginationButton: {
     paddingVertical: 5,

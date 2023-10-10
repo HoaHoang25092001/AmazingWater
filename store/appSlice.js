@@ -9,6 +9,7 @@ const authSlice = createSlice({
     error: null,
     noti: null,
     nhaMays: null,
+    data: [],
   },
   reducers: {
     loginStart: (state) => {
@@ -30,10 +31,29 @@ const authSlice = createSlice({
       state.token = null;
       state.noti = "Đăng xuất thành công";
     },
+    sodocStart: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    sodocSuccess: (state, action) => {
+      state.isLoading = false;
+      state.data = action.payload.data;
+    },
+    sodocFailure: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
-  authSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+  sodocStart,
+  sodocSuccess,
+  sodocFailure,
+} = authSlice.actions;
 
 export default authSlice.reducer;
