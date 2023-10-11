@@ -41,9 +41,6 @@ import { List } from "react-native-paper";
 import * as React from "react";
 import PaymentScreen from "../screens/user/PaymentScreen";
 import TestTable from "../screens/user/TestTable";
-import ForgetPasswordScreen from "../screens/auth/ForgetPasswordScreen";
-import ConfirmOTPScreen from "../screens/auth/ConfirmOTPScreen";
-import InvoiceScreen from "../screens/user/InvoiceScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -192,15 +189,11 @@ const MyDrawer = ({ service }) => {
         component={InputIndexScreen}
         options={{ drawerLabel: "Nhập chỉ số" }}
       />
+
       <Drawer.Screen
         name="Sổ thanh toán"
         component={PaymentRecordScreen}
         options={{ drawerLabel: "Sổ thanh toán" }}
-      />
-      <Drawer.Screen
-        name="Hóa đơn"
-        component={InvoiceScreen}
-        options={{ drawerLabel: "Hóa đơn" }}
       />
       <Drawer.Screen
         name="Thanh toán"
@@ -240,8 +233,6 @@ const RootNavigation = () => {
             name="InvoiceInformationScreen"
             component={InvoiceInformationScreen}
           />
-          <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen} />
-          <Stack.Screen name="ConfirmOTPScreen" component={ConfirmOTPScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
