@@ -41,9 +41,7 @@ import { List } from "react-native-paper";
 import * as React from "react";
 import PaymentScreen from "../screens/user/PaymentScreen";
 import TestTable from "../screens/user/TestTable";
-
 import { ServiceProvider, useService } from "../ServiceContext";
-
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
