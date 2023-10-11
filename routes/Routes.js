@@ -41,18 +41,21 @@ import { List } from "react-native-paper";
 import * as React from "react";
 import PaymentScreen from "../screens/user/PaymentScreen";
 import TestTable from "../screens/user/TestTable";
+import { ServiceProvider, useService } from "../ServiceContext";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const MyDrawer = ({ service }) => {
+const MyDrawer = () => {
   const name = useSelector((state) => state.auth.name);
   const notification = useSelector((state) => state.auth.noti);
   const nhaMays = useSelector((state) => state.auth.nhaMays);
   const route = useRoute();
   const receivedData = route.params?.dataService;
+  const { service, setService } = useService();
   console.log("name here", name);
   console.log("tenNhaMay here", nhaMays);
+  console.log("Value", service);
 
   const navigation = useNavigation();
 
@@ -65,7 +68,9 @@ const MyDrawer = ({ service }) => {
       dispatch(logoutUser());
       navigation.navigate("login");
     };
-    const [expanded, setExpanded] = React.useState(true);
+    const handleServiceChange = (itemValue) => {
+      setService(itemValue);
+    };
 
     return (
       <View style={{ flex: 1 }}>
@@ -92,7 +97,8 @@ const MyDrawer = ({ service }) => {
             <Select
               mb={5}
               fontFamily="Quicksand_700Bold"
-              defaultValue={receivedData}
+              defaultValue={service}
+              selectedValue={service}
               minWidth="200"
               minHeight="45"
               bg="steal.600"
@@ -120,32 +126,53 @@ const MyDrawer = ({ service }) => {
                 },
               }}
               mt={1}
+              onValueChange={handleServiceChange}
             >
               {nhaMays?.map((item) => (
                 <Select.Item
                   key={item.nhaMayId}
                   label={item.tenNhaMay}
-                  value={item.tenNhaMay}
+                  value={item.nhaMayId}
                   color="green.500"
                 />
               ))}
+              <Select.Item
+                key="Tất cả"
+                label="Tất cả"
+                value="123456"
+                color="green.500"
+              />
             </Select>
           </Center>
-          <List.Section title="Accordions">
-            <List.Accordion
+          <List.Accordion
+            fontFamily="Quicksand_500Medium"
+            title="Ghi chỉ số & hóa đơn"
+            left={(props) => (
+              <List.Icon {...props} color="black" icon="pencil" />
+            )}
+            titleStyle={{ color: "black" }}
+          >
+            <DrawerItem
+              label="Sổ đọc chỉ số"
               fontFamily="Quicksand_500Medium"
-              title="Sổ ghi chỉ số"
-              left={(props) => <List.Icon {...props} icon="folder" />}
-            >
-              <List.Item title="First item" />
-              <List.Item title="Second item" />
-              <DrawerItem
-                label="Sổ đọc chỉ số"
-                fontFamily="Quicksand_500Medium"
-                onPress={() => navigation.navigate("Sổ đọc chỉ số")}
-              />
-            </List.Accordion>
-          </List.Section>
+              onPress={
+                () =>
+                  navigation.navigate("Sổ đọc chỉ số", { serviceData: service }) // Truyền giá trị "service" vào params
+              }
+            />
+          </List.Accordion>
+          <List.Accordion
+            fontFamily="Quicksand_500Medium"
+            title="Thu tiền"
+            left={(props) => <List.Icon {...props} color="black" icon="cash" />}
+            titleStyle={{ color: "black", paddingTop: 10 }}
+          >
+            <DrawerItem
+              label="Thanh toán"
+              fontFamily="Quicksand_500Medium"
+              onPress={() => navigation.navigate("Thanh toán")}
+            />
+          </List.Accordion>
 
           <DrawerItemList {...props} />
         </DrawerContentScrollView>
@@ -243,7 +270,9 @@ const RootNavigation = () => {
 const Routes = () => {
   return (
     <Provider store={store}>
-      <RootNavigation />
+      <ServiceProvider>
+        <RootNavigation />
+      </ServiceProvider>
     </Provider>
   );
 };

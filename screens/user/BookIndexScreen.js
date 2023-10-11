@@ -9,6 +9,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRoute } from "@react-navigation/native";
 import { AppLoading } from "expo";
 import {
   Avatar,
@@ -38,6 +39,7 @@ import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import DatePicker, { getToday } from "react-native-modern-datepicker";
 import { Toast } from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
+import { soDocChiSoApi, soDocChiSoTheoNMApi } from "../../api/user";
 import AccordionCustom from "../../components/AcordionCustom/AcordionCustom";
 import DateTimeCustom from "../../components/DateTimeCustom/DateTimeCustom";
 import Quicksand from "../../components/Fonts/QuickSand";
@@ -47,8 +49,10 @@ import StaggerCustom from "../../components/StaggerCustom/StaggerCustom";
 import TableCreateMuti from "../../components/TableList/TableCreateMuti";
 import TableList from "../../components/TableList/TableList";
 import { colors } from "../../constants";
+import { useService } from "../../ServiceContext";
+import { soDocChiSo } from "../../store/asyncAction";
 
-export default function BookIndexScreen({ navigation }) {
+export default function BookIndexScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [date, setDate] = useState("");
   const [showPickDate, setShowPickDate] = useState(false);
@@ -61,228 +65,9 @@ export default function BookIndexScreen({ navigation }) {
   const [modalCreated, setModalCreated] = useState(false);
   const [modalCreateMuti, setModalCreatedMuti] = useState(false);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
-  const data = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      tuyen: "Tuyến 0",
-      canbo: "Cán bộ 0",
-      tenso: "Tên sổ 0",
-      chuaghi: "Chưa ghi 0",
-      chotso: "Chốt sổ 0",
-      trangthai: "Trạng thái 0",
-      ngaychot: "Ngày chốt 0",
-      hoadon: "Hóa đơn 0",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb21238112",
-      tuyen: "Tuyến 2",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb23128112",
-      tuyen: "Tuyến 3",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53ab3123b28112",
-      tuyen: "Tuyến 4",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-11321",
-      tuyen: "Tuyến 5",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-123",
-      tuyen: "Tuyến 6",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53ab123b28112",
-      tuyen: "Tuyến 7",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28123112",
-      tuyen: "Tuyến 8",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb21328112",
-      tuyen: "Tuyến 9",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53ab12323b2811232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad5331243abb2811232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad312353abb2811232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad5231233abb2811232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-123123123",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28312311232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-1232312",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb123452811232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb243423811232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb2431811232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28123411232",
-      tuyen: "Tuyến 10",
-      canbo: "Cán bộ 1",
-      tenso: "Tên sổ 1",
-      chuaghi: "Chưa ghi 1",
-      chotso: "Chốt sổ 1",
-      trangthai: "Trạng thái 1",
-      ngaychot: "Ngày chốt 1",
-      hoadon: "Hóa đơn 1",
-    },
-  ];
+  const [data, setData] = useState([]);
+  const [dataFilter, setDataFilter] = useState([]);
+  const { service, setService } = useService();
   const title = [
     {
       id: "2",
@@ -332,6 +117,7 @@ export default function BookIndexScreen({ navigation }) {
   const handleOpenDatePickerModal = () => {
     setShowDatePickerModal(true);
   };
+  const dispatch = useDispatch();
   const renderItem = ({ item, index }) => (
     <HStack h={10} key={index}>
       <Box
@@ -436,18 +222,34 @@ export default function BookIndexScreen({ navigation }) {
   });
 
   const isLoading = useSelector((state) => state.auth.isLoading);
-
   useEffect(() => {
-    console.log("Loading", isLoading);
-  }, []);
+    async function fetchData() {
+      console.log("Fetching data...", service);
+      try {
+        let response;
+        if (service === "123456") {
+          response = await soDocChiSoApi();
+        } else {
+          response = await soDocChiSoTheoNMApi(service);
+        }
+        console.log("Data API:", response.data);
+        const data = response.data;
+        setData(data);
+      } catch (error) {
+        console.error("Lỗi data API:", error);
+      }
+    }
+
+    if (service) {
+      // Gọi fetchData chỉ khi service tồn tại
+      fetchData();
+    }
+  }, [service]);
   if (fontsLoaded) {
     return (
       <View>
         <VStack space={4}>
-          <AccordionCustom
-            setShowDatePickerModal={setShowDatePickerModal}
-            selectedDate={selectedDate}
-          />
+          <AccordionCustom data={data} setData={setData} />
           <TableList title={title} data={data} />
           <MenuButton
             setModalVisible={setModalVisible}
