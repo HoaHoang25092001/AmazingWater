@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const API_URL = "https://api-awa-dev.amazingtech.vn";
@@ -8,7 +9,8 @@ export const loginApi = async (credentials) => {
       `${API_URL}/api/auth/authenticate`,
       credentials
     );
-    console.log("data", response.data);
+    console.log("dat1a", response.data);
+    await AsyncStorage.setItem("token", response.data.token);
     return response.data;
   } catch (error) {
     console.log("data error", error.response.data);

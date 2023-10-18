@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.5",
     "@expo-google-fonts/quicksand": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
     "@hero-design/react-native-month-year-picker": "^9.5.3-rc.0",
@@ -20,6 +21,8 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
+    "apollo-link": "^1.2.14",
+    "apollo-link-context": "^1.0.20",
     "axios": "^1.5.0",
     "date-fns": "^2.30.0",
     "expo": "^48.0.0",
@@ -35,6 +38,7 @@
     "native-base": "^3.4.28",
     "npm": "^9.8.1",
     "pod-install": "^0.1.39",
+    "radio-buttons-react-native": "^1.0.4",
     "react": "18.2.0",
     "react-native": "^0.72.3",
     "react-native-asset": "^2.1.1",
@@ -43,6 +47,7 @@
     "react-native-datatable-component": "^2.1.14",
     "react-native-date-picker": "^4.3.3",
     "react-native-datepicker": "^1.7.2",
+    "react-native-flexi-radio-button": "^0.2.2",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-internet-connection-alert": "^0.1.9",
     "react-native-link": "^4.1.0",
@@ -54,6 +59,7 @@
     "react-native-month-year-picker": "^1.9.0",
     "react-native-paper": "^5.10.4",
     "react-native-progress": "^5.0.0",
+    "react-native-radio-button-content": "^1.0.7",
     "react-native-reanimated": "^2.14.4",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.23.0",
@@ -70,6 +76,7 @@
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
+    "rn-radio-button-group": "^1.0.2",
     "save": "^2.9.0"
   },
   "devDependencies": {

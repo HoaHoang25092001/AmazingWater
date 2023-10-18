@@ -1,26 +1,75 @@
-import DataTable, { COL_TYPES } from "react-native-datatable-component";
+import React, { useEffect } from "react";
+import { View, Text, ActivityIndicator } from "react-native";
+import { useQuery } from "@apollo/client";
+import gql from "graphql-tag";
+import { useDispatch, useSelector } from "react-redux";
+import { hopDong } from "../../store/asyncAction";
 
-const SomeCom = () => {
-  //You can pass COL_TYPES.CHECK_BOX Column's value in true/false, by default it will be false means checkBox will be uncheck!
+const GET_HOP_DONGS = gql`
+  query {
+    GetHopDongs(first: 100) {
+      nodes {
+        keyId
+        id
+        camKetSuDungNuoc
+        chungTu
+        createdBy
+        diachi
+        khachHang {
+          tenKhachHang
+        }
+        dongHoNuocs {
+          maDHThay
+          tenDongHo
+        }
+      }
+    }
+  }
+`;
 
-  const data = [
-    { menu: "Chicken Biryani", select: false }, //If user select this row then this whole object will return to you with select true in this case
-    { menu: "Chiken koofta", select: true },
-    { menu: "Chicken sharwma", select: true },
-  ];
+function TestTable() {
+  const dispatch = useDispatch();
 
-  const nameOfCols = ["menu", "select"];
+  const fetchGraphQLData = () => {
+    dispatch(hopDong(GET_HOP_DONGS));
+    console.log("Data ne", data);
+  };
 
+  useEffect(() => {
+    fetchGraphQLData();
+  }, []);
+  const { loading, error, data } = useQuery(GET_HOP_DONGS);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
+  const hopDongs = data.GetHopDongs.nodes;
   return (
-    <DataTable
-      onRowSelect={(row) => {
-        console.log("ROW => ", row);
-      }}
-      data={data}
-      colNames={nameOfCols}
-      colSettings={[{ name: "select", type: COL_TYPES.CHECK_BOX }]}
-    />
+    <View>
+      {hopDongs.map((hopDong) => (
+        <View key={hopDong.id}>
+          <Text>Key ID: {hopDong.keyId}</Text>
+          <Text>ID: {hopDong.id}</Text>
+          <Text>Cam Kết Sử Dụng Nước: {hopDong.camKetSuDungNuoc}</Text>
+          {/* Thêm các trường dữ liệu khác ở đây */}
+          {hopDong.khachHang && (
+            <Text>Tên Khách Hàng: {hopDong.khachHang.tenKhachHang}</Text>
+          )}
+          {hopDong.dongHoNuocs.map((dongHo) => (
+            <View key={dongHo.maDHThay}>
+              <Text>Mã Đồng Hồ Thay: {dongHo.maDHThay}</Text>
+              <Text>Tên Đồng Hồ: {dongHo.tenDongHo}</Text>
+            </View>
+          ))}
+        </View>
+      ))}
+    </View>
   );
-};
+}
 
-export default SomeCom;
+export default TestTable;

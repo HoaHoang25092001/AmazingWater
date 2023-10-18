@@ -55,7 +55,7 @@ const AccordionCustom = ({ data, setData }) => {
   const [selectedTenSo, setSelectedTenSo] = useState(null);
   const [allData, setAllData] = useState();
   const [allKVData, setAllKVData] = useState();
-  const [dateSelected, setDateSelected] = useState(null);
+  const [dateSelected, setDateSelected] = useState(moment());
 
   const handleFilterSoDoc = async () => {
     const filterParams = {
@@ -105,184 +105,183 @@ const AccordionCustom = ({ data, setData }) => {
   //   setData(responseData);
   //   console.log("data123123", responseData);
   // }, [handleFilterSoDoc]);
-  const [fontsLoaded] = useFonts({
-    Quicksand_700Bold,
-    Quicksand_500Medium,
-  });
-  if (fontsLoaded) {
-    return (
-      <List.Accordion
-        style={styles.accordionTitle}
-        titleStyle={{
-          color: colors.text,
-          fontWeight: 600,
-          fontFamily: "Quicksand_700Bold",
+  return (
+    <List.Accordion
+      style={styles.accordionTitle}
+      titleStyle={{
+        color: colors.text,
+        fontWeight: 600,
+        fontFamily: "Quicksand_700Bold",
+      }}
+      title="Tìm kiếm"
+    >
+      <ScrollView
+        style={{
+          backgroundColor: "white",
+          height: "40%",
         }}
-        title="Tìm kiếm"
       >
-        <ScrollView
-          style={{
-            backgroundColor: "white",
-          }}
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Chọn tháng</FormControl.Label>
+          <Button
+            variant="outline"
+            size="md"
+            colorScheme={"gray"}
+            onPress={() => setShowDatePickerModal(true)}
+          >
+            {moment(dateSelected).format("MM/YYYY")}
+          </Button>
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Cán bộ đọc</FormControl.Label>
+          <Input
+            size="md"
+            value={selectedCanBo}
+            onChangeText={(text) => setSelectedCanBo(text)}
+          />
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Tuyến đọc</FormControl.Label>
+
+          <Select
+            selectedValue={selectedTuyenDoc}
+            minWidth="200"
+            accessibilityLabel="Chọn tuyến đọc"
+            placeholder="Chọn tuyến đọc"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={(itemValue) => setSelectedTuyenDoc(itemValue)}
+          >
+            {allData?.map((item) => (
+              <Select.Item
+                key={item.id}
+                label={item.tenTuyen}
+                value={item.id}
+              />
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Trạng thái</FormControl.Label>
+
+          <Select
+            selectedValue={selectedTrangThai}
+            minWidth="200"
+            accessibilityLabel="Chọn trạng thái"
+            placeholder="Chọn trạng thái"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+          >
+            <Select.Item key={"1"} label="Đang ghi" value="1" />
+            <Select.Item key={"2"} label="Đã ngưng" value="2" />
+          </Select>
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Khu vực</FormControl.Label>
+          <Select
+            selectedValue={selectedKhuVuc}
+            minWidth="200"
+            accessibilityLabel="Chọn khu vực"
+            placeholder="Chọn khu vực"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={(itemValue) => setSelectedKhuVuc(itemValue)}
+          >
+            {allKVData?.map((item) => (
+              <Select.Item
+                key={item.id}
+                label={item.tenKhuVuc}
+                value={item.id}
+              />
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Kỳ GSC</FormControl.Label>
+          <Input
+            size="md"
+            value={selectedKyGhi}
+            onChangeText={(text) => setSelectedKyGhi(text)}
+          />
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Tên sổ</FormControl.Label>
+          <Input
+            size="md"
+            value={selectedTenSo}
+            onChangeText={(text) => setSelectedTenSo(text)}
+          />
+        </FormControl>
+        <Center>
+          <HStack mt="3" mb="3" style={{ alignContent: "space-between" }}>
+            <Button.Group space={2}>
+              <Button
+                variant={"outline"}
+                onPress={handleFilterSoDoc}
+                leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+              >
+                Tìm kiếm
+              </Button>
+              <Button
+                variant={"outline"}
+                onPress={handleTimMoi}
+                leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+              >
+                Tìm mới
+              </Button>
+            </Button.Group>
+          </HStack>
+        </Center>
+        <Modal
+          isOpen={showDatePickerModal}
+          onClose={() => setShowDatePickerModal(false)}
+          size="lg"
         >
-          <FormControl mt="3" style={styles.formControl}>
-            <FormControl.Label>Chọn tháng</FormControl.Label>
-            <Button
-              variant="outline"
-              size="md"
-              colorScheme={"gray"}
-              onPress={() => setShowDatePickerModal(true)}
-            >
-              {moment(dateSelected).format("MM/YYYY")}
-            </Button>
-          </FormControl>
-          <FormControl mt="3" style={styles.formControl}>
-            <FormControl.Label>Cán bộ đọc</FormControl.Label>
-            <Input
-              size="md"
-              value={selectedCanBo}
-              onChangeText={(text) => setSelectedCanBo(text)}
-            />
-          </FormControl>
-          <FormControl mt="3" style={styles.formControl}>
-            <FormControl.Label>Tuyến đọc</FormControl.Label>
-
-            <Select
-              selectedValue={selectedTuyenDoc}
-              minWidth="200"
-              accessibilityLabel="Chọn tuyến đọc"
-              placeholder="Chọn tuyến đọc"
-              _selectedItem={{
-                bg: "teal.600",
-                endIcon: <CheckIcon size="5" />,
-              }}
-              mt={1}
-              onValueChange={(itemValue) => setSelectedTuyenDoc(itemValue)}
-            >
-              {allData?.map((item) => (
-                <Select.Item label={item.tenTuyen} value={item.id} />
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl mt="3" style={styles.formControl}>
-            <FormControl.Label>Trạng thái</FormControl.Label>
-
-            <Select
-              selectedValue={selectedTrangThai}
-              minWidth="200"
-              accessibilityLabel="Chọn trạng thái"
-              placeholder="Chọn trạng thái"
-              _selectedItem={{
-                bg: "teal.600",
-                endIcon: <CheckIcon size="5" />,
-              }}
-              mt={1}
-              onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
-            >
-              <Select.Item label="Đang ghi" value="1" />
-              <Select.Item label="Đã ngưng" value="2" />
-            </Select>
-          </FormControl>
-          <FormControl mt="3" style={styles.formControl}>
-            <FormControl.Label>Khu vực</FormControl.Label>
-            <Select
-              selectedValue={selectedKhuVuc}
-              minWidth="200"
-              accessibilityLabel="Chọn khu vực"
-              placeholder="Chọn khu vực"
-              _selectedItem={{
-                bg: "teal.600",
-                endIcon: <CheckIcon size="5" />,
-              }}
-              mt={1}
-              onValueChange={(itemValue) => setSelectedKhuVuc(itemValue)}
-            >
-              {allKVData?.map((item) => (
-                <Select.Item
-                  key={item.id}
-                  label={item.tenKhuVuc}
-                  value={item.id}
-                />
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl mt="3" style={styles.formControl}>
-            <FormControl.Label>Kỳ GSC</FormControl.Label>
-            <Input
-              size="md"
-              value={selectedKyGhi}
-              onChangeText={(text) => setSelectedKyGhi(text)}
-            />
-          </FormControl>
-          <FormControl mt="3" style={styles.formControl}>
-            <FormControl.Label>Tên sổ</FormControl.Label>
-            <Input
-              size="md"
-              value={selectedTenSo}
-              onChangeText={(text) => setSelectedTenSo(text)}
-            />
-          </FormControl>
-          <Center>
-            <HStack mt="3" mb="3" style={{ alignContent: "space-between" }}>
+          <Modal.Content width={"90%"} maxH="600">
+            <Modal.CloseButton />
+            <Modal.Header>Chọn tháng</Modal.Header>
+            <Modal.Body>
+              <YearMonthPicker
+                dateSelected={dateSelected}
+                setDateSelected={setDateSelected}
+              />
+            </Modal.Body>
+            <Modal.Footer>
               <Button.Group space={2}>
                 <Button
-                  variant={"outline"}
-                  onPress={handleFilterSoDoc}
-                  leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+                  variant="ghost"
+                  colorScheme="blueGray"
+                  onPress={() => {
+                    setShowDatePickerModal(false);
+                  }}
                 >
-                  Tìm kiếm
+                  Cancel
                 </Button>
                 <Button
-                  variant={"outline"}
-                  onPress={handleTimMoi}
-                  leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+                  onPress={() => {
+                    setShowDatePickerModal(false);
+                    // Set the selectedDate value to the input when Save is pressed
+                  }}
                 >
-                  Tìm mới
+                  Save
                 </Button>
               </Button.Group>
-            </HStack>
-          </Center>
-          <Modal
-            isOpen={showDatePickerModal}
-            onClose={() => setShowDatePickerModal(false)}
-            size="lg"
-          >
-            <Modal.Content width={"90%"} maxH="600">
-              <Modal.CloseButton />
-              <Modal.Header>Chọn tháng</Modal.Header>
-              <Modal.Body>
-                <YearMonthPicker
-                  dateSelected={dateSelected}
-                  setDateSelected={setDateSelected}
-                />
-              </Modal.Body>
-              <Modal.Footer>
-                <Button.Group space={2}>
-                  <Button
-                    variant="ghost"
-                    colorScheme="blueGray"
-                    onPress={() => {
-                      setShowDatePickerModal(false);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      setShowDatePickerModal(false);
-                      // Set the selectedDate value to the input when Save is pressed
-                    }}
-                  >
-                    Save
-                  </Button>
-                </Button.Group>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
-        </ScrollView>
-      </List.Accordion>
-    );
-  }
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
+      </ScrollView>
+    </List.Accordion>
+  );
 };
 
 export default AccordionCustom;
