@@ -36,7 +36,7 @@ const MenuButton = ({
             style={{
               flexDirection: "column",
               alignSelf: "flex-end",
-              top: 650,
+              top: 500,
             }}
             variant="solid"
             h="50"

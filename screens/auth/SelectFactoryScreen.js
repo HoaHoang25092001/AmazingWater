@@ -5,6 +5,7 @@ import {
   Dimensions,
   Text,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import {
   Select,
@@ -15,11 +16,14 @@ import {
   FormControl,
   WarningOutlineIcon,
   HStack,
+  Skeleton,
+  VStack,
 } from "native-base";
 import { useSelector } from "react-redux";
 import { colors } from "../../constants";
 import { Ionicons } from "@expo/vector-icons";
 import { useService } from "../../ServiceContext";
+import { SafeAreaView } from "react-native";
 
 const windowWidth = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -33,6 +37,8 @@ const SelectFactoryScreen = ({ navigation }) => {
   const [error, setError] = useState("");
   const nhaMays = useSelector((state) => state.auth.nhaMays);
   const { service, setService } = useService();
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleService = (itemValue) => {
     setService(itemValue);
     console.log("Service", service);
@@ -42,7 +48,11 @@ const SelectFactoryScreen = ({ navigation }) => {
       setError("Vui lòng chọn nhà máy");
       console.log("Error", error);
     } else {
-      navigation.navigate("mydrawer");
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigation.navigate("mydrawer");
+      }, 100);
     }
   };
   return (
@@ -119,6 +129,20 @@ const SelectFactoryScreen = ({ navigation }) => {
             <WarningOutlineIcon size="xs" style={{ color: "red" }} />
             <Text style={{ color: "red", paddingBottom: 5 }}>{error}</Text>
           </HStack>
+        )}
+        {loading && (
+          <VStack space={2}>
+            <ActivityIndicator size="large" color="white" />
+            <Text
+              style={{
+                color: "white",
+                paddingBottom: 5,
+                fontFamily: "Quicksand_700Bold",
+              }}
+            >
+              Vui lòng chờ trong giấy lát
+            </Text>
+          </VStack>
         )}
       </View>
     </ImageBackground>
