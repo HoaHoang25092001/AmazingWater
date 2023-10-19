@@ -8,7 +8,7 @@ import { colors } from '../../constants';
 const StateModel = ({ visible, onClose }) => {
     return (
         <View style={styles.centeredView}>
-            <Modal isOpen={visible} onClose={onClose}>
+            <Modal isOpen={visible}>
                 <Modal.Content maxWidth="400px">
                     <Modal.CloseButton />
                     <Modal.Header>Tình hình trạng thái</Modal.Header>

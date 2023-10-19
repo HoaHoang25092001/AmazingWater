@@ -83,7 +83,7 @@ const WriteIndexDetail = ({ navigation }) => {
 
   const renderItem = ({ item }) => (
     <Box
-      style={{ borderRadius: 5, shadowOpacity: 0.1 }}
+      style={{ borderRadius: "5px", shadowOpacity: 0.1 }}
       backgroundColor="white"
       mt={2}
       mb={2}

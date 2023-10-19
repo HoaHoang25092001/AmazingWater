@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   accordionTitle: {
     backgroundColor: "#cccc",
     height: 55,
-    borderRadius: 15,
+    borderRadius: "15px",
     padding: 3,
   },
   formControl: {

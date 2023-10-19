@@ -529,7 +529,7 @@ const PaymentScreen = () => {
               return (
                 <Button
                   alignSelf="flex-end"
-                  position={"absolute"}
+                  position={"fixed"}
                   style={{
                     boxShadow: "0px 0px 10px 2px rgba(0, 128, 255, 0.7)", // Sử dụng màu xanh trong boxShadow
                     backgroundColor: "red",
@@ -538,8 +538,7 @@ const PaymentScreen = () => {
                   h="50"
                   w="50"
                   {...triggerProps}
-                  borderRadius={50}
-
+                  borderRadius={"50"}
                 >
                   <Ionicons
                     name={"add-outline"}

@@ -17,7 +17,6 @@ export default colors = {
   blue_700: "#1d4ed8",
   orange_400: "#fb923c",
   orange_300: "#fdba74",
-  moccasin: '#ffe4b5',
   emerald_300: "#6ee7b7",
   danger_500: "#f43f5e",
   indigo_400: "#818cf8",

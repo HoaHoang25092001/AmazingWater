@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-
 const API_URL = "https://api-awa-dev.amazingtech.vn";
 
 export const loginApi = async (credentials) => {
@@ -18,19 +17,6 @@ export const loginApi = async (credentials) => {
     throw error.response.data;
   }
 };
-
-export const apiForgotPassword = (data) => axios({
-  url: 'auth/forgot-password',
-  method: 'POST',
-  data
-})
-
-export const apiResetPassword = (data) => axios({
-  url: 'auth/reset-password',
-  method: 'POST',
-  data
-})
-
 export const soDocChiSoApi = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/so-doc-chi-so/get-all`);
