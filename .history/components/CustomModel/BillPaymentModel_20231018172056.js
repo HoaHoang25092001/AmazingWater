@@ -57,15 +57,15 @@ const BillPaymentModel = ({ visible, onClose }) => {
         setFilteredCustomerNames(newFilteredCustomerNames);
     }, [rows, searchField]);
 
-    const onValueChange = (text) => {
-        const customerNameFieldString = text.toLocaleLowerCase();
+    const onValueChange = (event) => {
+        const customerNameFieldString = event.target.value.toLocaleLowerCase();
         setSearchField(customerNameFieldString);
     };
 
     const data = filteredCustomerNames?.map((customerName, index) => {
         return (
             <View style={{ width: '100%' }}>
-                <View  style={{ width: '90%' }}>
+                <View key={index} id={customerName.id} style={{ width: '90%' }}>
                     <Text>{customerName.name}</Text>
                 </View>
             </View>
@@ -154,7 +154,7 @@ const BillPaymentModel = ({ visible, onClose }) => {
                                     <Input mx="3" placeholder="Tên khách hàng" w="100%" onChangeText={onValueChange} />
                                 </Box>
                                 <Box maxW="100%">
-                                {data}
+                                    {data}
                                 </Box>
                                 <Text fontFamily="Quicksand_500Medium">Ghi chú:</Text>
                                 <TextArea

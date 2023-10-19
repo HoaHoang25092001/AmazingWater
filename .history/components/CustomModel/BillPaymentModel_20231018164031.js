@@ -12,34 +12,32 @@ import moment from "moment";
 import { colors } from '../../constants';
 
 const rows = [{
-    id: 1,
-    name: "Johnny",
-    nick: "@johny",
+    "id": "1",
+    "name": "Johnny",
+    "nick": "@johny",
 }, {
-    id: 2,
-    name: "Johnny",
-    nick: "@johny",
+    "id": "2",
+    "name": "Johnny",
+    "nick": "@johny",
 }, {
-    id: 3,
-    name: "Alex",
-    nick: "@alex",
+    "id": "3",
+    "name": "Alex",
+    "nick": "@alex",
 }, {
-    id: 4,
-    name: "Johnny",
-    nick: "@johny",
+    "id": "4",
+    "name": "Johnny",
+    "nick": "@johny",
 }];
 
 const BillPaymentModel = ({ visible, onClose }) => {
     const [officerRead, setOfficerRead] = useState("");
     const [readingRoute, setReadingRoute] = useState("");
     const [customerNameField, setCustomerNameField] = useState("");
-    const [filteredCustomerNames, setFilteredCustomerNames] = useState(rows);
+    const [filteredCustomerNames, setFilteredCustomerNames] = useState("");
     const [searchField, setSearchField] = useState('');
     const [scope, setScope] = useState("");
     const [selectedMonth, setSelectedMonth] = useState("MM-YYYY");
     const [showDatePickerModal, setShowDatePickerModal] = useState(false);
-
-
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -57,16 +55,16 @@ const BillPaymentModel = ({ visible, onClose }) => {
         setFilteredCustomerNames(newFilteredCustomerNames);
     }, [rows, searchField]);
 
-    const onValueChange = (text) => {
-        const customerNameFieldString = text.toLocaleLowerCase();
+    const onValueChange = (event) => {
+        const customerNameFieldString = event.target.value.toLocaleLowerCase();
         setSearchField(customerNameFieldString);
     };
 
-    const data = filteredCustomerNames?.map((customerName, index) => {
+    const data = filteredCustomerNames.map((customerName, index) => {
         return (
             <View style={{ width: '100%' }}>
-                <View  style={{ width: '90%' }}>
-                    <Text>{customerName.name}</Text>
+                <View key={index} id={index} style={{ width: '90%' }}>
+                    <Text>{customerName}</Text>
                 </View>
             </View>
         )
@@ -153,8 +151,8 @@ const BillPaymentModel = ({ visible, onClose }) => {
                                 <Box maxW="100%" alignItems="center">
                                     <Input mx="3" placeholder="Tên khách hàng" w="100%" onChangeText={onValueChange} />
                                 </Box>
-                                <Box maxW="100%">
-                                {data}
+                                <Box>
+                                    {data}
                                 </Box>
                                 <Text fontFamily="Quicksand_500Medium">Ghi chú:</Text>
                                 <TextArea

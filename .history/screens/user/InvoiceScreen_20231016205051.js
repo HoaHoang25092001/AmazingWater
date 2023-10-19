@@ -25,9 +25,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from "../../constants";
 import TableList from "../../components/TableList/TableList";
 import CustomButtonInvoice from "../../components/CustomButton/CustomButtonInvoice";
-import { AddInvoiceModel, BillPaymentModel, EditInvoiceModel } from "../../components/CustomModel";
+import BillPaymentModel from "../../components/CustomModel/BillPaymentModel";
+import AddInvoiceModel from "../../components/CustomModel/AddInvoiceModel";
 import CustomButtonExtensions from "../../components/CustomButton/CustomButtonExtensions";
 import StateModel from "../../components/CustomModel/StateModel";
+import { EditInvoiceModel } from "../../components/CustomModel";
 import { getAllReadingRoutes } from "../../store/readingRoute/asyncAction"
 import { useDispatch, useSelector } from "react-redux";
 import * as apis from "../../api"
@@ -327,9 +329,7 @@ const InvoiceScreen = () => {
     if (fontsLoaded) {
         return (
             <View style={styles.container}>
-                <VStack space={4}>
-                    <TableList title={title} data={data} renderItem={renderItem} />
-                </VStack>
+
                 <Box w="95%" h="70%" alignItems="center">
                     <Menu
                         w="200"
@@ -375,7 +375,7 @@ const InvoiceScreen = () => {
                 {/* Models */}
                 <BillPaymentModel visible={showBillPaymentModel} onClose={() => setShowBillPaymentModel(false)} />
                 <AddInvoiceModel visible={showAddInvoiceModel} onClose={() => setShowAddInvoiceModel(false)} />
-                <EditInvoiceModel visible={showEditInvoiceModel} onClose={() => setShowEditInvoiceModel(false)} />
+                
                 <StateModel visible={showState} onClose={() => setShowStateModel(false)} />
             </View>
         )

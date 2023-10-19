@@ -43,13 +43,6 @@ import { List } from "react-native-paper";
 import * as React from "react";
 import { ServiceProvider, useService } from "../ServiceContext";
 import InvoiceScreen from "../screens/user/InvoiceScreen";
-import {
-  useFonts,
-  Quicksand_700Bold,
-  Quicksand_500Medium,
-} from "@expo-google-fonts/quicksand";
-import { ApolloClient, ApolloProvider } from "@apollo/client";
-import client from "../config/apolloClient";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -173,7 +166,7 @@ const MyDrawer = () => {
               fontFamily="Quicksand_500Medium"
               onPress={
                 () =>
-                  navigation.navigate("Hóa đơn") // Truyền giá trị "service" vào params
+                  navigation.navigate("Hóa đơn", { serviceData: service }) // Truyền giá trị "service" vào params
               }
             />
           </List.Accordion>
@@ -289,20 +282,12 @@ const RootNavigation = () => {
 };
 
 const Routes = () => {
-  const [fontsLoaded] = useFonts({
-    Quicksand_700Bold,
-    Quicksand_500Medium,
-  });
-  if (fontsLoaded) {
-    return (
-      <Provider store={store}>
-        <ServiceProvider>
-          <ApolloProvider client={client}>
-            <RootNavigation />
-          </ApolloProvider>
-        </ServiceProvider>
-      </Provider>
-    );
-  }
+  return (
+    <Provider store={store}>
+      <ServiceProvider>
+        <RootNavigation />
+      </ServiceProvider>
+    </Provider>
+  );
 };
 export default Routes;
