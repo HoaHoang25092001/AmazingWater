@@ -43,7 +43,7 @@ const MenuButton = ({
             w="50"
             {...triggerProps}
             right={2}
-            borderRadius={"50%"}
+            borderRadius={50}
             onPress={() => {
               onToggle();
             }}
