@@ -15,28 +15,24 @@ import { useSelector } from "react-redux";
 
 
 export const loginUser = createAsyncThunk(
-    "auth/authenticate",
-    async (credentials, { dispatch }) => {
-        try {
-            dispatch(loginStart());
-            const data = await loginApi(credentials);
-            dispatch(loginSuccess(data));
-            // Store the token in AsyncStorage after successful login
-            console.log("respone data", data.username);
-            await AsyncStorage.setItem("username", data.username);
-        } catch (error) {
-            console.log("Errorrrrrrrrr:", error.Message);
-            dispatch(loginFailure(error.Message));
-        }
+  "auth/authenticate",
+  async (credentials, { dispatch }) => {
+    try {
+      dispatch(loginStart());
+      const data = await loginApi(credentials);
+      dispatch(loginSuccess(data));
+      // Store the token in AsyncStorage after successful login
+    } catch (error) {
+      console.log("Errorrrrrrrrr:", error.Message);
+      dispatch(loginFailure(error.Message));
+
     }
 );
 export const soDocChiSo = createAsyncThunk(
   "so-doc-chi-so/get-all",
   async ({ dispatch }) => {
     try {
-      dispatch(sodocStart());
       const data = await soDocChiSoApi();
-      dispatch(sodocSuccess(data));
       // Store the token in AsyncStorage after successful login
       console.log("respone data so doc chi so", data.tenSo);
     } catch (error) {
@@ -45,6 +41,21 @@ export const soDocChiSo = createAsyncThunk(
     }
   }
 );
+
+export const hopDong = createAsyncThunk(
+  "hop-dong/get-all",
+  async (query, { getState }) => {
+    try {
+      // Thực hiện yêu cầu GraphQL ở đây, sử dụng Apollo Client hoặc phương thức bạn đã sử dụng.
+      const response = await hopDongGraphQL.query({ query });
+      console.log("respone GraphQL", response);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const logoutUser = () => (dispatch) => {
     dispatch(logout());
 

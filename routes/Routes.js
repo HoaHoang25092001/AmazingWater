@@ -42,6 +42,13 @@ import * as React from "react";
 import PaymentScreen from "../screens/user/PaymentScreen";
 import TestTable from "../screens/user/TestTable";
 import { ServiceProvider, useService } from "../ServiceContext";
+import {
+  useFonts,
+  Quicksand_700Bold,
+  Quicksand_500Medium,
+} from "@expo-google-fonts/quicksand";
+import { ApolloClient, ApolloProvider } from "@apollo/client";
+import client from "../config/apolloClient";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -268,12 +275,20 @@ const RootNavigation = () => {
 };
 
 const Routes = () => {
-  return (
-    <Provider store={store}>
-      <ServiceProvider>
-        <RootNavigation />
-      </ServiceProvider>
-    </Provider>
-  );
+  const [fontsLoaded] = useFonts({
+    Quicksand_700Bold,
+    Quicksand_500Medium,
+  });
+  if (fontsLoaded) {
+    return (
+      <Provider store={store}>
+        <ServiceProvider>
+          <ApolloProvider client={client}>
+            <RootNavigation />
+          </ApolloProvider>
+        </ServiceProvider>
+      </Provider>
+    );
+  }
 };
 export default Routes;
