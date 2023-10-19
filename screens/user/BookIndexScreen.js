@@ -265,21 +265,7 @@ export default function BookIndexScreen({ navigation, route }) {
     }
   }, [service]);
 
-  if (fontsLoaded) {
-    return (
-      <View>
-        <VStack space={4}>
-          <AccordionCustom data={data} setData={setData} />
-          <TableList title={title} data={data} renderItem={renderItem}/>
-          <MenuButton
-            setModalVisible={setModalVisible}
-            setModalCreated={setModalCreated}
-            setModalCreatedMuti={setModalCreatedMuti}
-            setOverlayVisible={setOverlayVisible}
-            navigation={navigation}
-          />
-        </VStack>
-
+ 
   const GET_HOP_DONGS = gql`
     query {
       GetHopDongs(first: 70) {
