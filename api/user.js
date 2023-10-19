@@ -39,6 +39,19 @@ export const soDocChiSoTheoNMApi = async (nhaMayId) => {
   }
 };
 
+export const createNewSoDocApi = async (filterParams) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/so-doc-chi-so/create-new-so-doc-chi-so`,
+      filterParams
+    );
+    console.log("Filtered data", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Filtered data error", error.response.data);
+    throw error.response.data;
+  }
+};
 export const filterSoDocApi = async (filterParams) => {
   try {
     const response = await axios.post(

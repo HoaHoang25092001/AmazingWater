@@ -1,10 +1,11 @@
-import { Box, HStack, ScrollView } from "native-base";
+import { Box, HStack, ScrollView, VStack } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-
+import { Checkbox } from "react-native-paper";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import Pagination from "../../components/Pagination";
-function TableTest({ data, error, loading }) {
+import AccordionCreateSoDoc from "../../components/AcordionCustom/AcordionCreateSoDoc";
+function TableTest({ data, loading }) {
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -15,6 +16,7 @@ function TableTest({ data, error, loading }) {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  const [checked, setChecked] = React.useState(false);
   const styles = StyleSheet.create({
     paginationContainer: {
       flexDirection: "row",
@@ -111,12 +113,9 @@ function TableTest({ data, error, loading }) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
-  if (error) {
-    return <Text>Error: {error.message}</Text>;
-  }
-
   return (
     <View>
+      <AccordionCreateSoDoc />
       <ScrollView horizontal nestedScrollEnabled={true}>
         <Box>
           <HStack
@@ -125,6 +124,17 @@ function TableTest({ data, error, loading }) {
               borderBottomRightRadius: 5,
             }}
           >
+            <Box
+              borderRightWidth={1}
+              borderBottomWidth={1}
+              borderColor="muted.200"
+              style={[styles.boxContent]}
+              pl={["5", "4"]}
+              pr={["5", "5"]}
+              py="2"
+            >
+              <Text style={styles.textTitle}></Text>
+            </Box>
             {title.map((item, index) => (
               <Box
                 key={index}
@@ -149,6 +159,24 @@ function TableTest({ data, error, loading }) {
             {paginatedData.map((hopDong, index) => (
               <TouchableOpacity>
                 <HStack minH={5}>
+                  <Box
+                    borderRightWidth={1}
+                    borderLeftWidth={1}
+                    style={styles.boxContent2}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text style={styles.textContent}>
+                      <Checkbox
+                        status={checked ? "checked" : "unchecked"}
+                        onPress={() => {
+                          setChecked(!checked);
+                        }}
+                      />
+                    </Text>
+                  </Box>
                   <Box
                     borderRightWidth={1}
                     borderLeftWidth={1}

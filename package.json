@@ -47,6 +47,7 @@
     "react-native-datatable-component": "^2.1.14",
     "react-native-date-picker": "^4.3.3",
     "react-native-datepicker": "^1.7.2",
+    "react-native-double-tap": "^1.0.1",
     "react-native-flexi-radio-button": "^0.2.2",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-internet-connection-alert": "^0.1.9",
@@ -77,7 +78,9 @@
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "rn-radio-button-group": "^1.0.2",
-    "save": "^2.9.0"
+    "save": "^2.9.0",
+    "react-dom": "18.2.0",
+    "@expo/webpack-config": "^18.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
