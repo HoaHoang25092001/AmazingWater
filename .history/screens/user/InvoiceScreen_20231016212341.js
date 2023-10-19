@@ -361,15 +361,7 @@ const InvoiceScreen = () => {
                         }}
                     >
                         <CustomButtonInvoice text={"Tính tiền"} color={colors.white} icon="calculator-outline" onPress={() => { setShowBillPaymentModel(true) }} textColor={colors.orange_400} />
-                        <CustomButtonInvoice text={"Tính tiền trả góp"} color={colors.dark} icon="calculator-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Thêm hóa đơn"} color={colors.blue_400} icon="add-circle-outline" onPress={() => { setShowAddInvoiceModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Sửa hóa đơn"} color={colors.white} icon="add-circle-outline" onPress={() => { setShowEditInvoiceModel(true) }} textColor={colors.orange_400} />
-                        <CustomButtonInvoice text={"Hóa đơn điện tử"} color={colors.white} icon="document-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.lightBlue_300} />
-                        <CustomButtonInvoice text={"Xem hóa đơn"} color={colors.white} icon="document-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.orange_400} />
-                        <CustomButtonInvoice text={"Gửi tin"} color={colors.blue_700} icon="mail-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Xem TH SD"} color={colors.blue_400} icon="menu-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonExtensions text={"Tiện ích"} color={colors.blue_700} icon="settings-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Chỉ số"} color={colors.orange_400} icon="bar-chart-outline" onPress={() => { setShowStateModel(true) }} textColor={colors.white} />
+                        
                     </Menu>
                 </Box>
                 {/* Models */}

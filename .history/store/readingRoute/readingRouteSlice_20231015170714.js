@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as actions from './asyncAction'
 
-export const invoiceSerialNumberListSlice = createSlice({
-    name: 'danh-muc-seri-hoa-don',
+export const readingRouteSlice = createSlice({
+    name: 'tuyen-doc',
     initialState: {
-        invoiceSerialNumberLists: null,
+        readingRoutes: null,
         errMessage: ''
     },
     reducers: {
@@ -16,25 +16,25 @@ export const invoiceSerialNumberListSlice = createSlice({
     },
     extraReducers: (builder) => {
         // Bắt đầu thực hiện action login (Promise pending)
-        builder.addCase(actions.getAllInvoiceSerialNumberLists.pending, (state) => {
+        builder.addCase(actions.getAllReadingRoutes.pending, (state) => {
             // Bật trạng thái loading
             state.isLoading = true;
         });
 
         // Khi thực hiện action login thành công (Promise fulfilled)
-        builder.addCase(actions.getAllInvoiceSerialNumberLists.fulfilled, (state, action) => {
+        builder.addCase(actions.getAllReadingRoutes.fulfilled, (state, action) => {
             // Tắt trạng thái loading, lưu thông tin user vào store
             state.isLoading = false;
-            state.invoiceSerialNumberLists = action.payload;
+            state.readingRoutes = action.payload;
         });
 
         // Khi thực hiện action login thất bại (Promise rejected)
-        builder.addCase(actions.getAllInvoiceSerialNumberLists.rejected, (state, action) => {
+        builder.addCase(actions.getAllReadingRoutes.rejected, (state, action) => {
             // Tắt trạng thái loading, lưu thông báo lỗi vào store
             state.isLoading = false;
             state.errorMessage = action.payload.message;
         });
     }
 })
-export const {logout } = invoiceSerialNumberListSlice.actions;
-export default invoiceSerialNumberListSlice.reducer;
+export const {logout } = readingRouteSlice.actions;
+export default readingRouteSlice.reducer;

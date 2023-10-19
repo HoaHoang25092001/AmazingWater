@@ -1,22 +1,16 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import React, { useState } from "react";
 import {
   Box,
-  Checkbox,
   CheckIcon,
   FlatList,
   HStack,
-  Radio,
   ScrollView,
   Select,
-  Text,
 } from "native-base";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import Pagination from "../Pagination";
-import { Ionicons } from "@expo/vector-icons";
-import { RadioButton } from "react-native-paper";
-import RadioButtonRN from "radio-buttons-react-native";
 
 const TableList = ({ title, data, renderItem }) => {
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
@@ -24,9 +18,6 @@ const TableList = ({ title, data, renderItem }) => {
   const [service, setService] = React.useState("");
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
-  const [checked, setChecked] = React.useState("first");
-  const [value, setValue] = React.useState();
-
   // Hàm xử lý khi người dùng chuyển đổi trang
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
@@ -62,7 +53,6 @@ const TableList = ({ title, data, renderItem }) => {
       fontSize: 14,
       color: colors.text,
       fontWeight: 600,
-      maxWidth: 300,
     },
     textTitle: {
       textAlign: "center",
@@ -71,42 +61,135 @@ const TableList = ({ title, data, renderItem }) => {
       fontFamily: "Quicksand_700Bold",
     },
     boxContent: {
-      width: boxTitleWidth,
-      borderBottomWidth: 1,
-      backgroundColor: "white",
-      minWidth: 60,
-    },
-    boxContent2: {
-      width: 60, // Set width to boxTitleWidth
+      width: boxTitleWidth, // Set width to boxTitleWidth
       borderBottomWidth: 1,
       backgroundColor: "white",
     },
     boxIndex: {
       minWidth: 60, // Set width to boxTitleWidth
       borderBottomWidth: 1,
-      backgroundColor: "rgb(250,250,250)",
+      backgroundColor: "white",
     },
     boxTitle: {
-      minWidth: boxTitleWidth,
+      width: boxTitleWidth,
       borderBottomWidth: 1,
       backgroundColor: "rgb(250,250,250)",
     },
-    emptyContainer: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 150,
-    },
-    emptyText: {
-      marginTop: 8,
-    },
   });
-  const dataItem = [
-    {
-      label: "data 1",
-    },
-  ];
 
+  // const renderItem = ({ item, index }) => (
+  //   <TouchableOpacity>
+  //     <HStack h={10} key={index}>
+  //       <Box
+  //         borderRightWidth={1}
+  //         borderLeftWidth={1}
+  //         style={styles.boxIndex}
+  //         borderColor="muted.200"
+  //         w={50}
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>{index + 1}</Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>{item.tenTuyenDoc}</Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>{item.nguoiQuanLyId}</Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>{item.tenSo}</Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>{item.chuaghi}</Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>
+  //           {item.chotSo ? "Đã chốt" : "Chưa chốt"}
+  //         </Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>
+  //           {item.trangThai === 1
+  //             ? "Đang ghi"
+  //             : item.trangThai === 2
+  //             ? "Đã ngừng"
+  //             : ""}
+  //         </Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>
+  //           {item.ngayChot
+  //             ? `${item.ngayChot.substring(8, 10)}/${item.ngayChot.substring(
+  //                 5,
+  //                 7
+  //               )}/${item.ngayChot.substring(0, 4)}`
+  //             : ""}
+  //         </Text>
+  //       </Box>
+  //       <Box
+  //         borderRightWidth={1}
+  //         style={styles.boxContent}
+  //         borderColor="muted.200"
+  //         pl={["5", "4"]}
+  //         pr={["5", "5"]}
+  //         py="2"
+  //       >
+  //         <Text style={styles.textContent}>{item.hoaDon}</Text>
+  //       </Box>
+  //     </HStack>
+  //   </TouchableOpacity>
+  // );
   return (
     <View>
       <ScrollView horizontal nestedScrollEnabled={true}>
@@ -134,7 +217,7 @@ const TableList = ({ title, data, renderItem }) => {
                 borderRightWidth={1}
                 borderBottomWidth={1}
                 borderColor="muted.200"
-                style={[styles.boxContent]}
+                style={[styles.boxTitle]}
                 pl={["5", "4"]}
                 pr={["5", "5"]}
                 py="2"
@@ -155,18 +238,6 @@ const TableList = ({ title, data, renderItem }) => {
               data={paginatedData}
               renderItem={renderItem}
               keyExtractor={(item) => item.id}
-              ListEmptyComponent={() => (
-                <View style={styles.emptyContainer}>
-                  <Ionicons
-                    name="md-information-circle"
-                    size={60}
-                    color="black"
-                  />
-                  <Text style={{ fontFamily: "Quicksand_700Bold" }}>
-                    Không tìm thấy dữ liệu
-                  </Text>
-                </View>
-              )}
             />
           </ScrollView>
         </Box>

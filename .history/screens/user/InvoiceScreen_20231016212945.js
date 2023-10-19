@@ -372,11 +372,7 @@ const InvoiceScreen = () => {
                         <CustomButtonInvoice text={"Chỉ số"} color={colors.orange_400} icon="bar-chart-outline" onPress={() => { setShowStateModel(true) }} textColor={colors.white} />
                     </Menu>
                 </Box>
-                {/* Models */}
-                <BillPaymentModel visible={showBillPaymentModel} onClose={() => setShowBillPaymentModel(false)} />
-                <AddInvoiceModel visible={showAddInvoiceModel} onClose={() => setShowAddInvoiceModel(false)} />
-                <EditInvoiceModel visible={showEditInvoiceModel} onClose={() => setShowEditInvoiceModel(false)} />
-                <StateModel visible={showState} onClose={() => setShowStateModel(false)} />
+                
             </View>
         )
     }

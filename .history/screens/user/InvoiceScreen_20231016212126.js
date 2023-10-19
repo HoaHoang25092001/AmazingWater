@@ -330,53 +330,6 @@ const InvoiceScreen = () => {
                 <VStack space={4}>
                     <TableList title={title} data={data} renderItem={renderItem} />
                 </VStack>
-                <Box w="95%" h="70%" alignItems="center">
-                    <Menu
-                        w="200"
-                        placement="top right"
-                        borderRadius={25}
-                        trigger={(triggerProps) => {
-                            return (
-                                <Button
-                                    alignSelf="flex-end"
-                                    position={"absolute"}
-                                    style={{
-                                        boxShadow: "0px 0px 10px 2px rgba(0, 128, 255, 0.7)", // Sử dụng màu xanh trong boxShadow
-                                        backgroundColor: "red",
-                                    }}
-                                    variant="solid"
-                                    h="50"
-                                    w="50"
-                                    {...triggerProps}
-                                    borderRadius={50}
-                                >
-                                    <Ionicons
-                                        name={"add-outline"}
-                                        size={24}
-                                        style={{ textAlign: "center" }}
-                                        color={"white"}
-                                    />
-                                </Button>
-                            );
-                        }}
-                    >
-                        <CustomButtonInvoice text={"Tính tiền"} color={colors.white} icon="calculator-outline" onPress={() => { setShowBillPaymentModel(true) }} textColor={colors.orange_400} />
-                        <CustomButtonInvoice text={"Tính tiền trả góp"} color={colors.dark} icon="calculator-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Thêm hóa đơn"} color={colors.blue_400} icon="add-circle-outline" onPress={() => { setShowAddInvoiceModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Sửa hóa đơn"} color={colors.white} icon="add-circle-outline" onPress={() => { setShowEditInvoiceModel(true) }} textColor={colors.orange_400} />
-                        <CustomButtonInvoice text={"Hóa đơn điện tử"} color={colors.white} icon="document-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.lightBlue_300} />
-                        <CustomButtonInvoice text={"Xem hóa đơn"} color={colors.white} icon="document-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.orange_400} />
-                        <CustomButtonInvoice text={"Gửi tin"} color={colors.blue_700} icon="mail-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Xem TH SD"} color={colors.blue_400} icon="menu-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonExtensions text={"Tiện ích"} color={colors.blue_700} icon="settings-outline" onPress={() => { setShowAdvanceSearchModel(true) }} textColor={colors.white} />
-                        <CustomButtonInvoice text={"Chỉ số"} color={colors.orange_400} icon="bar-chart-outline" onPress={() => { setShowStateModel(true) }} textColor={colors.white} />
-                    </Menu>
-                </Box>
-                {/* Models */}
-                <BillPaymentModel visible={showBillPaymentModel} onClose={() => setShowBillPaymentModel(false)} />
-                <AddInvoiceModel visible={showAddInvoiceModel} onClose={() => setShowAddInvoiceModel(false)} />
-                <EditInvoiceModel visible={showEditInvoiceModel} onClose={() => setShowEditInvoiceModel(false)} />
-                <StateModel visible={showState} onClose={() => setShowStateModel(false)} />
             </View>
         )
     }

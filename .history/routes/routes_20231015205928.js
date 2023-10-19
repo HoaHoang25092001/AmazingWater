@@ -18,6 +18,7 @@ import InputIndexScreen from "../screens/auth/InputIndexScreen";
 import PaymentRecordScreen from "../screens/user/PaymentRecordScreen";
 import PaymentRecordListScreen from "../screens/user/PaymentRecordListScreen";
 import InvoiceInformationScreen from "../screens/user/InvoiceInformationScreen";
+import InvoiceScreen from "../screens/user/InvoiceScreen";
 import WriteIndex from "../screens/user/WriteIndex";
 import WriteIndexDetail from "../screens/user/WriteIndexDetail";
 import PaymentScreen from "../screens/user/PaymentScreen";
@@ -42,14 +43,6 @@ import { TouchableOpacity } from "react-native";
 import { List } from "react-native-paper";
 import * as React from "react";
 import { ServiceProvider, useService } from "../ServiceContext";
-import InvoiceScreen from "../screens/user/InvoiceScreen";
-import {
-  useFonts,
-  Quicksand_700Bold,
-  Quicksand_500Medium,
-} from "@expo-google-fonts/quicksand";
-import { ApolloClient, ApolloProvider } from "@apollo/client";
-import client from "../config/apolloClient";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -173,7 +166,7 @@ const MyDrawer = () => {
               fontFamily="Quicksand_500Medium"
               onPress={
                 () =>
-                  navigation.navigate("Hóa đơn") // Truyền giá trị "service" vào params
+                  navigation.navigate("Hóa đơn", { serviceData: service }) // Truyền giá trị "service" vào params
               }
             />
           </List.Accordion>
@@ -243,11 +236,7 @@ const MyDrawer = () => {
         component={PaymentScreen}
         options={{ drawerLabel: "Thanh toán" }}
       />
-      <Drawer.Screen
-        name="Hóa đơn"
-        component={InvoiceScreen}
-        options={{ drawerLabel: "Hóa đơn" }}
-      />
+      
       <Drawer.Screen
         name="TestTable"
         component={TestTable}
@@ -289,20 +278,12 @@ const RootNavigation = () => {
 };
 
 const Routes = () => {
-  const [fontsLoaded] = useFonts({
-    Quicksand_700Bold,
-    Quicksand_500Medium,
-  });
-  if (fontsLoaded) {
-    return (
-      <Provider store={store}>
-        <ServiceProvider>
-          <ApolloProvider client={client}>
-            <RootNavigation />
-          </ApolloProvider>
-        </ServiceProvider>
-      </Provider>
-    );
-  }
+  return (
+    <Provider store={store}>
+      <ServiceProvider>
+        <RootNavigation />
+      </ServiceProvider>
+    </Provider>
+  );
 };
 export default Routes;

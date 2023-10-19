@@ -373,7 +373,6 @@ const InvoiceScreen = () => {
                     </Menu>
                 </Box>
                 {/* Models */}
-                <BillPaymentModel visible={showBillPaymentModel} onClose={() => setShowBillPaymentModel(false)} />
                 <AddInvoiceModel visible={showAddInvoiceModel} onClose={() => setShowAddInvoiceModel(false)} />
                 <EditInvoiceModel visible={showEditInvoiceModel} onClose={() => setShowEditInvoiceModel(false)} />
                 <StateModel visible={showState} onClose={() => setShowStateModel(false)} />

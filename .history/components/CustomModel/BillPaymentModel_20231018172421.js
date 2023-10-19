@@ -57,8 +57,8 @@ const BillPaymentModel = ({ visible, onClose }) => {
         setFilteredCustomerNames(newFilteredCustomerNames);
     }, [rows, searchField]);
 
-    const onValueChange = (text) => {
-        const customerNameFieldString = text.toLocaleLowerCase();
+    const onValueChange = (event) => {
+        const customerNameFieldString = event.target.value.toLocaleLowerCase();
         setSearchField(customerNameFieldString);
     };
 

@@ -221,100 +221,100 @@ const InvoiceScreen = () => {
             name: "Mã ĐT giá",
         }
     ];
-    const renderItem = ({ item, index }) => (
-        <HStack h={10}>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{index + 1}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.tuyen}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.canbo}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.tenso}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.chuaghi}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.chotso}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.trangthai}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.ngaychot}</Text>
-            </Box>
-            <Box
-                borderRightWidth={1}
-                style={styles.boxContent}
-                borderColor="muted.200"
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-            >
-                <Text style={styles.textContent}>{item.hoadon}</Text>
-            </Box>
-        </HStack>
-    );
+    // const renderItem = ({ item, index }) => (
+    //     <HStack h={10}>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{index + 1}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.tuyen}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.canbo}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.tenso}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.chuaghi}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.chotso}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.trangthai}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.ngaychot}</Text>
+    //         </Box>
+    //         <Box
+    //             borderRightWidth={1}
+    //             style={styles.boxContent}
+    //             borderColor="muted.200"
+    //             pl={["5", "4"]}
+    //             pr={["5", "5"]}
+    //             py="2"
+    //         >
+    //             <Text style={styles.textContent}>{item.hoadon}</Text>
+    //         </Box>
+    //     </HStack>
+    // );
 
     const closePopover = () => {
         setPopoverOpen(false);
