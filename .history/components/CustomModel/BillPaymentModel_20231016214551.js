@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-native-modern-datepicker';
-import YearMonthPicker from "../PickYearMonth/PickYearMonth";
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Box, CheckIcon, Select, Modal, FormControl, VStack, HStack, Button, Icon, Text, Input, TextArea, } from 'native-base';
@@ -11,35 +10,12 @@ import { getAllInvoiceSerialNumberList } from '../../store/invoiceSerialNumberLi
 import moment from "moment";
 import { colors } from '../../constants';
 
-const rows = [{
-    id: 1,
-    name: "Johnny",
-    nick: "@johny",
-}, {
-    id: 2,
-    name: "Johnny",
-    nick: "@johny",
-}, {
-    id: 3,
-    name: "Alex",
-    nick: "@alex",
-}, {
-    id: 4,
-    name: "Johnny",
-    nick: "@johny",
-}];
-
 const BillPaymentModel = ({ visible, onClose }) => {
     const [officerRead, setOfficerRead] = useState("");
     const [readingRoute, setReadingRoute] = useState("");
-    const [customerNameField, setCustomerNameField] = useState("");
-    const [filteredCustomerNames, setFilteredCustomerNames] = useState(rows);
-    const [searchField, setSearchField] = useState('');
     const [scope, setScope] = useState("");
     const [selectedMonth, setSelectedMonth] = useState("MM-YYYY");
     const [showDatePickerModal, setShowDatePickerModal] = useState(false);
-
-
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -49,28 +25,6 @@ const BillPaymentModel = ({ visible, onClose }) => {
     const { readingRoutes } = useSelector(state => state.readingRoute)
     console.log(readingRoutes)
 
-    useEffect(() => {
-        const newFilteredCustomerNames = rows.filter((monster) => {
-            return monster.name.toLocaleLowerCase().includes(searchField);
-        });
-
-        setFilteredCustomerNames(newFilteredCustomerNames);
-    }, [rows, searchField]);
-
-    const onValueChange = (text) => {
-        const customerNameFieldString = text.toLocaleLowerCase();
-        setSearchField(customerNameFieldString);
-    };
-
-    const data = filteredCustomerNames?.map((customerName, index) => {
-        return (
-            <View style={{ width: '100%' }}>
-                <View  style={{ width: '90%' }}>
-                    <Text>{customerName.name}</Text>
-                </View>
-            </View>
-        )
-    })
     return (
         <Modal
             isOpen={visible}
@@ -97,6 +51,39 @@ const BillPaymentModel = ({ visible, onClose }) => {
                                 >
                                     {moment(selectedMonth).format("MM/YYYY")}
                                 </Button>
+                                <Text fontFamily="Quicksand_500Medium">Cán bộ đọc:</Text>
+                                <Box maxW="100%">
+                                    <Select
+                                        fontFamily="Quicksand_500Medium"
+                                        selectedValue={officerRead}
+                                        minWidth="150"
+                                        accessibilityLabel="--Chọn cán bộ--"
+                                        placeholder="--Chọn cán bộ đọc--"
+                                        _selectedItem={{
+                                            bg: "teal.600",
+                                            endIcon: <CheckIcon size="5" />,
+                                        }}
+                                        mt={0}
+                                        pt={0}
+                                        onValueChange={(itemValue) => setOfficerRead(itemValue)}
+                                    >
+                                        <Select.Item
+                                            fontFamily="Quicksand_500Medium"
+                                            label="Hoàng Văn Nam"
+                                            value="ux"
+                                        />
+                                        <Select.Item
+                                            fontFamily="Quicksand_500Medium"
+                                            label="Hoàng Quang Hòa"
+                                            value="ux"
+                                        />
+                                        <Select.Item
+                                            fontFamily="Quicksand_500Medium"
+                                            label="Trần Thiên Phúc"
+                                            value="ux"
+                                        />
+                                    </Select>
+                                </Box>
                                 <Text fontFamily="Quicksand_500Medium">Tuyến đọc:</Text>
                                 <Box maxW="100%">
                                     <Select
@@ -151,10 +138,7 @@ const BillPaymentModel = ({ visible, onClose }) => {
                                 </Box>
                                 <Text fontFamily="Quicksand_500Medium">Khách hàng:</Text>
                                 <Box maxW="100%" alignItems="center">
-                                    <Input mx="3" placeholder="Tên khách hàng" w="100%" onChangeText={onValueChange} />
-                                </Box>
-                                <Box maxW="100%">
-                                {data}
+                                    <Input mx="3" placeholder="Tên khách hàng" w="100%" />
                                 </Box>
                                 <Text fontFamily="Quicksand_500Medium">Ghi chú:</Text>
                                 <TextArea
@@ -163,7 +147,6 @@ const BillPaymentModel = ({ visible, onClose }) => {
                                     placeholder="Nhập ghi chú"
                                     w="100%"
                                 />
-                                <View style={{ height: 250 }}></View>
                             </VStack>
                         </Box>
                     </Box>
@@ -207,17 +190,13 @@ const BillPaymentModel = ({ visible, onClose }) => {
                         <Modal.CloseButton />
                         <Modal.Header>Chọn tháng</Modal.Header>
                         <Modal.Body>
-                            {/*<DatePicker
+                            <DatePicker
                                 mode="monthYear"
                                 selectorStartingYear={2000}
                                 onMonthYearChange={(selectedMonth) =>
                                     setSelectedMonth(selectedMonth)
                                 }
                                 locale="vi_VN"
-                            />*/}
-                            <YearMonthPicker
-                                dateSelected={selectedMonth}
-                                setDateSelected={setSelectedMonth}
                             />
                         </Modal.Body>
                         <Modal.Footer>
@@ -235,6 +214,7 @@ const BillPaymentModel = ({ visible, onClose }) => {
                                     onPress={() => {
                                         setShowDatePickerModal(false);
                                         // Set the selectedDate value to the input when Save is pressed
+                                        setSelectedMonth(selectedMonth);
                                     }}
                                 >
                                     Save

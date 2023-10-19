@@ -25,12 +25,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { colors } from "../../constants";
 import TableList from "../../components/TableList/TableList";
 import CustomButtonInvoice from "../../components/CustomButton/CustomButtonInvoice";
-import { AddInvoiceModel, BillPaymentModel, EditInvoiceModel } from "../../components/CustomModel";
+import BillPaymentModel from "../../components/CustomModel/BillPaymentModel";
+import AddInvoiceModel from "../../components/CustomModel/AddInvoiceModel";
 import CustomButtonExtensions from "../../components/CustomButton/CustomButtonExtensions";
 import StateModel from "../../components/CustomModel/StateModel";
 import { getAllReadingRoutes } from "../../store/readingRoute/asyncAction"
 import { useDispatch, useSelector } from "react-redux";
 import * as apis from "../../api"
+import { EditInvoiceModel } from "../../components/CustomModel";
 
 const InvoiceScreen = () => {
     const [showBillPaymentModel, setShowBillPaymentModel] = useState(false);

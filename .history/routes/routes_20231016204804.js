@@ -166,7 +166,7 @@ const MyDrawer = () => {
               fontFamily="Quicksand_500Medium"
               onPress={
                 () =>
-                  navigation.navigate("Hóa đơn") // Truyền giá trị "service" vào params
+                  navigation.navigate("Hóa đơn", { serviceData: service }) // Truyền giá trị "service" vào params
               }
             />
           </List.Accordion>

@@ -362,7 +362,7 @@ export default function BookIndexScreen({ navigation, route }) {
       <View>
         <VStack space={4}>
           <AccordionCustom data={data} setData={setData} />
-          <TableList title={title} data={data} renderItem={renderItem}/>
+          
           <MenuButton
             setModalVisible={setModalVisible}
             setModalCreated={setModalCreated}

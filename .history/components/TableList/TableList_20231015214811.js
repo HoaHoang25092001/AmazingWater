@@ -211,7 +211,7 @@ const TableList = ({ title, data, renderItem }) => {
             >
               <Text style={styles.textTitle}>#</Text>
             </Box>
-            {title?.map((item, index) => (
+            {title.map((item, index) => (
               <Box
                 key={index}
                 borderRightWidth={1}

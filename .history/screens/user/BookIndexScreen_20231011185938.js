@@ -102,119 +102,7 @@ export default function BookIndexScreen({ navigation, route }) {
       name: "Hóa đơn",
     },
   ];
-  const renderItem = ({ item, index }) => (
-    <TouchableOpacity>
-      <HStack h={10} key={index}>
-        <Box
-          borderRightWidth={1}
-          borderLeftWidth={1}
-          style={styles.boxIndex}
-          borderColor="muted.200"
-          w={50}
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{index + 1}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.tenTuyenDoc}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.nguoiQuanLyId}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.tenSo}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.chuaghi}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>
-            {item.chotSo ? "Đã chốt" : "Chưa chốt"}
-          </Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>
-            {item.trangThai === 1
-              ? "Đang ghi"
-              : item.trangThai === 2
-              ? "Đã ngừng"
-              : ""}
-          </Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>
-            {item.ngayChot
-              ? `${item.ngayChot.substring(8, 10)}/${item.ngayChot.substring(
-                  5,
-                  7
-                )}/${item.ngayChot.substring(0, 4)}`
-              : ""}
-          </Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.hoaDon}</Text>
-        </Box>
-      </HStack>
-    </TouchableOpacity>
-  );
+
   const searchLabel = [
     {
       label: "Cán bộ đọc",
@@ -230,101 +118,101 @@ export default function BookIndexScreen({ navigation, route }) {
     setShowDatePickerModal(true);
   };
   const dispatch = useDispatch();
-  // const renderItem = ({ item, index }) => (
-  //   <HStack h={10} key={index}>
-  //     <Box
-  //       borderRightWidth={1}
-  //       borderLeftWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{index + 1}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.tuyen}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.canbo}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.tenso}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.chuaghi}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.chotso}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.trangthai}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.ngaychot}</Text>
-  //     </Box>
-  //     <Box
-  //       borderRightWidth={1}
-  //       style={styles.boxContent}
-  //       borderColor="muted.200"
-  //       pl={["5", "4"]}
-  //       pr={["5", "5"]}
-  //       py="2"
-  //     >
-  //       <Text style={styles.textContent}>{item.hoadon}</Text>
-  //     </Box>
-  //   </HStack>
-  // );
+  const renderItem = ({ item, index }) => (
+    <HStack h={10} key={index}>
+      <Box
+        borderRightWidth={1}
+        borderLeftWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{index + 1}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.tuyen}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.canbo}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.tenso}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.chuaghi}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.chotso}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.trangthai}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.ngaychot}</Text>
+      </Box>
+      <Box
+        borderRightWidth={1}
+        style={styles.boxContent}
+        borderColor="muted.200"
+        pl={["5", "4"]}
+        pr={["5", "5"]}
+        py="2"
+      >
+        <Text style={styles.textContent}>{item.hoadon}</Text>
+      </Box>
+    </HStack>
+  );
 
   //pagination
   // Tính tổng số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
@@ -362,7 +250,7 @@ export default function BookIndexScreen({ navigation, route }) {
       <View>
         <VStack space={4}>
           <AccordionCustom data={data} setData={setData} />
-          <TableList title={title} data={data} renderItem={renderItem}/>
+          <TableList title={title} data={data} />
           <MenuButton
             setModalVisible={setModalVisible}
             setModalCreated={setModalCreated}
