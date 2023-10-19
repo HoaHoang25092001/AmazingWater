@@ -175,6 +175,7 @@ const PaymentScreen = () => {
   const [modalChiSo, setModalChiSo] = React.useState(false);
   const [service, setService] = React.useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -182,6 +183,10 @@ const PaymentScreen = () => {
 
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
+  };
+  const handleConfirm = (date) => {
+    setSelectedDate(date);
+    hideDatePicker();
   };
   const styles = StyleSheet.create({
     paginationContainer: {
@@ -241,10 +246,7 @@ const PaymentScreen = () => {
       color: "white",
     },
   });
-  const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    hideDatePicker();
-  };
+
   const renderItem = ({ item, index }) => (
     <TouchableOpacity>
       <HStack h={10} key={index}>
@@ -734,9 +736,14 @@ const PaymentScreen = () => {
                     variant="outline"
                     onPress={showDatePicker}
                   >
-                    <Text fontFamily="Quicksand_500Medium">Chọn ngày</Text>
+                    <Text fontFamily="Quicksand_500Medium">
+                      {selectedDate
+                        ? selectedDate.toLocaleDateString()
+                        : "No date selected"}
+                    </Text>
                   </Button>
                   <DateTimePickerModal
+                    date={selectedDate}
                     isVisible={isDatePickerVisible}
                     mode="date"
                     onConfirm={handleConfirm}

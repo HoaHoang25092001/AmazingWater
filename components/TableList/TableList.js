@@ -1,33 +1,54 @@
 import { View } from "react-native";
 import React, { useState } from "react";
-import {
-  Box,
-  Checkbox,
-  CheckIcon,
-  FlatList,
-  HStack,
-  Radio,
-  ScrollView,
-  Select,
-  Text,
-} from "native-base";
+import { Box, Center, FlatList, HStack, ScrollView, Text } from "native-base";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import Pagination from "../Pagination";
 import { Ionicons } from "@expo/vector-icons";
 import { RadioButton } from "react-native-paper";
-import RadioButtonRN from "radio-buttons-react-native";
 
-const TableList = ({ title, data, renderItem }) => {
+const TableList = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [service, setService] = React.useState("");
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
-  const [checked, setChecked] = React.useState("first");
-  const [value, setValue] = React.useState();
+  const [checked, setChecked] = React.useState(null);
 
-  // Hàm xử lý khi người dùng chuyển đổi trang
+  const title = [
+    {
+      id: "2",
+      name: "Tuyến đọc",
+    },
+    {
+      id: "3",
+      name: "Cán bộ đọc",
+    },
+    {
+      id: "4",
+      name: "Tên sổ",
+    },
+    {
+      id: "5",
+      name: "Chưa ghi",
+    },
+    {
+      id: "6",
+      name: "Chốt sổ",
+    },
+    {
+      id: "7",
+      name: "Trạng thái",
+    },
+    {
+      id: "8",
+      name: "Ngày chốt",
+    },
+    {
+      id: "9",
+      name: "Hóa đơn",
+    },
+  ];
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -101,12 +122,159 @@ const TableList = ({ title, data, renderItem }) => {
       marginTop: 8,
     },
   });
-  const dataItem = [
-    {
-      label: "data 1",
-    },
-  ];
 
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity
+      onPress={() => {
+        setChecked(item.id);
+      }}
+    >
+      <HStack minH={5} key={item.id}>
+        <Box
+          borderLeftWidth={1}
+          style={styles.boxContent2}
+          borderColor="muted.200"
+        >
+          <Center>
+            <Text style={styles.textContent}>
+              <RadioButton
+                value={item.id}
+                status={checked === item.id ? "checked" : "unchecked"}
+                color="#5898e1"
+              />
+            </Text>
+          </Center>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          borderLeftWidth={1}
+          style={styles.boxContent2}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>{index + 1}</Text>
+        </Box>
+
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent2}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>
+            {item.chotSo ? (
+              <Ionicons name="md-lock-closed-outline" size={20} color="red" />
+            ) : (
+              <Ionicons name="md-lock-open-outline" size={20} color="blue" />
+            )}
+          </Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>{item.tenTuyenDoc}</Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>{item.nguoiQuanLyId}</Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>{item.tenSo}</Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>{item.soDhdaGhi}</Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>
+            {item.chotSo ? (
+              <Text style={{ color: "red" }}>Đã chốt</Text>
+            ) : (
+              <Text style={{ color: "blue" }}>Chưa chốt</Text>
+            )}
+          </Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>
+            {item.trangThai === 1
+              ? "Đang ghi"
+              : item.trangThai === 2
+              ? "Đã ngừng"
+              : ""}
+          </Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>
+            {item.ngayChot
+              ? `${item.ngayChot.substring(8, 10)}/${item.ngayChot.substring(
+                  5,
+                  7
+                )}/${item.ngayChot.substring(0, 4)}`
+              : ""}
+          </Text>
+        </Box>
+        <Box
+          borderRightWidth={1}
+          style={styles.boxContent}
+          borderColor="muted.200"
+          pl={["5", "4"]}
+          pr={["5", "5"]}
+          py="2"
+        >
+          <Text style={styles.textContent}>{item.hoaDon}</Text>
+        </Box>
+      </HStack>
+    </TouchableOpacity>
+  );
   return (
     <View>
       <ScrollView horizontal nestedScrollEnabled={true}>
@@ -126,9 +294,31 @@ const TableList = ({ title, data, renderItem }) => {
               pr={["5", "5"]}
               py="2"
             >
+              <Text style={styles.textTitle}></Text>
+            </Box>
+            <Box
+              borderRightWidth={1}
+              borderBottomWidth={1}
+              borderColor="muted.200"
+              style={[styles.boxIndex]}
+              pl={["5", "4"]}
+              pr={["5", "5"]}
+              py="2"
+            >
               <Text style={styles.textTitle}>#</Text>
             </Box>
-            {title?.map((item, index) => (
+            <Box
+              borderRightWidth={1}
+              borderBottomWidth={1}
+              borderColor="muted.200"
+              style={[styles.boxIndex]}
+              pl={["5", "4"]}
+              pr={["5", "5"]}
+              py="2"
+            >
+              <Text style={styles.textTitle}></Text>
+            </Box>
+            {title.map((item, index) => (
               <Box
                 key={index}
                 borderRightWidth={1}
@@ -151,6 +341,7 @@ const TableList = ({ title, data, renderItem }) => {
           >
             <FlatList
               nestedScrollEnabled={true}
+              windowSize={5}
               scrollEnabled={false}
               data={paginatedData}
               renderItem={renderItem}
