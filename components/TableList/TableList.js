@@ -335,7 +335,7 @@ const TableList = ({ data }) => {
           </HStack>
           {/* Nội dung của bảng */}
           <ScrollView
-            h={"400"}
+            h={"350"}
             style={{ backgroundColor: "white" }}
             nestedScrollEnabled={true}
           >

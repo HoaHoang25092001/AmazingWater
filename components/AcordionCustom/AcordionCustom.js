@@ -13,11 +13,6 @@ import {
   Select,
   Text,
 } from "native-base";
-import {
-  useFonts,
-  Quicksand_700Bold,
-  Quicksand_500Medium,
-} from "@expo-google-fonts/quicksand";
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import { DefaultTheme, List } from "react-native-paper";
@@ -30,23 +25,15 @@ import {
   tuyenDocAllApi,
 } from "../../api/user";
 import { useState } from "react";
-import DatePicker, {
-  getFormatedDate,
-  getToday,
-} from "react-native-modern-datepicker";
-import { parseISO, format } from "date-fns";
 import { useEffect } from "react";
 import MonthPicker from "react-native-month-picker";
 import moment from "moment";
 import App from "../../screens/user/TestTable";
 import YearMonthPicker from "../PickYearMonth/PickYearMonth";
+import { useService } from "../../ServiceContext";
 
 const AccordionCustom = ({ data, setData }) => {
-  const [expanded, setExpanded] = React.useState(true);
-  const [value, setValue] = React.useState("");
   const [showDatePickerModal, setShowDatePickerModal] = useState(false);
-  const [selectedDate, changeDate] = useState(null);
-  const [responseData, setResponseData] = useState(null); // State to store the response data
   const [selectedCanBo, setSelectedCanBo] = useState(null);
   const [selectedTuyenDoc, setSelectedTuyenDoc] = useState(null);
   const [selectedTrangThai, setSelectedTrangThai] = useState(null);
@@ -56,8 +43,19 @@ const AccordionCustom = ({ data, setData }) => {
   const [allData, setAllData] = useState();
   const [allKVData, setAllKVData] = useState();
   const [dateSelected, setDateSelected] = useState(moment());
+  const { service, setService } = useService();
 
   const handleFilterSoDoc = async () => {
+    const filterParamsId = {
+      thangSoDoc: moment(dateSelected).format("MM/YYYY"),
+      canboDocId: selectedCanBo,
+      tuyenDocId: selectedTuyenDoc,
+      trangThaiSoDoc: 1,
+      khuVucId: selectedKhuVuc,
+      kyGhiChiSoId: selectedKyGhi,
+      tenSo: selectedTenSo,
+      nhaMayId: service,
+    };
     const filterParams = {
       thangSoDoc: moment(dateSelected).format("MM/YYYY"),
       canboDocId: selectedCanBo,
@@ -68,7 +66,11 @@ const AccordionCustom = ({ data, setData }) => {
       tenSo: selectedTenSo,
     };
     try {
-      const filterData = await filterSoDocApi(filterParams);
+      if (service != "123456") {
+        const filterData = await filterSoDocApi(filterParams);
+        setData(filterData.data);
+      }
+      const filterData = await filterSoDocApi(filterParamsId);
       setData(filterData.data);
     } catch (error) {
       // Handle errors here

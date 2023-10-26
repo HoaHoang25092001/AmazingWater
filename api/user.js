@@ -17,6 +17,21 @@ export const loginApi = async (credentials) => {
     throw error.response.data;
   }
 };
+
+export const apiForgotPassword = (data) =>
+  axios({
+    url: "auth/forgot-password",
+    method: "POST",
+    data,
+  });
+
+export const apiResetPassword = (data) =>
+  axios({
+    url: "auth/reset-password",
+    method: "POST",
+    data,
+  });
+
 export const soDocChiSoApi = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/so-doc-chi-so/get-all`);
@@ -45,7 +60,20 @@ export const createNewSoDocApi = async (filterParams) => {
       `${API_URL}/api/so-doc-chi-so/create-new-so-doc-chi-so`,
       filterParams
     );
-    console.log("Filtered data", response.data);
+    console.log("Create Successfully", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Create data error", error.response.data);
+    throw error.response.data;
+  }
+};
+export const filterHopDongApi = async (filterParams) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/hop-dong/filter-hop-dong-for-create-so-doc`,
+      filterParams
+    );
+    console.log("Filtered hop dong", response.data);
     return response.data;
   } catch (error) {
     console.log("Filtered data error", error.response.data);

@@ -24,6 +24,7 @@ import { DefaultTheme, List } from "react-native-paper";
 import { color } from "react-native-reanimated";
 import { colors } from "../../constants";
 import {
+  createNewSoDocApi,
   filterSoDocApi,
   khuVucAllApi,
   soDocChiSoApi,
@@ -68,13 +69,14 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
       tenSo: selectedTenSo,
     };
     try {
-      const filterData = await filterSoDocApi(filterParams);
+      const filterData = await createNewSoDocApi(filterParams);
       setData(filterData.data);
     } catch (error) {
       // Handle errors here
       console.error("Error:", error);
     }
   };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -115,7 +117,6 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
       <ScrollView
         style={{
           backgroundColor: "white",
-          height: "40%",
         }}
       >
         <FormControl mt="3" style={styles.formControl}>
@@ -126,7 +127,9 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
             colorScheme={"gray"}
             onPress={() => setShowDatePickerModal(true)}
           >
-            {moment(dateSelected).format("MM/YYYY")}
+            <Text style={{ fontFamily: "Quicksand_500Medium" }}>
+              {moment(dateSelected).format("MM/YYYY")}
+            </Text>
           </Button>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
@@ -136,6 +139,8 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
             minWidth="200"
             accessibilityLabel="Chọn cán bộ"
             placeholder="Chọn cán bộ"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            fontSize={12}
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
@@ -153,6 +158,8 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
             selectedValue={selectedTuyenDoc}
             minWidth="200"
             accessibilityLabel="Chọn tuyến đọc"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            fontSize={12}
             placeholder="Chọn tuyến đọc"
             _selectedItem={{
               bg: "teal.600",
@@ -175,9 +182,11 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
 
           <Select
             selectedValue={selectedTrangThai}
+            style={{ fontFamily: "Quicksand_500Medium" }}
             minWidth="200"
             accessibilityLabel="Chọn loại khách hàng"
             placeholder="Chọn loại khách hàng"
+            fontSize={12}
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
@@ -193,9 +202,11 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
           <FormControl.Label>Số hợp đồng</FormControl.Label>
           <Input
             size="md"
+            style={{ fontFamily: "Quicksand_500Medium" }}
             placeholder="Nhập số hợp đồng"
             value={selectedTenSo}
             onChangeText={(text) => setSelectedTenSo(text)}
+            fontSize={12}
           />
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
@@ -205,6 +216,8 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
             selectedValue={selectedTrangThai}
             minWidth="200"
             accessibilityLabel="Chọn loại đồng hồ"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            fontSize={12}
             placeholder="Chọn loại đồng hồ"
             _selectedItem={{
               bg: "teal.600",
@@ -224,16 +237,32 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
               <Button
                 variant={"outline"}
                 onPress={handleFilterSoDoc}
-                leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+                leftIcon={
+                  <Icon
+                    as={MaterialIcons}
+                    name="search"
+                    size="sm"
+                    color={"black"}
+                  />
+                }
               >
-                Tìm kiếm
+                <Text style={{ fontFamily: "Quicksand_700Bold" }}>
+                  Tìm kiếm
+                </Text>
               </Button>
               <Button
                 variant={"outline"}
                 onPress={handleTimMoi}
-                leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+                leftIcon={
+                  <Icon
+                    as={MaterialIcons}
+                    name="search"
+                    size="sm"
+                    color={"black"}
+                  />
+                }
               >
-                Tìm mới
+                <Text style={{ fontFamily: "Quicksand_700Bold" }}>Tìm mới</Text>
               </Button>
             </Button.Group>
           </HStack>

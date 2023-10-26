@@ -13,7 +13,13 @@ import {
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useService } from "../../ServiceContext";
-const CreateMutiSoDocModal = ({ modalCreateMuti, setModalCreatedMuti }) => {
+import TableCreateMuti from "../TableList/TableCreateMuti";
+const CreateMutiSoDocModal = ({
+  modalCreateMuti,
+  setModalCreatedMuti,
+  data,
+  loading,
+}) => {
   return (
     <View>
       <Modal
@@ -29,6 +35,9 @@ const CreateMutiSoDocModal = ({ modalCreateMuti, setModalCreatedMuti }) => {
           <Modal.Header>Tạo sổ đồng loạt</Modal.Header>
 
           <Modal.Body>
+            <VStack space={3}>
+              <TableCreateMuti data={data} loading={loading} />
+            </VStack>
             <Center>
               <FormControl w="90%" maxW="300px">
                 <FormControl.Label>Cán bộ đọc</FormControl.Label>

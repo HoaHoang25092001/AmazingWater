@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { Box, Modal, Progress, VStack } from "native-base";
 
-const ChiSoModal = ({modalVisible,setModalVisible}) => {
+const ChiSoModal = ({ modalVisible, setModalVisible }) => {
   return (
     <View>
       <Modal

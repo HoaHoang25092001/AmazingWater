@@ -4,8 +4,14 @@ import { StyleSheet } from "react-native";
 
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { createNewSoDocApi } from "../../api/user";
-import Pagination from "../../components/Pagination";
-function TableTest({ data, error, loading }) {
+import Pagination from "../Pagination";
+function TableCreate({
+  data,
+  error,
+  loading,
+  setSelectedHopDongId,
+  selectedHopDongId,
+}) {
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -118,6 +124,13 @@ function TableTest({ data, error, loading }) {
   if (error) {
     return <Text>Error: {error.message}</Text>;
   }
+  const handleSelectAll = () => {
+    const allCheckboxValues = paginatedData.map((hopDong) => hopDong.id);
+    setGroupValue(allCheckboxValues);
+  };
+  useEffect(() => {
+    console.log("Group Item Selected", selectedHopDongId);
+  }, [selectedHopDongId]);
 
   return (
     <View>
@@ -141,7 +154,12 @@ function TableTest({ data, error, loading }) {
               py="2"
             >
               <Center>
-                <Checkbox value={1} accessibilityLabel="1" my={1} />
+                <Checkbox
+                  value={1}
+                  onChange={handleSelectAll}
+                  accessibilityLabel="1"
+                  my={1}
+                />
               </Center>
             </Box>
             {title.map((item, index) => (
@@ -168,30 +186,50 @@ function TableTest({ data, error, loading }) {
           >
             <Checkbox.Group
               colorScheme="green"
-              defaultValue={groupValue}
+              defaultValue={selectedHopDongId}
               accessibilityLabel="pick an item"
               onChange={(values) => {
-                setGroupValue(values || []);
+                setSelectedHopDongId(values || []);
               }}
             >
               {paginatedData.map((hopDong, index) => (
-                <TouchableOpacity>
-                  <HStack minH={5} key={hopDong.id}>
-                    <Box
-                      borderLeftWidth={1}
-                      style={styles.boxIndex}
-                      borderColor="muted.200"
-                      pl={["5", "4"]}
-                      pr={["5", "5"]}
-                      py="2"
-                    >
-                      <Checkbox
-                        value={hopDong.id}
-                        accessibilityLabel="1"
-                        my={1}
-                      />
-                    </Box>
+                <HStack minH={5} key={hopDong.id}>
+                  <Box
+                    borderLeftWidth={1}
+                    style={styles.boxIndex}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Checkbox
+                      value={hopDong.id}
+                      accessibilityLabel="1"
+                      my={2}
+                    />
+                  </Box>
 
+                  <Box
+                    borderLeftWidth={1}
+                    style={styles.boxContent2}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text style={styles.textContent}>{hopDong.keyId}</Text>
+                  </Box>
+                  <Box
+                    borderLeftWidth={1}
+                    style={styles.boxContent2}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text style={styles.textContent}>{hopDong.keyId}</Text>
+                  </Box>
+                  {hopDong.khachHang && (
                     <Box
                       borderLeftWidth={1}
                       style={styles.boxContent2}
@@ -200,55 +238,33 @@ function TableTest({ data, error, loading }) {
                       pr={["5", "5"]}
                       py="2"
                     >
-                      <Text style={styles.textContent}>{hopDong.keyId}</Text>
+                      <Text style={styles.textContent}>
+                        {hopDong.khachHang.tenKhachHang}
+                      </Text>
                     </Box>
-                    <Box
-                      borderLeftWidth={1}
-                      style={styles.boxContent2}
-                      borderColor="muted.200"
-                      pl={["5", "4"]}
-                      pr={["5", "5"]}
-                      py="2"
-                    >
-                      <Text style={styles.textContent}>{hopDong.keyId}</Text>
-                    </Box>
-                    {hopDong.khachHang && (
-                      <Box
-                        borderLeftWidth={1}
-                        style={styles.boxContent2}
-                        borderColor="muted.200"
-                        pl={["5", "4"]}
-                        pr={["5", "5"]}
-                        py="2"
-                      >
-                        <Text style={styles.textContent}>
-                          {hopDong.khachHang.tenKhachHang}
-                        </Text>
-                      </Box>
-                    )}
-                    <Box
-                      borderLeftWidth={1}
-                      style={styles.boxContent2}
-                      borderColor="muted.200"
-                      pl={["5", "4"]}
-                      pr={["5", "5"]}
-                      py="2"
-                    >
-                      <Text style={styles.textContent}>{hopDong.diachi}</Text>
-                    </Box>
-                    <Box
-                      borderRightWidth={1}
-                      borderLeftWidth={1}
-                      style={styles.boxContent2}
-                      borderColor="muted.200"
-                      pl={["5", "4"]}
-                      pr={["5", "5"]}
-                      py="2"
-                    >
-                      <Text style={styles.textContent}>{hopDong.diachi}</Text>
-                    </Box>
-                  </HStack>
-                </TouchableOpacity>
+                  )}
+                  <Box
+                    borderLeftWidth={1}
+                    style={styles.boxContent2}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text style={styles.textContent}>{hopDong.diachi}</Text>
+                  </Box>
+                  <Box
+                    borderRightWidth={1}
+                    borderLeftWidth={1}
+                    style={styles.boxContent2}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text style={styles.textContent}>{hopDong.diachi}</Text>
+                  </Box>
+                </HStack>
               ))}
             </Checkbox.Group>
           </ScrollView>
@@ -266,4 +282,4 @@ function TableTest({ data, error, loading }) {
   );
 }
 
-export default TableTest;
+export default TableCreate;

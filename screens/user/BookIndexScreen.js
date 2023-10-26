@@ -45,30 +45,21 @@ import TableCreateMuti from "../../components/TableList/TableCreateMuti";
 import TableList from "../../components/TableList/TableList";
 import { colors } from "../../constants";
 import { useService } from "../../ServiceContext";
-import { hopDong, soDocChiSo } from "../../store/asyncAction";
+import { canBoDoc, hopDong, soDocChiSo } from "../../store/asyncAction";
 import gql from "graphql-tag";
-import TableTest from "./TableTest";
 import { useQuery } from "@apollo/client";
 
 import CreateSoDocModal from "../../components/CustomModel/CreateSoDocModal";
 import CreateMutiSoDocModal from "../../components/CustomModel/CreateMutiSoDocModal";
 import ChiSoModal from "../../components/CustomModel/ChiSoModal";
+import MenuButtonV2 from "../../components/MenuButton/MenuButtonV2";
 export default function BookIndexScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [showDateModal, setShowDateModal] = useState(false);
-  const [showDateModalMuti, setShowDateModalMuti] = useState(false);
-  const [valueDate, setValueDate] = React.useState("---Chọn ngày---");
-  const [valueDateMuti, setValueDateMuti] = React.useState("---Chọn ngày---");
   const [modalCreated, setModalCreated] = useState(null);
   const [modalCreateMuti, setModalCreatedMuti] = useState(false);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [dataSodoc, setData] = useState([]);
-  const [dataFilter, setDataFilter] = useState([]);
-  const [hopDongs, setHopDong] = useState([]);
   const { service, setService } = useService();
-  const [selectedTenCanBo, setSelectedTenCanBo] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [datePickerVisible, setDatePickerVisible] = useState(false);
   const title = [
     {
       id: "2",
@@ -104,109 +95,7 @@ export default function BookIndexScreen({ navigation, route }) {
     },
   ];
 
-  const showDatePicker = () => {
-    setDatePickerVisible(true);
-  };
-
-  const handleOpenDatePickerModal = () => {
-    setShowDatePickerModal(true);
-  };
   const dispatch = useDispatch();
-  const renderItem = ({ item, index }) => (
-    <HStack h={10} key={item.id}>
-      <Box
-        borderRightWidth={1}
-        borderLeftWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{index + 1}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.tuyen}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.canbo}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.tenso}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.chuaghi}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.chotso}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.trangthai}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.ngaychot}</Text>
-      </Box>
-      <Box
-        borderRightWidth={1}
-        style={styles.boxContent}
-        borderColor="muted.200"
-        pl={["5", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <Text style={styles.textContent}>{item.hoadon}</Text>
-      </Box>
-    </HStack>
-  );
 
   //pagination
   // Tính tổng số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
@@ -255,16 +144,49 @@ export default function BookIndexScreen({ navigation, route }) {
       }
     }
   `;
+  const LOAD_ALL_CAN_BO_DOC = gql`
+    query GetUsers($first: Int!, $roleCanBo: String!) {
+      GetUsers(
+        first: $first
+        where: { phongBan: { name: { eq: $roleCanBo } } }
+      ) {
+        nodes {
+          id
+          userName
+          phongBan {
+            id
+            name
+          }
+        }
+        totalCount
+      }
+    }
+  `;
 
   const fetchGraphQLData = () => {
     dispatch(hopDong(GET_HOP_DONGS));
+    dispatch(canBoDoc(LOAD_ALL_CAN_BO_DOC));
   };
 
   useEffect(() => {
     fetchGraphQLData();
   }, [modalCreated]);
-  const { loading, error, data } = useQuery(GET_HOP_DONGS);
-  if (loading) {
+  const {
+    loading: hopDongsLoading,
+    error: hopDongsError,
+    data: hopDongsData,
+  } = useQuery(GET_HOP_DONGS);
+  const {
+    loading: canBoDocLoading,
+    error: canBoDocError,
+    data: canBoDocData,
+  } = useQuery(LOAD_ALL_CAN_BO_DOC, {
+    variables: {
+      first: 10, // Thay đổi giá trị của $first tùy theo nhu cầu
+      roleCanBo: "Cán bộ đọc", // Thay đổi giá trị của $roleCanBo tùy theo nhu cầu
+    },
+  });
+  if (hopDongsLoading) {
     return (
       <Center w="100%">
         <ActivityIndicator size="large" color="#0000ff" />
@@ -277,7 +199,7 @@ export default function BookIndexScreen({ navigation, route }) {
         <AccordionCustom setData={setData} />
         <TableList title={title} data={dataSodoc} />
       </VStack>
-      <MenuButton
+      <MenuButtonV2
         setModalVisible={setModalVisible}
         setModalCreated={setModalCreated}
         setModalCreatedMuti={setModalCreatedMuti}
@@ -288,16 +210,23 @@ export default function BookIndexScreen({ navigation, route }) {
       {modalCreated != null && (
         <CreateSoDocModal
           modalCreated={modalCreated}
-          data={data}
-          loading={loading}
-          error={error}
+          data={hopDongsData}
+          loading={hopDongsLoading}
+          error={hopDongsError}
+          canBoDocData={canBoDocData}
+          canBoDocLoading={canBoDocLoading}
+          canBoDocError={canBoDocError}
           setModalCreated={setModalCreated}
+          service={service}
         />
       )}
       {modalCreateMuti != null && (
         <CreateMutiSoDocModal
           modalCreateMuti={modalCreateMuti}
           setModalCreatedMuti={setModalCreatedMuti}
+          data={hopDongsData}
+          loading={hopDongsLoading}
+          error={hopDongsError}
         />
       )}
       {modalVisible != null && (
@@ -309,53 +238,3 @@ export default function BookIndexScreen({ navigation, route }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  paginationContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 10,
-  },
-  paginationButton: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginHorizontal: 5,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#ccc",
-  },
-  paginationButtonActive: {
-    backgroundColor: "#ccc",
-  },
-  paginationText: {
-    color: "#333",
-    fontWeight: "bold",
-  },
-  paginationTextActive: {
-    color: "white",
-  },
-  textContent: {
-    textAlign: "center",
-    fontFamily: "Quicksand_700Bold",
-    fontSize: 14,
-    color: colors.text,
-    fontWeight: 600,
-  },
-  textTitle: {
-    textAlign: "center",
-    fontWeight: 600,
-    fontSize: 16,
-    fontFamily: "Quicksand_700Bold",
-  },
-  boxContent: {
-    width: 120,
-    borderBottomWidth: 1,
-    backgroundColor: "white",
-  },
-  boxTitle: {
-    width: 120,
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    backgroundColor: "rgb(250,250,250)",
-  },
-});
