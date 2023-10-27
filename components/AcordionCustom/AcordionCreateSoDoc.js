@@ -25,8 +25,10 @@ import { color } from "react-native-reanimated";
 import { colors } from "../../constants";
 import {
   createNewSoDocApi,
+  filterHopDongApi,
   filterSoDocApi,
   khuVucAllApi,
+  kyGhiChiSoAllApi,
   soDocChiSoApi,
   tuyenDocAllApi,
 } from "../../api/user";
@@ -42,7 +44,12 @@ import moment from "moment";
 import App from "../../screens/user/TestTable";
 import YearMonthPicker from "../PickYearMonth/PickYearMonth";
 
-const AccordionCreateSoDoc = ({ data, setData }) => {
+const AccordionCreateSoDoc = ({
+  dataHopDong,
+  setDataHopDong,
+  canBoDocs,
+  service,
+}) => {
   const [expanded, setExpanded] = React.useState(true);
   const [value, setValue] = React.useState("");
   const [showDatePickerModal, setShowDatePickerModal] = useState(false);
@@ -54,23 +61,22 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
   const [selectedKhuVuc, setSelectedKhuVuc] = useState(null);
   const [selectedKyGhi, setSelectedKyGhi] = useState(null);
   const [selectedTenSo, setSelectedTenSo] = useState(null);
+  const [selectedLoaiKH, setSelectedLoaiKH] = useState(null);
+  const [keyIdHopDong, setKeyIdHopDong] = useState(null);
+  const [loaiDH, setLoaiDH] = useState(null);
   const [allData, setAllData] = useState();
-  const [allKVData, setAllKVData] = useState();
   const [dateSelected, setDateSelected] = useState(moment());
 
   const handleFilterSoDoc = async () => {
     const filterParams = {
-      thangSoDoc: moment(dateSelected).format("MM/YYYY"),
-      canboDocId: selectedCanBo,
       tuyenDocId: selectedTuyenDoc,
-      trangThaiSoDoc: 1,
-      khuVucId: selectedKhuVuc,
-      kyGhiChiSoId: selectedKyGhi,
-      tenSo: selectedTenSo,
+      loaiKH: selectedLoaiKH,
+      keyIdHopDong: keyIdHopDong,
+      loaiDH: loaiDH,
     };
     try {
-      const filterData = await createNewSoDocApi(filterParams);
-      setData(filterData.data);
+      const filterData = await filterHopDongApi(filterParams);
+      setDataHopDong(filterData.data);
     } catch (error) {
       // Handle errors here
       console.error("Error:", error);
@@ -78,7 +84,7 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
   };
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchTuyenDocData() {
       try {
         const response = await tuyenDocAllApi();
         console.log("Tuyen doc API:", response.data);
@@ -89,16 +95,13 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
         // Xử lý lỗi ở đây nếu cần
       }
     }
-    fetchData();
+    fetchTuyenDocData();
   }, []);
   const handleTimMoi = () => {
-    setDateSelected();
-    setSelectedCanBo();
+    setSelectedLoaiKH();
+    setKeyIdHopDong();
     setSelectedTuyenDoc();
-    setSelectedTrangThai();
-    setSelectedKhuVuc();
-    setSelectedKyGhi();
-    setSelectedTenSo();
+    setLoaiDH();
   };
   // useEffect(() => {
   //   setData(responseData);
@@ -135,7 +138,7 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
         <FormControl mt="3" style={styles.formControl}>
           <FormControl.Label>Cán bộ</FormControl.Label>
           <Select
-            selectedValue={selectedTrangThai}
+            selectedValue={selectedCanBo}
             minWidth="200"
             accessibilityLabel="Chọn cán bộ"
             placeholder="Chọn cán bộ"
@@ -146,9 +149,15 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+            onValueChange={(itemValue) => setSelectedCanBo(itemValue)}
           >
-            <Select.Item key={"1"} label="luongvantuong" value="1" />
+            {canBoDocs?.map((item) => (
+              <Select.Item
+                key={item.id}
+                label={item.userName}
+                value={item.id}
+              />
+            ))}
           </Select>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
@@ -181,7 +190,7 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
           <FormControl.Label>Loại KH</FormControl.Label>
 
           <Select
-            selectedValue={selectedTrangThai}
+            selectedValue={selectedLoaiKH}
             style={{ fontFamily: "Quicksand_500Medium" }}
             minWidth="200"
             accessibilityLabel="Chọn loại khách hàng"
@@ -192,7 +201,7 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+            onValueChange={(itemValue) => setSelectedLoaiKH(itemValue)}
           >
             <Select.Item key={"1"} label="Cá nhân" value="1" />
             <Select.Item key={"2"} label="Tổ chức" value="2" />
@@ -204,8 +213,8 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
             size="md"
             style={{ fontFamily: "Quicksand_500Medium" }}
             placeholder="Nhập số hợp đồng"
-            value={selectedTenSo}
-            onChangeText={(text) => setSelectedTenSo(text)}
+            value={keyIdHopDong}
+            onChangeText={(text) => setKeyIdHopDong(text)}
             fontSize={12}
           />
         </FormControl>
@@ -213,7 +222,7 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
           <FormControl.Label>Loại ĐH</FormControl.Label>
 
           <Select
-            selectedValue={selectedTrangThai}
+            selectedValue={loaiDH}
             minWidth="200"
             accessibilityLabel="Chọn loại đồng hồ"
             style={{ fontFamily: "Quicksand_500Medium" }}
@@ -224,7 +233,7 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+            onValueChange={(itemValue) => setLoaiDH(itemValue)}
           >
             <Select.Item key={"1"} label="Tất cả" value="1" />
             <Select.Item key={"2"} label="Đồng hồ dịch vụ" value="2" />

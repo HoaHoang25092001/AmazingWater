@@ -32,7 +32,7 @@ import App from "../../screens/user/TestTable";
 import YearMonthPicker from "../PickYearMonth/PickYearMonth";
 import { useService } from "../../ServiceContext";
 
-const AccordionCustom = ({ data, setData }) => {
+const AccordionCustom = ({ kyGCSData, setData }) => {
   const [showDatePickerModal, setShowDatePickerModal] = useState(false);
   const [selectedCanBo, setSelectedCanBo] = useState(null);
   const [selectedTuyenDoc, setSelectedTuyenDoc] = useState(null);
@@ -209,12 +209,27 @@ const AccordionCustom = ({ data, setData }) => {
           </Select>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
-          <FormControl.Label>Kỳ GSC</FormControl.Label>
-          <Input
-            size="md"
-            value={selectedKyGhi}
-            onChangeText={(text) => setSelectedKyGhi(text)}
-          />
+          <FormControl.Label>Kỳ GCS</FormControl.Label>
+          <Select
+            selectedValue={selectedKyGhi}
+            minWidth="200"
+            accessibilityLabel="Chọn kỳ GCS"
+            placeholder="Chọn kỳ GCS"
+            _selectedItem={{
+              bg: "teal.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            mt={1}
+            onValueChange={(itemValue) => setSelectedKyGhi(itemValue)}
+          >
+            {kyGCSData?.map((item) => (
+              <Select.Item
+                key={item.id}
+                label={item.tenKyGCS}
+                value={item.id}
+              />
+            ))}
+          </Select>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
           <FormControl.Label>Tên sổ</FormControl.Label>

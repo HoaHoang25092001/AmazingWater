@@ -48,7 +48,7 @@ const TableList = ({ data }) => {
       id: "9",
       name: "Hóa đơn",
     },
-  ];
+  ]; 
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage

@@ -6,7 +6,7 @@ import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { createNewSoDocApi } from "../../api/user";
 import Pagination from "../Pagination";
 function TableCreate({
-  data,
+  dataHopDong,
   error,
   loading,
   setSelectedHopDongId,
@@ -18,12 +18,6 @@ function TableCreate({
   const [service, setService] = React.useState("");
   const [groupValues, setGroupValues] = React.useState([]);
   const [groupValue, setGroupValue] = React.useState([]);
-  const hopDongs = data ? data.GetHopDongs.nodes : [];
-  const totalPages = Math.ceil(hopDongs.length / itemsPerPage);
-  const paginatedData = hopDongs.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   const styles = StyleSheet.create({
     paginationContainer: {
@@ -124,6 +118,12 @@ function TableCreate({
   if (error) {
     return <Text>Error: {error.message}</Text>;
   }
+
+  const totalPages = Math.ceil(dataHopDong.length / itemsPerPage);
+  const paginatedData = dataHopDong.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   const handleSelectAll = () => {
     const allCheckboxValues = paginatedData.map((hopDong) => hopDong.id);
     setGroupValue(allCheckboxValues);
@@ -229,20 +229,18 @@ function TableCreate({
                   >
                     <Text style={styles.textContent}>{hopDong.keyId}</Text>
                   </Box>
-                  {hopDong.khachHang && (
-                    <Box
-                      borderLeftWidth={1}
-                      style={styles.boxContent2}
-                      borderColor="muted.200"
-                      pl={["5", "4"]}
-                      pr={["5", "5"]}
-                      py="2"
-                    >
-                      <Text style={styles.textContent}>
-                        {hopDong.khachHang.tenKhachHang}
-                      </Text>
-                    </Box>
-                  )}
+                  <Box
+                    borderLeftWidth={1}
+                    style={styles.boxContent2}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text style={styles.textContent}>
+                      {hopDong.khachHangId}
+                    </Text>
+                  </Box>
                   <Box
                     borderLeftWidth={1}
                     style={styles.boxContent2}
@@ -262,7 +260,7 @@ function TableCreate({
                     pr={["5", "5"]}
                     py="2"
                   >
-                    <Text style={styles.textContent}>{hopDong.diachi}</Text>
+                    <Text style={styles.textContent}>{hopDong.chiSoCu}</Text>
                   </Box>
                 </HStack>
               ))}

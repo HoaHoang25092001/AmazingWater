@@ -1,13 +1,18 @@
 import { View, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Alert,
+  Box,
   Button,
   Center,
   Checkbox,
   CheckIcon,
+  CloseIcon,
   FormControl,
+  Heading,
   HStack,
   Icon,
+  IconButton,
   Input,
   Modal,
   Select,
@@ -19,16 +24,15 @@ import AccordionCreateSoDoc from "../AcordionCustom/AcordionCreateSoDoc";
 import { createNewSoDocApi } from "../../api/user";
 import TableCreate from "../TableList/TableCreate";
 import moment from "moment";
+import Toast from "react-native-toast-message";
 
 const CreateSoDocModal = ({
   modalCreated,
   setModalCreated,
-  data,
+  kyGCSData,
   loading,
   canBoDocData,
   service,
-  canBoDocLoading,
-  canBoDocError,
 }) => {
   const [selectedTenCanBo, setSelectedTenCanBo] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -41,9 +45,12 @@ const CreateSoDocModal = ({
   const [datePickerVisibleCuoiKy, setDatePickerVisibleCuoiKy] = useState(false);
 
   const [selectedTenSoDoc, setSelectedTenSoDoc] = useState(null);
-  const [selectedHopDongId, setSelectedHopDongId] = useState([null]);
+  const [selectedHopDongId, setSelectedHopDongId] = useState([]);
   const [selectedKyGhiId, setSelectedKyGhiId] = useState(null);
+  const [createSoDocData, setCreateSoDocData] = useState();
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const canBoDocs = canBoDocData ? canBoDocData.GetUsers.nodes : [];
+  const [dataHopDong, setDataHopDong] = useState([]);
   const handleCreateNewSoDoc = async () => {
     const createSoDocField = {
       nguoiQuanLyId: selectedTenCanBo,
@@ -58,10 +65,18 @@ const CreateSoDocModal = ({
     };
     try {
       const dataCreate = await createNewSoDocApi(createSoDocField);
-      setCreateSoDocData(dataCreate.data);
+
       console.log("Successfully created", dataCreate);
+      if (dataCreate.statusCode === 200) {
+        setShowSuccessMessage(true);
+        setCreateSoDocData(dataCreate.statusCode);
+      }
     } catch (error) {
       // Handle errors here
+      if (error.StatusCode === 409) {
+        setShowSuccessMessage(true);
+        setCreateSoDocData(error.StatusCode);
+      }
       console.error("Error:", error);
     }
   };
@@ -78,19 +93,26 @@ const CreateSoDocModal = ({
       >
         <Modal.Content>
           <Modal.CloseButton />
+
           <Modal.Header>Tạo sổ</Modal.Header>
 
           <Modal.Body>
             {/*} <TableList title={title} data={data} renderItem={renderItem} />*/}
             <VStack space={3}>
-              <AccordionCreateSoDoc data={data} />
+              <AccordionCreateSoDoc
+                dataHopDong={dataHopDong}
+                setDataHopDong={setDataHopDong}
+                canBoDocs={canBoDocs}
+                service={service}
+              />
               <TableCreate
-                data={data}
+                dataHopDong={dataHopDong}
                 loading={loading}
                 selectedHopDongId={selectedHopDongId}
                 setSelectedHopDongId={setSelectedHopDongId}
               />
             </VStack>
+
             <Center>
               <FormControl w="90%" maxW="300px">
                 <FormControl.Label>Cán bộ</FormControl.Label>
@@ -119,7 +141,7 @@ const CreateSoDocModal = ({
               <FormControl w="90%" maxW="300px">
                 <FormControl.Label>Kỳ ghi chỉ số</FormControl.Label>
                 <Select
-                  selectedValue={selectedTenCanBo}
+                  selectedValue={selectedKyGhiId}
                   minWidth="200"
                   style={{ fontFamily: "Quicksand_500Medium" }}
                   accessibilityLabel="Chọn kỳ ghi chỉ số"
@@ -129,9 +151,15 @@ const CreateSoDocModal = ({
                     endIcon: <CheckIcon size="5" />,
                   }}
                   mt={1}
-                  onValueChange={(itemValue) => setSelectedTenCanBo(itemValue)}
+                  onValueChange={(itemValue) => setSelectedKyGhiId(itemValue)}
                 >
-                  <Select.Item key={"1"} label="luongvantuong" value="1" />
+                  {kyGCSData?.map((item) => (
+                    <Select.Item
+                      key={item.id}
+                      label={item.tenKyGCS}
+                      value={item.id}
+                    />
+                  ))}
                 </Select>
               </FormControl>
               <FormControl w="90%" maxW="300px">
@@ -218,6 +246,7 @@ const CreateSoDocModal = ({
                   locale="vi-VN"
                 />
               </FormControl>
+
               <FormControl w="90%" maxW="300px">
                 <FormControl.Label>Tên sổ</FormControl.Label>
                 <Input style={{ fontFamily: "Quicksand_500Medium" }} />

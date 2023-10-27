@@ -36,7 +36,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { soDocChiSoApi, soDocChiSoTheoNMApi } from "../../api/user";
+import {
+  kyGhiChiSoAllApi,
+  soDocChiSoApi,
+  soDocChiSoTheoNMApi,
+} from "../../api/user";
 import AccordionCustom from "../../components/AcordionCustom/AcordionCustom";
 import DateTimeCustom from "../../components/DateTimeCustom/DateTimeCustom";
 import Quicksand from "../../components/Fonts/QuickSand";
@@ -59,6 +63,7 @@ export default function BookIndexScreen({ navigation, route }) {
   const [modalCreateMuti, setModalCreatedMuti] = useState(false);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [dataSodoc, setData] = useState([]);
+  const [kyGCSData, setKyGCSData] = useState();
   const { service, setService } = useService();
   const title = [
     {
@@ -125,25 +130,21 @@ export default function BookIndexScreen({ navigation, route }) {
     }
   }, [service]);
 
-  const GET_HOP_DONGS = gql`
-    query {
-      GetHopDongs(first: 70) {
-        nodes {
-          keyId
-          id
-          diachi
-          khachHang {
-            tenKhachHang
-          }
-          dongHoNuocs {
-            chiSoDongHos {
-              chiSoCu
-            }
-          }
-        }
+  useEffect(() => {
+    async function fetchKyGCSData() {
+      try {
+        const response = await kyGhiChiSoAllApi();
+        console.log("Ky GCS API:", response.data);
+        const data = response.data;
+        setKyGCSData(data);
+      } catch (error) {
+        console.error("Lỗi Ky GCS API:", error);
+        // Xử lý lỗi ở đây nếu cần
       }
     }
-  `;
+    fetchKyGCSData();
+  }, [service]);
+
   const LOAD_ALL_CAN_BO_DOC = gql`
     query GetUsers($first: Int!, $roleCanBo: String!) {
       GetUsers(
@@ -164,18 +165,12 @@ export default function BookIndexScreen({ navigation, route }) {
   `;
 
   const fetchGraphQLData = () => {
-    dispatch(hopDong(GET_HOP_DONGS));
     dispatch(canBoDoc(LOAD_ALL_CAN_BO_DOC));
   };
 
   useEffect(() => {
     fetchGraphQLData();
   }, [modalCreated]);
-  const {
-    loading: hopDongsLoading,
-    error: hopDongsError,
-    data: hopDongsData,
-  } = useQuery(GET_HOP_DONGS);
   const {
     loading: canBoDocLoading,
     error: canBoDocError,
@@ -186,17 +181,10 @@ export default function BookIndexScreen({ navigation, route }) {
       roleCanBo: "Cán bộ đọc", // Thay đổi giá trị của $roleCanBo tùy theo nhu cầu
     },
   });
-  if (hopDongsLoading) {
-    return (
-      <Center w="100%">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </Center>
-    );
-  }
   return (
     <View>
       <VStack space={3}>
-        <AccordionCustom setData={setData} />
+        <AccordionCustom setData={setData} kyGCSData={kyGCSData} />
         <TableList title={title} data={dataSodoc} />
       </VStack>
       <MenuButtonV2
@@ -210,23 +198,18 @@ export default function BookIndexScreen({ navigation, route }) {
       {modalCreated != null && (
         <CreateSoDocModal
           modalCreated={modalCreated}
-          data={hopDongsData}
-          loading={hopDongsLoading}
-          error={hopDongsError}
           canBoDocData={canBoDocData}
           canBoDocLoading={canBoDocLoading}
           canBoDocError={canBoDocError}
           setModalCreated={setModalCreated}
           service={service}
+          kyGCSData={kyGCSData}
         />
       )}
       {modalCreateMuti != null && (
         <CreateMutiSoDocModal
           modalCreateMuti={modalCreateMuti}
           setModalCreatedMuti={setModalCreatedMuti}
-          data={hopDongsData}
-          loading={hopDongsLoading}
-          error={hopDongsError}
         />
       )}
       {modalVisible != null && (

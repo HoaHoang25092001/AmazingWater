@@ -67,13 +67,14 @@ export const createNewSoDocApi = async (filterParams) => {
     throw error.response.data;
   }
 };
+
 export const filterHopDongApi = async (filterParams) => {
   try {
     const response = await axios.post(
       `${API_URL}/api/hop-dong/filter-hop-dong-for-create-so-doc`,
       filterParams
     );
-    console.log("Filtered hop dong", response.data);
+    console.log("Filtered hop dong", response.data.data);
     return response.data;
   } catch (error) {
     console.log("Filtered data error", error.response.data);
@@ -96,6 +97,15 @@ export const filterSoDocApi = async (filterParams) => {
 export const tuyenDocAllApi = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/tuyen-doc/get-all`);
+    return response.data;
+  } catch (error) {
+    console.log("data error", error.response.data);
+    throw error.response.data;
+  }
+};
+export const kyGhiChiSoAllApi = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/ky-ghi-chi-so/get-all`);
     return response.data;
   } catch (error) {
     console.log("data error", error.response.data);

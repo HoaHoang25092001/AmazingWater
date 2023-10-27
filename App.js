@@ -2,6 +2,8 @@ import Routes from "./routes/routes";
 import { NativeBaseProvider } from "native-base";
 import { useEffect } from "react";
 import { LogBox } from "react-native";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 export default function App() {
   useEffect(() => {
@@ -16,8 +18,10 @@ export default function App() {
   }, []);
 
   return (
-    <NativeBaseProvider>
-      <Routes />
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <Routes />
+      </NativeBaseProvider>
+    </Provider>
   );
 }
