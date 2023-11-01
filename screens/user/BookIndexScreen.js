@@ -36,7 +36,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { soDocChiSoApi, soDocChiSoTheoNMApi } from "../../api/user";
+import {
+  kyGhiChiSoAllApi,
+  soDocChiSoApi,
+  soDocChiSoTheoNMApi,
+} from "../../api/user";
 import AccordionCustom from "../../components/AcordionCustom/AcordionCustom";
 import DateTimeCustom from "../../components/DateTimeCustom/DateTimeCustom";
 import Quicksand from "../../components/Fonts/QuickSand";
@@ -45,30 +49,22 @@ import TableCreateMuti from "../../components/TableList/TableCreateMuti";
 import TableList from "../../components/TableList/TableList";
 import { colors } from "../../constants";
 import { useService } from "../../ServiceContext";
-import { hopDong, soDocChiSo } from "../../store/asyncAction";
+import { canBoDoc, hopDong, soDocChiSo } from "../../store/asyncAction";
 import gql from "graphql-tag";
-import TableTest from "./TableTest";
 import { useQuery } from "@apollo/client";
 
 import CreateSoDocModal from "../../components/CustomModel/CreateSoDocModal";
 import CreateMutiSoDocModal from "../../components/CustomModel/CreateMutiSoDocModal";
 import ChiSoModal from "../../components/CustomModel/ChiSoModal";
+import MenuButtonV2 from "../../components/MenuButton/MenuButtonV2";
 export default function BookIndexScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [showDateModal, setShowDateModal] = useState(false);
-  const [showDateModalMuti, setShowDateModalMuti] = useState(false);
-  const [valueDate, setValueDate] = React.useState("---Chọn ngày---");
-  const [valueDateMuti, setValueDateMuti] = React.useState("---Chọn ngày---");
   const [modalCreated, setModalCreated] = useState(null);
   const [modalCreateMuti, setModalCreatedMuti] = useState(false);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [dataSodoc, setData] = useState([]);
-  const [dataFilter, setDataFilter] = useState([]);
-  const [hopDongs, setHopDong] = useState([]);
+  const [kyGCSData, setKyGCSData] = useState();
   const { service, setService } = useService();
-  const [selectedTenCanBo, setSelectedTenCanBo] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [datePickerVisible, setDatePickerVisible] = useState(false);
   const title = [
     {
       id: "2",
@@ -103,138 +99,7 @@ export default function BookIndexScreen({ navigation, route }) {
       name: "Hóa đơn",
     },
   ];
-  
-  const renderItem = ({ item, index }) => (
-    <TouchableOpacity>
-      <HStack h={10} key={index}>
-        <Box
-          borderRightWidth={1}
-          borderLeftWidth={1}
-          style={styles.boxIndex}
-          borderColor="muted.200"
-          w={50}
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{index + 1}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.tenTuyenDoc}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.nguoiQuanLyId}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.tenSo}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.chuaghi}</Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>
-            {item.chotSo ? "Đã chốt" : "Chưa chốt"}
-          </Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>
-            {item.trangThai === 1
-              ? "Đang ghi"
-              : item.trangThai === 2
-              ? "Đã ngừng"
-              : ""}
-          </Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>
-            {item.ngayChot
-              ? `${item.ngayChot.substring(8, 10)}/${item.ngayChot.substring(
-                  5,
-                  7
-                )}/${item.ngayChot.substring(0, 4)}`
-              : ""}
-          </Text>
-        </Box>
-        <Box
-          borderRightWidth={1}
-          style={styles.boxContent}
-          borderColor="muted.200"
-          pl={["5", "4"]}
-          pr={["5", "5"]}
-          py="2"
-        >
-          <Text style={styles.textContent}>{item.hoaDon}</Text>
-        </Box>
-      </HStack>
-    </TouchableOpacity>
-  );
-  const searchLabel = [
-    {
-      label: "Cán bộ đọc",
-    },
-    { label: "Tuyến đọc" },
-    { label: "Trạng thái" },
-    { label: "Khu vực" },
-    { label: "Kỳ GSC" },
-    { label: "Tên sổ" },
-  ];
 
-  const showDatePicker = () => {
-    setDatePickerVisible(true);
-  };
-
-  const handleOpenDatePickerModal = () => {
-    setShowDatePickerModal(true);
-  };
   const dispatch = useDispatch();
 
   //pagination
@@ -265,49 +130,64 @@ export default function BookIndexScreen({ navigation, route }) {
     }
   }, [service]);
 
- 
-  const GET_HOP_DONGS = gql`
-    query {
-      GetHopDongs(first: 70) {
+  useEffect(() => {
+    async function fetchKyGCSData() {
+      try {
+        const response = await kyGhiChiSoAllApi();
+        console.log("Ky GCS API:", response.data);
+        const data = response.data;
+        setKyGCSData(data);
+      } catch (error) {
+        console.error("Lỗi Ky GCS API:", error);
+        // Xử lý lỗi ở đây nếu cần
+      }
+    }
+    fetchKyGCSData();
+  }, [service]);
+
+  const LOAD_ALL_CAN_BO_DOC = gql`
+    query GetUsers($first: Int!, $roleCanBo: String!) {
+      GetUsers(
+        first: $first
+        where: { phongBan: { name: { eq: $roleCanBo } } }
+      ) {
         nodes {
-          keyId
           id
-          diachi
-          khachHang {
-            tenKhachHang
-          }
-          dongHoNuocs {
-            chiSoDongHos {
-              chiSoCu
-            }
+          userName
+          phongBan {
+            id
+            name
           }
         }
+        totalCount
       }
     }
   `;
 
   const fetchGraphQLData = () => {
-    dispatch(hopDong(GET_HOP_DONGS));
+    dispatch(canBoDoc(LOAD_ALL_CAN_BO_DOC));
   };
 
   useEffect(() => {
     fetchGraphQLData();
   }, [modalCreated]);
-  const { loading, error, data } = useQuery(GET_HOP_DONGS);
-  if (loading) {
-    return (
-      <Center w="100%">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </Center>
-    );
-  }
+  const {
+    loading: canBoDocLoading,
+    error: canBoDocError,
+    data: canBoDocData,
+  } = useQuery(LOAD_ALL_CAN_BO_DOC, {
+    variables: {
+      first: 10, // Thay đổi giá trị của $first tùy theo nhu cầu
+      roleCanBo: "Cán bộ đọc", // Thay đổi giá trị của $roleCanBo tùy theo nhu cầu
+    },
+  });
   return (
     <View>
       <VStack space={3}>
-        <AccordionCustom setData={setData} />
+        <AccordionCustom setData={setData} kyGCSData={kyGCSData} />
         <TableList title={title} data={dataSodoc} />
       </VStack>
-      <MenuButton
+      <MenuButtonV2
         setModalVisible={setModalVisible}
         setModalCreated={setModalCreated}
         setModalCreatedMuti={setModalCreatedMuti}
@@ -318,10 +198,12 @@ export default function BookIndexScreen({ navigation, route }) {
       {modalCreated != null && (
         <CreateSoDocModal
           modalCreated={modalCreated}
-          data={data}
-          loading={loading}
-          error={error}
+          canBoDocData={canBoDocData}
+          canBoDocLoading={canBoDocLoading}
+          canBoDocError={canBoDocError}
           setModalCreated={setModalCreated}
+          service={service}
+          kyGCSData={kyGCSData}
         />
       )}
       {modalCreateMuti != null && (
@@ -339,53 +221,3 @@ export default function BookIndexScreen({ navigation, route }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  paginationContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 10,
-  },
-  paginationButton: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginHorizontal: 5,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#ccc",
-  },
-  paginationButtonActive: {
-    backgroundColor: "#ccc",
-  },
-  paginationText: {
-    color: "#333",
-    fontWeight: "bold",
-  },
-  paginationTextActive: {
-    color: "white",
-  },
-  textContent: {
-    textAlign: "center",
-    fontFamily: "Quicksand_700Bold",
-    fontSize: 14,
-    color: colors.text,
-    fontWeight: 600,
-  },
-  textTitle: {
-    textAlign: "center",
-    fontWeight: 600,
-    fontSize: 16,
-    fontFamily: "Quicksand_700Bold",
-  },
-  boxContent: {
-    width: 120,
-    borderBottomWidth: 1,
-    backgroundColor: "white",
-  },
-  boxTitle: {
-    width: 120,
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    backgroundColor: "rgb(250,250,250)",
-  },
-});

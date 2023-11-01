@@ -12,6 +12,7 @@ import {
   ScrollView,
   Select,
   Text,
+  View,
 } from "native-base";
 import {
   useFonts,
@@ -19,13 +20,16 @@ import {
   Quicksand_500Medium,
 } from "@expo-google-fonts/quicksand";
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { DefaultTheme, List } from "react-native-paper";
 import { color } from "react-native-reanimated";
 import { colors } from "../../constants";
 import {
+  createNewSoDocApi,
+  filterHopDongApi,
   filterSoDocApi,
   khuVucAllApi,
+  kyGhiChiSoAllApi,
   soDocChiSoApi,
   tuyenDocAllApi,
 } from "../../api/user";
@@ -40,8 +44,17 @@ import MonthPicker from "react-native-month-picker";
 import moment from "moment";
 import App from "../../screens/user/TestTable";
 import YearMonthPicker from "../PickYearMonth/PickYearMonth";
+import { useDispatch, useSelector } from "react-redux";
 
-const AccordionCreateSoDoc = ({ data, setData }) => {
+const AccordionCreateSoDoc = ({
+  dataHopDong,
+  setDataHopDong,
+  canBoDocs,
+  service,
+  setTotalCount,
+  setTotalPages,
+  currentPage,
+}) => {
   const [expanded, setExpanded] = React.useState(true);
   const [value, setValue] = React.useState("");
   const [showDatePickerModal, setShowDatePickerModal] = useState(false);
@@ -53,30 +66,42 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
   const [selectedKhuVuc, setSelectedKhuVuc] = useState(null);
   const [selectedKyGhi, setSelectedKyGhi] = useState(null);
   const [selectedTenSo, setSelectedTenSo] = useState(null);
+  const [selectedLoaiKH, setSelectedLoaiKH] = useState(null);
+  const [keyIdHopDong, setKeyIdHopDong] = useState(null);
+  const [selectedSDTKH, setSDTKH] = useState(null);
+  const [loaiDH, setLoaiDH] = useState(null);
   const [allData, setAllData] = useState();
-  const [allKVData, setAllKVData] = useState();
   const [dateSelected, setDateSelected] = useState(moment());
 
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading); // Redux loading state
+  const error = useSelector((state) => state.error);
   const handleFilterSoDoc = async () => {
     const filterParams = {
-      thangSoDoc: moment(dateSelected).format("MM/YYYY"),
-      canboDocId: selectedCanBo,
       tuyenDocId: selectedTuyenDoc,
-      trangThaiSoDoc: 1,
-      khuVucId: selectedKhuVuc,
-      kyGhiChiSoId: selectedKyGhi,
-      tenSo: selectedTenSo,
+      loaiKH: selectedLoaiKH,
+      keyIdHopDong: keyIdHopDong,
+      loaiDH: loaiDH,
+      sdtKH: selectedSDTKH,
+      pageNumber: currentPage,
     };
+
     try {
-      const filterData = await filterSoDocApi(filterParams);
-      setData(filterData.data);
+      const filterData = await filterHopDongApi(filterParams);
+
+      setDataHopDong(filterData.items);
+      setTotalCount(filterData.totalCount);
+      setTotalPages(filterData.totalPages);
     } catch (error) {
-      // Handle errors here
       console.error("Error:", error);
     }
   };
   useEffect(() => {
-    async function fetchData() {
+    handleFilterSoDoc();
+  },[currentPage]);
+
+  useEffect(() => {
+    async function fetchTuyenDocData() {
       try {
         const response = await tuyenDocAllApi();
         console.log("Tuyen doc API:", response.data);
@@ -87,16 +112,13 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
         // Xử lý lỗi ở đây nếu cần
       }
     }
-    fetchData();
+    fetchTuyenDocData();
   }, []);
   const handleTimMoi = () => {
-    setDateSelected();
-    setSelectedCanBo();
+    setSelectedLoaiKH();
+    setKeyIdHopDong();
     setSelectedTuyenDoc();
-    setSelectedTrangThai();
-    setSelectedKhuVuc();
-    setSelectedKyGhi();
-    setSelectedTenSo();
+    setLoaiDH();
   };
   // useEffect(() => {
   //   setData(responseData);
@@ -115,7 +137,6 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
       <ScrollView
         style={{
           backgroundColor: "white",
-          height: "40%",
         }}
       >
         <FormControl mt="3" style={styles.formControl}>
@@ -126,24 +147,34 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
             colorScheme={"gray"}
             onPress={() => setShowDatePickerModal(true)}
           >
-            {moment(dateSelected).format("MM/YYYY")}
+            <Text style={{ fontFamily: "Quicksand_500Medium" }}>
+              {moment(dateSelected).format("MM/YYYY")}
+            </Text>
           </Button>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
           <FormControl.Label>Cán bộ</FormControl.Label>
           <Select
-            selectedValue={selectedTrangThai}
+            selectedValue={selectedCanBo}
             minWidth="200"
             accessibilityLabel="Chọn cán bộ"
             placeholder="Chọn cán bộ"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            fontSize={12}
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+            onValueChange={(itemValue) => setSelectedCanBo(itemValue)}
           >
-            <Select.Item key={"1"} label="luongvantuong" value="1" />
+            {canBoDocs?.map((item) => (
+              <Select.Item
+                key={item.id}
+                label={item.userName}
+                value={item.id}
+              />
+            ))}
           </Select>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
@@ -153,6 +184,8 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
             selectedValue={selectedTuyenDoc}
             minWidth="200"
             accessibilityLabel="Chọn tuyến đọc"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            fontSize={12}
             placeholder="Chọn tuyến đọc"
             _selectedItem={{
               bg: "teal.600",
@@ -174,44 +207,65 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
           <FormControl.Label>Loại KH</FormControl.Label>
 
           <Select
-            selectedValue={selectedTrangThai}
+            selectedValue={selectedLoaiKH}
+            style={{ fontFamily: "Quicksand_500Medium" }}
             minWidth="200"
             accessibilityLabel="Chọn loại khách hàng"
             placeholder="Chọn loại khách hàng"
+            fontSize={12}
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+            onValueChange={(itemValue) => setSelectedLoaiKH(itemValue)}
           >
-            <Select.Item key={"1"} label="Cá nhân" value="1" />
-            <Select.Item key={"2"} label="Tổ chức" value="2" />
+            <Select.Item key={"Cá nhân"} label="Cá nhân" value="Cá nhân" />
+            <Select.Item
+              key={"Đơn vị, tổ chức"}
+              label="Tổ chức"
+              value="Đơn vị, tổ chức"
+            />
           </Select>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
           <FormControl.Label>Số hợp đồng</FormControl.Label>
           <Input
             size="md"
+            style={{ fontFamily: "Quicksand_500Medium" }}
             placeholder="Nhập số hợp đồng"
-            value={selectedTenSo}
-            onChangeText={(text) => setSelectedTenSo(text)}
+            value={keyIdHopDong}
+            onChangeText={(text) => setKeyIdHopDong(text)}
+            fontSize={12}
+          />
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Số điện thoại KH</FormControl.Label>
+          <Input
+            size="md"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            placeholder="Nhập số điện thoại KH"
+            value={selectedSDTKH}
+            onChangeText={(text) => setSDTKH(text)}
+            fontSize={12}
           />
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
           <FormControl.Label>Loại ĐH</FormControl.Label>
 
           <Select
-            selectedValue={selectedTrangThai}
+            selectedValue={loaiDH}
             minWidth="200"
             accessibilityLabel="Chọn loại đồng hồ"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            fontSize={12}
             placeholder="Chọn loại đồng hồ"
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={(itemValue) => setSelectedTrangThai(itemValue)}
+            onValueChange={(itemValue) => setLoaiDH(itemValue)}
           >
             <Select.Item key={"1"} label="Tất cả" value="1" />
             <Select.Item key={"2"} label="Đồng hồ dịch vụ" value="2" />
@@ -224,16 +278,32 @@ const AccordionCreateSoDoc = ({ data, setData }) => {
               <Button
                 variant={"outline"}
                 onPress={handleFilterSoDoc}
-                leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+                leftIcon={
+                  <Icon
+                    as={MaterialIcons}
+                    name="search"
+                    size="sm"
+                    color={"black"}
+                  />
+                }
               >
-                Tìm kiếm
+                <Text style={{ fontFamily: "Quicksand_700Bold" }}>
+                  Tìm kiếm
+                </Text>
               </Button>
               <Button
                 variant={"outline"}
                 onPress={handleTimMoi}
-                leftIcon={<Icon as={MaterialIcons} name="search" size="sm" />}
+                leftIcon={
+                  <Icon
+                    as={MaterialIcons}
+                    name="search"
+                    size="sm"
+                    color={"black"}
+                  />
+                }
               >
-                Tìm mới
+                <Text style={{ fontFamily: "Quicksand_700Bold" }}>Tìm mới</Text>
               </Button>
             </Button.Group>
           </HStack>

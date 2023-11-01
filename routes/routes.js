@@ -34,7 +34,6 @@ import {
   Text,
   View,
 } from "native-base";
-import store from "../store/store";
 import { logoutUser } from "../store/asyncAction";
 import Toast from "react-native-toast-message";
 import { Ionicons } from "@expo/vector-icons";
@@ -50,6 +49,7 @@ import {
 } from "@expo-google-fonts/quicksand";
 import { ApolloClient, ApolloProvider } from "@apollo/client";
 import client from "../config/apolloClient";
+import store from "../store/store";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -295,13 +295,11 @@ const Routes = () => {
   });
   if (fontsLoaded) {
     return (
-      <Provider store={store}>
-        <ServiceProvider>
-          <ApolloProvider client={client}>
-            <RootNavigation />
-          </ApolloProvider>
-        </ServiceProvider>
-      </Provider>
+      <ServiceProvider>
+        <ApolloProvider client={client}>
+          <RootNavigation />
+        </ApolloProvider>
+      </ServiceProvider>
     );
   }
 };

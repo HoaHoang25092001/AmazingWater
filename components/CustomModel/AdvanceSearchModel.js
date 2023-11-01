@@ -38,14 +38,14 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
     }
     return (
         <View style={styles.centeredView}>
-            <Modal isOpen={visible} closeOnOverlayClick={true} onClose={onClose} size="xl" justifyContent="center" >
-                <Modal.Content maxWidth="500">
+            <Modal isOpen={visible} closeOnOverlayClick={true}>
+                <Modal.Content maxWidth="400px">
                     <Modal.CloseButton />
                     <Modal.Header>Tìm kiếm nâng cao</Modal.Header>
                     <Modal.Body>
                         <FormControl>
                             <FormControl.Label>Loại khách hàng</FormControl.Label>
-                            <Box maxW="380">
+                            <Box maxW="280">
                                 <Select selectedValue={service} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Loại khách hàng" _selectedItem={{
                                     bg: "white",
                                     endIcon: <CheckIcon size="5" />
@@ -73,7 +73,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                         </FormControl>
                         <FormControl mt="3">
                             <FormControl.Label>Phạm vi</FormControl.Label>
-                            <Box maxW="380">
+                            <Box maxW="280">
                                 <Select selectedValue={scope} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Phạm vi" _selectedItem={{
                                     bg: "white",
                                     endIcon: <CheckIcon size="5" />
@@ -101,7 +101,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                         </FormControl>
                         <FormControl mt="3">
                             <FormControl.Label>Vùng</FormControl.Label>
-                            <Box maxW="380">
+                            <Box maxW="280">
                                 <Select selectedValue={region} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Vùng" _selectedItem={{
                                     bg: "white",
                                     endIcon: <CheckIcon size="5" />
@@ -129,7 +129,7 @@ const AdvanceSearchModel = ({ visible, onClose }) => {
                         </FormControl>
                         <FormControl mt="3">
                             <FormControl.Label>Khu vực</FormControl.Label>
-                            <Box maxW="380">
+                            <Box maxW="280">
                                 <Select selectedValue={area} minWidth="280" height="37" accessibilityLabel="Choose Service" bg="white" placeholder="Vùng" _selectedItem={{
                                     bg: "white",
                                     endIcon: <CheckIcon size="5" />
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
         textAlign: "left"
     },
     searchButtonModel: {
-        width: 300,
+        width: 280,
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor: colors.white,
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
         borderColor: "#1677FF"
     },
     clearButtonModel: {
-        width: 300,
+        width: 280,
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor: "#5D87FF",
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     closeButtonModel: {
-        width: 300,
+        width: 280,
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor: "#FA896B",

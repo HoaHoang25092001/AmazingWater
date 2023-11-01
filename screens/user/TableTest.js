@@ -1,22 +1,24 @@
-import { Box, HStack, ScrollView, VStack } from "native-base";
+import { Box, Center, Checkbox, HStack, ScrollView } from "native-base";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Checkbox } from "react-native-paper";
+
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
+import { createNewSoDocApi } from "../../api/user";
 import Pagination from "../../components/Pagination";
-import AccordionCreateSoDoc from "../../components/AcordionCustom/AcordionCreateSoDoc";
-function TableTest({ data, loading }) {
+function TableTest({ data, error, loading }) {
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [service, setService] = React.useState("");
+  const [groupValues, setGroupValues] = React.useState([]);
+  const [groupValue, setGroupValue] = React.useState([]);
   const hopDongs = data ? data.GetHopDongs.nodes : [];
   const totalPages = Math.ceil(hopDongs.length / itemsPerPage);
   const paginatedData = hopDongs.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  const [checked, setChecked] = React.useState(false);
+
   const styles = StyleSheet.create({
     paginationContainer: {
       flexDirection: "row",
@@ -113,9 +115,12 @@ function TableTest({ data, loading }) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
   return (
     <View>
-      <AccordionCreateSoDoc />
       <ScrollView horizontal nestedScrollEnabled={true}>
         <Box>
           <HStack
@@ -125,19 +130,24 @@ function TableTest({ data, loading }) {
             }}
           >
             <Box
+              borderTopWidth={1}
+              borderLeftWidth={1}
               borderRightWidth={1}
               borderBottomWidth={1}
               borderColor="muted.200"
-              style={[styles.boxContent]}
+              style={[styles.boxIndex]}
               pl={["5", "4"]}
               pr={["5", "5"]}
               py="2"
             >
-              <Text style={styles.textTitle}></Text>
+              <Center>
+                <Checkbox value={1} accessibilityLabel="1" my={1} />
+              </Center>
             </Box>
             {title.map((item, index) => (
               <Box
                 key={index}
+                borderTopWidth={1}
                 borderRightWidth={1}
                 borderBottomWidth={1}
                 borderColor="muted.200"
@@ -156,50 +166,76 @@ function TableTest({ data, loading }) {
             style={{ backgroundColor: "white" }}
             nestedScrollEnabled={true}
           >
-            {paginatedData.map((hopDong, index) => (
-              <TouchableOpacity>
-                <HStack minH={5}>
-                  <Box
-                    borderRightWidth={1}
-                    borderLeftWidth={1}
-                    style={styles.boxContent2}
-                    borderColor="muted.200"
-                    pl={["5", "4"]}
-                    pr={["5", "5"]}
-                    py="2"
-                  >
-                    <Text style={styles.textContent}>
+            <Checkbox.Group
+              colorScheme="green"
+              defaultValue={groupValue}
+              accessibilityLabel="pick an item"
+              onChange={(values) => {
+                setGroupValue(values || []);
+              }}
+            >
+              {paginatedData.map((hopDong, index) => (
+                <TouchableOpacity>
+                  <HStack minH={5} key={hopDong.id}>
+                    <Box
+                      borderLeftWidth={1}
+                      style={styles.boxIndex}
+                      borderColor="muted.200"
+                      pl={["5", "4"]}
+                      pr={["5", "5"]}
+                      py="2"
+                    >
                       <Checkbox
-                        status={checked ? "checked" : "unchecked"}
-                        onPress={() => {
-                          setChecked(!checked);
-                        }}
+                        value={hopDong.id}
+                        accessibilityLabel="1"
+                        my={1}
                       />
-                    </Text>
-                  </Box>
-                  <Box
-                    borderRightWidth={1}
-                    borderLeftWidth={1}
-                    style={styles.boxContent2}
-                    borderColor="muted.200"
-                    pl={["5", "4"]}
-                    pr={["5", "5"]}
-                    py="2"
-                  >
-                    <Text style={styles.textContent}>{hopDong.keyId}</Text>
-                  </Box>
-                  <Box
-                    borderRightWidth={1}
-                    borderLeftWidth={1}
-                    style={styles.boxContent2}
-                    borderColor="muted.200"
-                    pl={["5", "4"]}
-                    pr={["5", "5"]}
-                    py="2"
-                  >
-                    <Text style={styles.textContent}>{hopDong.keyId}</Text>
-                  </Box>
-                  {hopDong.khachHang && (
+                    </Box>
+
+                    <Box
+                      borderLeftWidth={1}
+                      style={styles.boxContent2}
+                      borderColor="muted.200"
+                      pl={["5", "4"]}
+                      pr={["5", "5"]}
+                      py="2"
+                    >
+                      <Text style={styles.textContent}>{hopDong.keyId}</Text>
+                    </Box>
+                    <Box
+                      borderLeftWidth={1}
+                      style={styles.boxContent2}
+                      borderColor="muted.200"
+                      pl={["5", "4"]}
+                      pr={["5", "5"]}
+                      py="2"
+                    >
+                      <Text style={styles.textContent}>{hopDong.keyId}</Text>
+                    </Box>
+                    {hopDong.khachHang && (
+                      <Box
+                        borderLeftWidth={1}
+                        style={styles.boxContent2}
+                        borderColor="muted.200"
+                        pl={["5", "4"]}
+                        pr={["5", "5"]}
+                        py="2"
+                      >
+                        <Text style={styles.textContent}>
+                          {hopDong.khachHang.tenKhachHang}
+                        </Text>
+                      </Box>
+                    )}
+                    <Box
+                      borderLeftWidth={1}
+                      style={styles.boxContent2}
+                      borderColor="muted.200"
+                      pl={["5", "4"]}
+                      pr={["5", "5"]}
+                      py="2"
+                    >
+                      <Text style={styles.textContent}>{hopDong.diachi}</Text>
+                    </Box>
                     <Box
                       borderRightWidth={1}
                       borderLeftWidth={1}
@@ -209,36 +245,12 @@ function TableTest({ data, loading }) {
                       pr={["5", "5"]}
                       py="2"
                     >
-                      <Text style={styles.textContent}>
-                        {hopDong.khachHang.tenKhachHang}
-                      </Text>
+                      <Text style={styles.textContent}>{hopDong.diachi}</Text>
                     </Box>
-                  )}
-                  <Box
-                    borderRightWidth={1}
-                    borderLeftWidth={1}
-                    style={styles.boxContent2}
-                    borderColor="muted.200"
-                    pl={["5", "4"]}
-                    pr={["5", "5"]}
-                    py="2"
-                  >
-                    <Text style={styles.textContent}>{hopDong.diachi}</Text>
-                  </Box>
-                  <Box
-                    borderRightWidth={1}
-                    borderLeftWidth={1}
-                    style={styles.boxContent2}
-                    borderColor="muted.200"
-                    pl={["5", "4"]}
-                    pr={["5", "5"]}
-                    py="2"
-                  >
-                    <Text style={styles.textContent}>{hopDong.diachi}</Text>
-                  </Box>
-                </HStack>
-              </TouchableOpacity>
-            ))}
+                  </HStack>
+                </TouchableOpacity>
+              ))}
+            </Checkbox.Group>
           </ScrollView>
         </Box>
       </ScrollView>

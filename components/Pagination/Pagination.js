@@ -11,6 +11,7 @@ const Pagination = ({
 }) => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+    console.log("Page number changed", pageNumber);
   };
   const handleValue = (itemValue) => {
     setService(itemValue), setItemsPerPage(itemValue);

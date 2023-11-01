@@ -48,7 +48,7 @@ const TableList = ({ data }) => {
       id: "9",
       name: "Hóa đơn",
     },
-  ];
+  ]; 
   const paginatedData = data.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -335,7 +335,7 @@ const TableList = ({ data }) => {
           </HStack>
           {/* Nội dung của bảng */}
           <ScrollView
-            h={"400"}
+            h={"350"}
             style={{ backgroundColor: "white" }}
             nestedScrollEnabled={true}
           >

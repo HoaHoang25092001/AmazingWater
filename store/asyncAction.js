@@ -70,6 +70,19 @@ export const hopDong = createAsyncThunk(
     }
   }
 );
+export const canBoDoc = createAsyncThunk(
+  "can-bo-doc/get-all",
+  async (query, { getState }) => {
+    try {
+      // Thực hiện yêu cầu GraphQL ở đây, sử dụng Apollo Client hoặc phương thức bạn đã sử dụng.
+      const response = await canBoDocGraphQL.query({ query });
+      console.log("respone canBoDocGraphQL", response);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 export const logoutUser = () => (dispatch) => {
   dispatch(logout());

@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-
 const API_URL = "https://api-awa-dev.amazingtech.vn";
 
 export const loginApi = async (credentials) => {
@@ -19,17 +18,19 @@ export const loginApi = async (credentials) => {
   }
 };
 
-export const apiForgotPassword = (data) => axios({
-  url: 'auth/forgot-password',
-  method: 'POST',
-  data
-})
+export const apiForgotPassword = (data) =>
+  axios({
+    url: "auth/forgot-password",
+    method: "POST",
+    data,
+  });
 
-export const apiResetPassword = (data) => axios({
-  url: 'auth/reset-password',
-  method: 'POST',
-  data
-})
+export const apiResetPassword = (data) =>
+  axios({
+    url: "auth/reset-password",
+    method: "POST",
+    data,
+  });
 
 export const soDocChiSoApi = async () => {
   try {
@@ -59,7 +60,46 @@ export const createNewSoDocApi = async (filterParams) => {
       `${API_URL}/api/so-doc-chi-so/create-new-so-doc-chi-so`,
       filterParams
     );
-    console.log("Filtered data", response.data);
+    console.log("Create Successfully", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Create data error", error.response.data);
+    throw error.response.data;
+  }
+};
+
+export const filterHopDongApi = async (filterParams) => {
+  try {
+    const tuyenDocId = filterParams.tuyenDocId
+      ? `TuyenDocId=${filterParams.tuyenDocId}`
+      : "";
+    const loaiKH = filterParams.loaiKH ? `LoaiKH=${filterParams.loaiKH}` : "";
+    const sdtKH = filterParams.sdtKH
+      ? `SoDienThoaiKhachHang=${filterParams.sdtKH}`
+      : "";
+    const keyIdHopDong = filterParams.keyIdHopDong
+      ? `KeyIdHopDong=${filterParams.keyIdHopDong}`
+      : "";
+    const loaiDH = filterParams.loaiDH ? `LoaiDH=${filterParams.loaiDH}` : "";
+
+    const response = await axios.get(
+      `${API_URL}/api/hop-dong/filter-hop-dong-for-create-so-doc?${tuyenDocId}&${loaiKH}&${sdtKH}&${keyIdHopDong}&${loaiDH}&pageNumber=${filterParams.pageNumber}&pageSize=10`,
+      filterParams
+    );
+    console.log("Filtered hop dong", response.data);
+    return response.data.data;
+  } catch (error) {
+    console.log("Filtered data error", error.response.data);
+    throw error.response.data;
+  }
+};
+export const filterCreateMutiSoDoc = async (filterParams) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/api/tuyen-doc-chua-tao-so/get-all?nhaMayId=${filterParams.nhaMayId}&time=${filterParams.time}`,
+      filterParams
+    );
+    console.log("Filtered Create Muti", response.data.data);
     return response.data;
   } catch (error) {
     console.log("Filtered data error", error.response.data);
@@ -82,6 +122,15 @@ export const filterSoDocApi = async (filterParams) => {
 export const tuyenDocAllApi = async () => {
   try {
     const response = await axios.get(`${API_URL}/api/tuyen-doc/get-all`);
+    return response.data;
+  } catch (error) {
+    console.log("data error", error.response.data);
+    throw error.response.data;
+  }
+};
+export const kyGhiChiSoAllApi = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/ky-ghi-chi-so/get-all`);
     return response.data;
   } catch (error) {
     console.log("data error", error.response.data);

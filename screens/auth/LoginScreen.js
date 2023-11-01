@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Text,
   KeyboardAvoidingView,
-  TouchableOpacity
 } from "react-native";
 import { colors } from "../../constants";
 
@@ -155,19 +154,11 @@ const LoginScreen = ({ navigation }) => {
             {errorSystem ? (
               <Text style={styles.errorText}>{errorSystem}</Text>
             ) : null}
-            <View style={styles.forgotPassword}>
-              <Text
-                style={styles.forgotPasswordText}
-                onPress={() => navigation.navigate("ForgetPasswordScreen")}
-              >
-                Quên mật khẩu ?
-              </Text>
-            </View>
-            <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate("mydrawer")}>
+            <View style={styles.loginButton}>
               <Text style={styles.loginButtonText} onPress={handleLogin}>
                 Đăng nhập
               </Text>
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ImageBackground>
@@ -197,6 +188,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 3,
+    justifyContent: "flex-start",
     alignItems: "center",
     display: "flex",
     width: "100%",
@@ -204,26 +196,18 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   loginButton: {
-    width: '90%',
-    height: 40,
+    height: 47,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#1677ff",
+    paddingHorizontal: 20,
+    paddingVertical: 5,
     borderRadius: 8,
+    marginLeft: 5,
     marginTop: 20,
   },
   loginButtonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 18,
   },
-  forgotPassword: {
-    flexDirection: "row",
-    justifyContent: 'flex-end',
-    alignItems: "center",
-  },
-  forgotPasswordText: {
-    color: "#1677ff",
-    fontSize: 16,
-    textAlign: 'right'
-  }
 });
