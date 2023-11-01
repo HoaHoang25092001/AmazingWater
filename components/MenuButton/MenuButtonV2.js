@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { Box, Button, Menu } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
@@ -43,31 +43,32 @@ const MenuButtonV2 = ({
           );
         }}
       >
-        <Menu.Item
+        <TouchableOpacity
           style={{
             flex: 1,
             flexDirection: "row",
-            paddingVertical: 8,
-            paddingHorizontal: 8,
             width: "90%",
             marginBottom: 5,
             alignItems: "center",
             borderRadius: 10,
             backgroundColor: colors.emerald_300,
             marginLeft: 10,
-            marginRight: 10,
           }}
-          onPress={() => setModalCreated(true)}
         >
-          <Ionicons color={"white"} name="add-circle-outline" size={24} />
-          <Text style={styles.buttonMenu}>Tạo sổ</Text>
-        </Menu.Item>
-        <Menu.Item
+          <Menu.Item
+            style={{
+              borderRadius: 10,
+            }}
+            onPress={() => setModalCreated(true)}
+          >
+            <Ionicons color={"white"} name="add-circle-outline" size={24} />
+            <Text style={styles.buttonMenu}>Tạo sổ</Text>
+          </Menu.Item>
+        </TouchableOpacity>
+        <TouchableOpacity
           style={{
             flex: 1,
             flexDirection: "row",
-            paddingVertical: 8,
-            paddingHorizontal: 8,
             width: "90%",
             marginBottom: 5,
             alignItems: "center",
@@ -76,12 +77,17 @@ const MenuButtonV2 = ({
             marginLeft: 10,
             marginRight: 10,
           }}
-          onPress={() => setModalCreatedMuti(true)}
         >
-          <Ionicons color={"white"} name="add-circle-sharp" size={24} />
-          <Text style={styles.buttonMenu}>Tạo sổ đồng loạt</Text>
-        </Menu.Item>
-
+          <Menu.Item
+            style={{
+              borderRadius: 10,
+            }}
+            onPress={() => setModalCreatedMuti(true)}
+          >
+            <Ionicons color={"white"} name="add-circle-sharp" size={24} />
+            <Text style={styles.buttonMenu}>Tạo sổ đồng loạt</Text>
+          </Menu.Item>
+        </TouchableOpacity>
         <Menu.Item
           style={{
             flex: 1,
@@ -121,25 +127,24 @@ const MenuButtonV2 = ({
           <Ionicons color={"white"} name="ios-key-outline" size={24} />
           <Text style={styles.buttonMenu}>Bỏ khóa</Text>
         </Menu.Item>
-        <Menu.Item
+        <TouchableOpacity
           style={{
             flex: 1,
             flexDirection: "row",
-            paddingVertical: 8,
-            paddingHorizontal: 8,
             width: "90%",
             marginBottom: 5,
             alignItems: "center",
             borderRadius: 10,
             backgroundColor: colors.danger_500,
             marginLeft: 10,
-            marginRight: 10,
           }}
           onPress={() => console.log("Hello")}
         >
-          <Ionicons color={"white"} name="close-circle-outline" size={24} />
-          <Text style={styles.buttonMenu}>Xóa biểu mẫu</Text>
-        </Menu.Item>
+          <Menu.Item>
+            <Ionicons color={"white"} name="close-circle-outline" size={24} />
+            <Text style={styles.buttonMenu}>Xóa biểu mẫu</Text>
+          </Menu.Item>
+        </TouchableOpacity>
         <Menu.Item
           style={{
             flex: 1,
@@ -282,7 +287,7 @@ const styles = StyleSheet.create({
     fontFamily: "Quicksand_700Bold",
   },
   buttonMenu: {
-    maxWidth: "80%",
+    width: "75%",
     fontFamily: "Quicksand_700Bold",
     color: "white",
   },

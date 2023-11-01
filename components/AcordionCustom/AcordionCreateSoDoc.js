@@ -12,6 +12,7 @@ import {
   ScrollView,
   Select,
   Text,
+  View,
 } from "native-base";
 import {
   useFonts,
@@ -19,7 +20,7 @@ import {
   Quicksand_500Medium,
 } from "@expo-google-fonts/quicksand";
 import * as React from "react";
-import { StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { DefaultTheme, List } from "react-native-paper";
 import { color } from "react-native-reanimated";
 import { colors } from "../../constants";
@@ -43,12 +44,16 @@ import MonthPicker from "react-native-month-picker";
 import moment from "moment";
 import App from "../../screens/user/TestTable";
 import YearMonthPicker from "../PickYearMonth/PickYearMonth";
+import { useDispatch, useSelector } from "react-redux";
 
 const AccordionCreateSoDoc = ({
   dataHopDong,
   setDataHopDong,
   canBoDocs,
   service,
+  setTotalCount,
+  setTotalPages,
+  currentPage,
 }) => {
   const [expanded, setExpanded] = React.useState(true);
   const [value, setValue] = React.useState("");
@@ -63,25 +68,37 @@ const AccordionCreateSoDoc = ({
   const [selectedTenSo, setSelectedTenSo] = useState(null);
   const [selectedLoaiKH, setSelectedLoaiKH] = useState(null);
   const [keyIdHopDong, setKeyIdHopDong] = useState(null);
+  const [selectedSDTKH, setSDTKH] = useState(null);
   const [loaiDH, setLoaiDH] = useState(null);
   const [allData, setAllData] = useState();
   const [dateSelected, setDateSelected] = useState(moment());
 
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading); // Redux loading state
+  const error = useSelector((state) => state.error);
   const handleFilterSoDoc = async () => {
     const filterParams = {
       tuyenDocId: selectedTuyenDoc,
       loaiKH: selectedLoaiKH,
       keyIdHopDong: keyIdHopDong,
       loaiDH: loaiDH,
+      sdtKH: selectedSDTKH,
+      pageNumber: currentPage,
     };
+
     try {
       const filterData = await filterHopDongApi(filterParams);
-      setDataHopDong(filterData.data);
+
+      setDataHopDong(filterData.items);
+      setTotalCount(filterData.totalCount);
+      setTotalPages(filterData.totalPages);
     } catch (error) {
-      // Handle errors here
       console.error("Error:", error);
     }
   };
+  useEffect(() => {
+    handleFilterSoDoc();
+  },[currentPage]);
 
   useEffect(() => {
     async function fetchTuyenDocData() {
@@ -203,8 +220,12 @@ const AccordionCreateSoDoc = ({
             mt={1}
             onValueChange={(itemValue) => setSelectedLoaiKH(itemValue)}
           >
-            <Select.Item key={"1"} label="Cá nhân" value="1" />
-            <Select.Item key={"2"} label="Tổ chức" value="2" />
+            <Select.Item key={"Cá nhân"} label="Cá nhân" value="Cá nhân" />
+            <Select.Item
+              key={"Đơn vị, tổ chức"}
+              label="Tổ chức"
+              value="Đơn vị, tổ chức"
+            />
           </Select>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
@@ -215,6 +236,17 @@ const AccordionCreateSoDoc = ({
             placeholder="Nhập số hợp đồng"
             value={keyIdHopDong}
             onChangeText={(text) => setKeyIdHopDong(text)}
+            fontSize={12}
+          />
+        </FormControl>
+        <FormControl mt="3" style={styles.formControl}>
+          <FormControl.Label>Số điện thoại KH</FormControl.Label>
+          <Input
+            size="md"
+            style={{ fontFamily: "Quicksand_500Medium" }}
+            placeholder="Nhập số điện thoại KH"
+            value={selectedSDTKH}
+            onChangeText={(text) => setSDTKH(text)}
             fontSize={12}
           />
         </FormControl>

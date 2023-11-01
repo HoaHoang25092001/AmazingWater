@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
+import { DataTable } from "react-native-paper";
 import { createNewSoDocApi } from "../../api/user";
 import Pagination from "../Pagination";
 function TableCreate({
@@ -11,9 +12,12 @@ function TableCreate({
   loading,
   setSelectedHopDongId,
   selectedHopDongId,
+  totalCount,
+  totalPages,
+  setCurrentPage,
+  currentPage,
 }) {
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
-  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [service, setService] = React.useState("");
   const [groupValues, setGroupValues] = React.useState([]);
@@ -119,18 +123,23 @@ function TableCreate({
     return <Text>Error: {error.message}</Text>;
   }
 
-  const totalPages = Math.ceil(dataHopDong.length / itemsPerPage);
-  const paginatedData = dataHopDong.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedData = dataHopDong
+    ? dataHopDong.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      )
+    : [];
+
   const handleSelectAll = () => {
-    const allCheckboxValues = paginatedData.map((hopDong) => hopDong.id);
+    const allCheckboxValues = dataHopDong.map((hopDong) => hopDong.id);
     setGroupValue(allCheckboxValues);
   };
   useEffect(() => {
     console.log("Group Item Selected", selectedHopDongId);
   }, [selectedHopDongId]);
+  useEffect(() => {
+    console.log("Group Item data hop dong", dataHopDong);
+  }, [dataHopDong]);
 
   return (
     <View>
@@ -192,7 +201,7 @@ function TableCreate({
                 setSelectedHopDongId(values || []);
               }}
             >
-              {paginatedData.map((hopDong, index) => (
+              {dataHopDong.map((hopDong, index) => (
                 <HStack minH={5} key={hopDong.id}>
                   <Box
                     borderLeftWidth={1}

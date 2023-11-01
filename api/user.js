@@ -70,11 +70,36 @@ export const createNewSoDocApi = async (filterParams) => {
 
 export const filterHopDongApi = async (filterParams) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/api/hop-dong/filter-hop-dong-for-create-so-doc`,
+    const tuyenDocId = filterParams.tuyenDocId
+      ? `TuyenDocId=${filterParams.tuyenDocId}`
+      : "";
+    const loaiKH = filterParams.loaiKH ? `LoaiKH=${filterParams.loaiKH}` : "";
+    const sdtKH = filterParams.sdtKH
+      ? `SoDienThoaiKhachHang=${filterParams.sdtKH}`
+      : "";
+    const keyIdHopDong = filterParams.keyIdHopDong
+      ? `KeyIdHopDong=${filterParams.keyIdHopDong}`
+      : "";
+    const loaiDH = filterParams.loaiDH ? `LoaiDH=${filterParams.loaiDH}` : "";
+
+    const response = await axios.get(
+      `${API_URL}/api/hop-dong/filter-hop-dong-for-create-so-doc?${tuyenDocId}&${loaiKH}&${sdtKH}&${keyIdHopDong}&${loaiDH}&pageNumber=${filterParams.pageNumber}&pageSize=10`,
       filterParams
     );
-    console.log("Filtered hop dong", response.data.data);
+    console.log("Filtered hop dong", response.data);
+    return response.data.data;
+  } catch (error) {
+    console.log("Filtered data error", error.response.data);
+    throw error.response.data;
+  }
+};
+export const filterCreateMutiSoDoc = async (filterParams) => {
+  try {
+    const response = await axios.get(
+      `${API_URL}/api/tuyen-doc-chua-tao-so/get-all?nhaMayId=${filterParams.nhaMayId}&time=${filterParams.time}`,
+      filterParams
+    );
+    console.log("Filtered Create Muti", response.data.data);
     return response.data;
   } catch (error) {
     console.log("Filtered data error", error.response.data);

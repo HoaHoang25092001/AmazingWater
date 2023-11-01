@@ -13,13 +13,19 @@ import {
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useService } from "../../ServiceContext";
+import AccordionCreateMuti from "../AcordionCustom/AcordionCreateMuti";
 import TableCreateMuti from "../TableList/TableCreateMuti";
 const CreateMutiSoDocModal = ({
   modalCreateMuti,
   setModalCreatedMuti,
   data,
   loading,
+  dataHopDong,
+  setDataHopDong,
+  canBoDocData,
+  service,
 }) => {
+  const canBoDocs = canBoDocData ? canBoDocData.GetUsers.nodes : [];
   return (
     <View>
       <Modal
@@ -36,6 +42,12 @@ const CreateMutiSoDocModal = ({
 
           <Modal.Body>
             <VStack space={3}>
+              <AccordionCreateMuti
+                dataHopDong={dataHopDong}
+                setDataHopDong={setDataHopDong}
+                canBoDocs={canBoDocs}
+                service={service}
+              />
               <TableCreateMuti data={data} loading={loading} />
             </VStack>
             <Center>

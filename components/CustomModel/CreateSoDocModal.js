@@ -50,7 +50,10 @@ const CreateSoDocModal = ({
   const [createSoDocData, setCreateSoDocData] = useState();
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const canBoDocs = canBoDocData ? canBoDocData.GetUsers.nodes : [];
+  const [totalCount, setTotalCount] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
   const [dataHopDong, setDataHopDong] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const handleCreateNewSoDoc = async () => {
     const createSoDocField = {
       nguoiQuanLyId: selectedTenCanBo,
@@ -104,12 +107,19 @@ const CreateSoDocModal = ({
                 setDataHopDong={setDataHopDong}
                 canBoDocs={canBoDocs}
                 service={service}
+                setTotalCount={setTotalCount}
+                setTotalPages={setTotalPages}
+                currentPage={currentPage}
               />
               <TableCreate
                 dataHopDong={dataHopDong}
                 loading={loading}
                 selectedHopDongId={selectedHopDongId}
                 setSelectedHopDongId={setSelectedHopDongId}
+                totalCount={totalCount}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
               />
             </VStack>
 
