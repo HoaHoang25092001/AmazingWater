@@ -32,24 +32,26 @@ export const apiResetPassword = (data) =>
     data,
   });
 
-export const soDocChiSoApi = async () => {
+export const soDocChiSoApi = async (filterData) => {
   try {
-    const response = await axios.get(`${API_URL}/api/so-doc-chi-so/get-all`);
+    const response = await axios.get(
+      `${API_URL}/api/so-doc-chi-so/get-all?pageNumber=${filterData.pageNumber}&pageSize=10`
+    );
     return response.data;
   } catch (error) {
     console.log("data error", error.response.data);
     throw error.response.data;
   }
 };
-export const soDocChiSoTheoNMApi = async (nhaMayId) => {
+export const soDocChiSoTheoNMApi = async (filterData) => {
   try {
     const response = await axios.get(
-      `${API_URL}/api/so-doc-chi-so/get-so-doc-chi-so-by-nha-may-id?nhaMayId=${nhaMayId}`
+      `${API_URL}/api/so-doc-chi-so/get-so-doc-chi-so-by-nha-may-id?nhaMayId=${filterData.nhaMayId}&pageNumber=${filterData.pageNumber}&pageSize=10`
     );
-    console.log("Data get theo nha may id:", response.data);
+    console.log("Data get theo nha may id:", response.data.data.items);
     return response.data;
   } catch (error) {
-    console.log("data error", error.response.data);
+    console.log("data error 111", error.response.data);
     throw error.response.data;
   }
 };
@@ -124,7 +126,7 @@ export const tuyenDocAllApi = async () => {
     const response = await axios.get(`${API_URL}/api/tuyen-doc/get-all`);
     return response.data;
   } catch (error) {
-    console.log("data error", error.response.data);
+    console.log("data error1", error.response.data);
     throw error.response.data;
   }
 };
@@ -133,7 +135,7 @@ export const kyGhiChiSoAllApi = async () => {
     const response = await axios.get(`${API_URL}/api/ky-ghi-chi-so/get-all`);
     return response.data;
   } catch (error) {
-    console.log("data error", error.response.data);
+    console.log("data error2", error.response.data);
     throw error.response.data;
   }
 };

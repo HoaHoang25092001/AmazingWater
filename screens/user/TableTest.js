@@ -5,11 +5,12 @@ import { StyleSheet } from "react-native";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { createNewSoDocApi } from "../../api/user";
 import Pagination from "../../components/Pagination";
-function TableTest({ data, error, loading }) {
+function TableTest({ error, loading }) {
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [service, setService] = React.useState("");
+
   const [groupValues, setGroupValues] = React.useState([]);
   const [groupValue, setGroupValue] = React.useState([]);
   const hopDongs = data ? data.GetHopDongs.nodes : [];

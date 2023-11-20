@@ -36,12 +36,12 @@ const image = {
 const SelectFactoryScreen = ({ navigation }) => {
   const [error, setError] = useState("");
   const nhaMays = useSelector((state) => state.auth.nhaMays);
-  const { service, setService } = useService();
+  const { service, setService } = useService([]);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const handleService = (itemValue) => {
     setService(itemValue);
-    console.log("Service", service);
+    console.log("Service:", service);
   };
   const handleNavigate = () => {
     if (service == "") {

@@ -31,52 +31,78 @@ import moment from "moment";
 import App from "../../screens/user/TestTable";
 import YearMonthPicker from "../PickYearMonth/PickYearMonth";
 import { useService } from "../../ServiceContext";
+import { useDispatch } from "react-redux";
+import { fetchSoDocChiSoFilter } from "../../store/SoDocChiSoFilter/action";
 
-const AccordionCustom = ({ kyGCSData, setData }) => {
+const AccordionCustom = ({ kyGCSData, setData, currentPage }) => {
   const [showDatePickerModal, setShowDatePickerModal] = useState(false);
-  const [selectedCanBo, setSelectedCanBo] = useState(null);
-  const [selectedTuyenDoc, setSelectedTuyenDoc] = useState(null);
-  const [selectedTrangThai, setSelectedTrangThai] = useState(null);
-  const [selectedKhuVuc, setSelectedKhuVuc] = useState(null);
-  const [selectedKyGhi, setSelectedKyGhi] = useState(null);
-  const [selectedTenSo, setSelectedTenSo] = useState(null);
+  const [selectedCanBo, setSelectedCanBo] = useState("");
+  const [selectedTuyenDoc, setSelectedTuyenDoc] = useState("");
+  const [selectedTrangThai, setSelectedTrangThai] = useState("");
+  const [selectedKhuVuc, setSelectedKhuVuc] = useState("");
+  const [selectedKyGhi, setSelectedKyGhi] = useState("");
+  const [selectedTenSo, setSelectedTenSo] = useState("");
   const [allData, setAllData] = useState();
   const [allKVData, setAllKVData] = useState();
   const [dateSelected, setDateSelected] = useState(moment());
   const { service, setService } = useService();
 
+  const dispatch = useDispatch();
   const handleFilterSoDoc = async () => {
-    const filterParamsId = {
-      thangSoDoc: moment(dateSelected).format("MM/YYYY"),
-      canboDocId: selectedCanBo,
-      tuyenDocId: selectedTuyenDoc,
-      trangThaiSoDoc: 1,
-      khuVucId: selectedKhuVuc,
-      kyGhiChiSoId: selectedKyGhi,
-      tenSo: selectedTenSo,
-      nhaMayId: service,
-    };
-    const filterParams = {
-      thangSoDoc: moment(dateSelected).format("MM/YYYY"),
-      canboDocId: selectedCanBo,
-      tuyenDocId: selectedTuyenDoc,
-      trangThaiSoDoc: 1,
-      khuVucId: selectedKhuVuc,
-      kyGhiChiSoId: selectedKyGhi,
-      tenSo: selectedTenSo,
-    };
-    try {
-      if (service != "123456") {
-        const filterData = await filterSoDocApi(filterParams);
-        setData(filterData.data);
+    dispatch(
+      fetchSoDocChiSoFilter({
+        service,
+        currentPage,
+        thangSoDoc: moment(dateSelected).format("MM/YYYY"),
+        canboDocId: selectedCanBo,
+        tuyenDocId: selectedTuyenDoc,
+        trangThaiSoDoc: 1,
+        khuVucId: selectedKhuVuc,
+        kyGhiChiSoId: selectedKyGhi,
+        tenSo: selectedTenSo,
+      })
+    ).then((result) => {
+      if (result.payload) {
+        console.log("Data returned:", result.payload);
+        const data = result.payload;
+        setData(data);
+      } else {
+        console.log("No data returned");
       }
-      const filterData = await filterSoDocApi(filterParamsId);
-      setData(filterData.data);
-    } catch (error) {
-      // Handle errors here
-      console.error("Error:", error);
-    }
+    });
   };
+  // const handleFilterSoDoc = async () => {
+  //   const filterParamsId = {
+  //     thangSoDoc: moment(dateSelected).format("MM/YYYY"),
+  //     canboDocId: selectedCanBo,
+  //     tuyenDocId: selectedTuyenDoc,
+  //     trangThaiSoDoc: 1,
+  //     khuVucId: selectedKhuVuc,
+  //     kyGhiChiSoId: selectedKyGhi,
+  //     tenSo: selectedTenSo,
+  //     nhaMayId: service,
+  //   };
+  //   const filterParams = {
+  //     thangSoDoc: moment(dateSelected).format("MM/YYYY"),
+  //     canboDocId: selectedCanBo,
+  //     tuyenDocId: selectedTuyenDoc,
+  //     trangThaiSoDoc: 1,
+  //     khuVucId: selectedKhuVuc,
+  //     kyGhiChiSoId: selectedKyGhi,
+  //     tenSo: selectedTenSo,
+  //   };
+  //   try {
+  //     if (service != "123456") {
+  //       const filterData = await filterSoDocApi(filterParams);
+  //       setData(filterData.data);
+  //     }
+  //     const filterData = await filterSoDocApi(filterParamsId);
+  //     setData(filterData.data);
+  //   } catch (error) {
+  //     // Handle errors here
+  //     console.error("Error:", error);
+  //   }
+  // };
   useEffect(() => {
     async function fetchData() {
       try {

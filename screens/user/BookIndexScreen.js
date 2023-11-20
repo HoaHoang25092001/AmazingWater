@@ -57,6 +57,7 @@ import CreateSoDocModal from "../../components/CustomModel/CreateSoDocModal";
 import CreateMutiSoDocModal from "../../components/CustomModel/CreateMutiSoDocModal";
 import ChiSoModal from "../../components/CustomModel/ChiSoModal";
 import MenuButtonV2 from "../../components/MenuButton/MenuButtonV2";
+import { fetchSoDocChiSoByNhaMayId } from "../../store/SoDocChiSoTheoNM/action";
 export default function BookIndexScreen({ navigation, route }) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [modalCreated, setModalCreated] = useState(null);
@@ -64,7 +65,11 @@ export default function BookIndexScreen({ navigation, route }) {
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const [dataSodoc, setData] = useState([]);
   const [kyGCSData, setKyGCSData] = useState();
-  const { service, setService } = useService();
+  const { service, setService } = useService([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [checked, setChecked] = React.useState(null);
+  const [checkedChotSo, setCheckedChotSo] = React.useState();
+  const [checkedKhoaSo, setCheckedKhoaSo] = React.useState(null);
   const title = [
     {
       id: "2",
@@ -101,34 +106,76 @@ export default function BookIndexScreen({ navigation, route }) {
   ];
 
   const dispatch = useDispatch();
-
-  //pagination
-  // Tính tổng số trang dựa trên số lượng mục và số lượng mục trên mỗi trang
-
-  const isLoading = useSelector((state) => state.auth.isLoading);
+  const { data, loading, error } = useSelector((state) => state.soDocChiSo);
+  const {
+    loading: { loadingHuyChotSo },
+  } = useSelector((state) => state.huyChotSo);
   useEffect(() => {
-    async function fetchData() {
-      console.log("Fetching data...", service);
-
-      try {
-        let response;
-        if (service === "123456") {
-          response = await soDocChiSoApi();
-        } else {
-          response = await soDocChiSoTheoNMApi(service);
-        }
-        const data = response.data;
+    dispatch(
+      fetchSoDocChiSoByNhaMayId({
+        service,
+        currentPage,
+      })
+    ).then((result) => {
+      if (result.payload) {
+        console.log("Data returned:", result.payload);
+        const data = result.payload;
         setData(data);
-      } catch (error) {
-        console.error("Lỗi data API:", error);
+      } else {
+        console.log("No data returned");
       }
-    }
+    });
+  }, [service, currentPage]);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     console.log("Fetching data...", service);
 
-    if (service) {
-      // Gọi fetchData chỉ khi service tồn tại
-      fetchData();
-    }
-  }, [service]);
+  //     try {
+  //       let response;
+  //       if (service === "123456") {
+  //         response = await soDocChiSoApi();
+  //       } else {
+  //         const filterData = {
+  //           nhaMayId: service,
+  //           pageNumber: currentPage,
+  //         };
+  //         response = await soDocChiSoTheoNMApi(filterData);
+  //       }
+  //       const data = response.data;
+  //       setData(data);
+  //     } catch (error) {
+  //       console.error("Lỗi data API:", error);
+  //     }
+  //   }
+
+  //   if (service) {
+  //     // Gọi fetchData chỉ khi service tồn tại
+  //     fetchData();
+  //   }
+  // }, [service]);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     console.log("Fetching data...", service);
+
+  //     try {
+  //       const filterData = {
+  //         nhaMayId: service,
+  //         pageNumber: currentPage,
+  //       };
+  //       const response = await soDocChiSoTheoNMApi(filterData);
+
+  //       const data = response.data;
+  //       setData(data);
+  //     } catch (error) {
+  //       console.error("Lỗi data API:", error);
+  //     }
+  //   }
+
+  //   if (service) {
+  //     // Gọi fetchData chỉ khi service tồn tại
+  //     fetchData();
+  //   }
+  // }, [currentPage]);
 
   useEffect(() => {
     async function fetchKyGCSData() {
@@ -181,18 +228,42 @@ export default function BookIndexScreen({ navigation, route }) {
       roleCanBo: "Cán bộ đọc", // Thay đổi giá trị của $roleCanBo tùy theo nhu cầu
     },
   });
+
   return (
     <View>
       <VStack space={3}>
-        <AccordionCustom setData={setData} kyGCSData={kyGCSData} />
-        <TableList title={title} data={dataSodoc} />
+        <AccordionCustom
+          setData={setData}
+          kyGCSData={kyGCSData}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
+        <TableList
+          loading={loading}
+          title={title}
+          data={dataSodoc}
+          checked={checked}
+          setData={setData}
+          checkedChotSo={checkedChotSo}
+          setCheckedChotSo={setCheckedChotSo}
+          checkedKhoaSo={checkedKhoaSo}
+          setCheckedKhoaSo={setCheckedKhoaSo}
+          setChecked={setChecked}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       </VStack>
       <MenuButtonV2
+        data={dataSodoc}
+        checked={checked}
+        checkedChotSo={checkedChotSo}
+        checkedKhoaSo={checkedKhoaSo}
         setModalVisible={setModalVisible}
         setModalCreated={setModalCreated}
         setModalCreatedMuti={setModalCreatedMuti}
         setOverlayVisible={setOverlayVisible}
         navigation={navigation}
+        setData={setData}
       />
 
       {modalCreated != null && (

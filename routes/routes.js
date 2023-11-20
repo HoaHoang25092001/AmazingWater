@@ -76,9 +76,15 @@ const MyDrawer = () => {
       navigation.navigate("login");
     };
     const handleServiceChange = (itemValue) => {
-      setService(itemValue);
+      if (itemValue === "all") {
+        const allNhaMayIds = nhaMays.map((item) => item.nhaMayId);
+        console.log("All nha may id:", allNhaMayIds);
+        setService(allNhaMayIds);
+      } else {
+        setService(itemValue);
+      }
     };
-
+    const selectDefaultValue = Array.isArray(service) ? "all" : service;
     return (
       <View style={{ flex: 1 }}>
         <DrawerContentScrollView {...props}>
@@ -105,7 +111,7 @@ const MyDrawer = () => {
               mb={5}
               fontFamily="Quicksand_700Bold"
               defaultValue={service}
-              selectedValue={service}
+              selectedValue={selectDefaultValue}
               minWidth="200"
               minHeight="45"
               bg="steal.600"
@@ -146,7 +152,7 @@ const MyDrawer = () => {
               <Select.Item
                 key="Tất cả"
                 label="Tất cả"
-                value="123456"
+                value="all"
                 color="green.500"
               />
             </Select>
