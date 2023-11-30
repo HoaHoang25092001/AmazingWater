@@ -15,11 +15,13 @@ import { SafeAreaView } from "react-native";
 import { Button, StyleSheet, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { color } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 import { colors } from "../../constants";
 
 const WriteIndex = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const navigator = useNavigation();
+  const { loading, error, data } = useSelector((state) => state.soDocChiSo);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -29,77 +31,10 @@ const WriteIndex = ({ navigation }) => {
     setDatePickerVisibility(false);
   };
 
-  const data = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      fullName: "Tháng 05/2023 Đoan Bái - Thôn An Hoà Nguyễn Văn Huấn",
-      clock: "100",
-      record: "0 bản ghi và 0 ảnh cần đồng bộ",
-      detail: {
-        name: "Ngô Mạnh Hương - Trần Thị Phương HĐ1, HD996, Trầm Lộng - An Hoà - Đoan Bái, Hiệp Hoà - Bắc Giang",
-        csd: "1520",
-        csc: "1557",
-        soluong: "37",
-        ngaycapnhat: "ngày 28-05-2023 lúc 10:00",
-      },
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad123123a",
-      fullName: "Tháng 06/2023 Đoan Bái - Địa chỉ 2",
-      clock: "100",
-      record: "0 bản ghi và 0 ảnh cần đồng bộ",
-      detail: {
-        name: "Nguyễn Văn Huy - Nguyễn Thị Huyền HĐ1, HD996, Trầm Lộng - An Hoà - Đoan Bái, Hiệp Hoà - Bắc Giang",
-        csd: "1520",
-        csc: "1557",
-        soluong: "37",
-        ngaycapnhat: "ngày 28-05-2023 lúc 10:00",
-      },
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3addfs28ba",
-      fullName: "Tháng 07/2023 Đoan Bái - Địa chỉ 3",
-      clock: "100",
-      record: "0 bản ghi và 0 ảnh cần đồng bộ",
-      detail: {
-        name: "Nguyễn Văn Huy - Nguyễn Thị Huyền HĐ1, HD996, Trầm Lộng - An Hoà - Đoan Bái, Hiệp Hoà - Bắc Giang Nguyễn Văn Huy - Nguyễn Thị Huyền HĐ1, HD996, Trầm Lộng - An Hoà - Đoan Bái, Hiệp Hoà - Bắc Giang",
-        csd: "1520",
-        csc: "1557",
-        soluong: "37",
-        ngaycapnhat: "ngày 28-05-2023 lúc 10:00",
-      },
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad12dsb28ba",
-      fullName: "Tháng 08/2023 Đoan Bái - Địa chỉ 4",
-      clock: "100",
-      record: "0 bản ghi và 0 ảnh cần đồng bộ",
-      detail: {
-        name: "Nguyễn Văn Huy - Nguyễn Thị Huyền HĐ1, HD996, Trầm Lộng - An Hoà - Đoan Bái, Hiệp Hoà - Bắc Giang",
-        csd: "1520",
-        csc: "1557",
-        soluong: "37",
-        ngaycapnhat: "ngày 28-05-2023 lúc 10:00",
-      },
-    },
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3a12ecda8ba",
-      fullName: "Tháng 09/2023 Đoan Bái - Địa chỉ 5",
-      clock: "100",
-      record: "0 bản ghi và 0 ảnh cần đồng bộ",
-      detail: {
-        name: "Nguyễn Văn Huy - Nguyễn Thị Huyền HĐ1, HD996, Trầm Lộng - An Hoà - Đoan Bái, Hiệp Hoà - Bắc Giang",
-        csd: "1520",
-        csc: "1557",
-        soluong: "37",
-        ngaycapnhat: "ngày 28-05-2023 lúc 10:00",
-      },
-    },
-  ];
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() =>
-        navigator.navigate("WriteIndexDetail", { itemId: item.id, data: data })
+        navigator.navigate("WriteIndexDetail", { itemId: item.id })
       }
     >
       <Box
@@ -120,9 +55,11 @@ const WriteIndex = ({ navigation }) => {
                 color: "warmGray.50",
               }}
               color="coolGray.800"
-              bold
             >
-              {item.fullName}
+              Tên sổ:{" "}
+              <Text style={{ fontFamily: "Quicksand_700Bold" }}>
+                {item.tenSo}
+              </Text>
             </Text>
             <Text
               color="coolGray.600"
@@ -130,9 +67,50 @@ const WriteIndex = ({ navigation }) => {
                 color: "warmGray.200",
               }}
             >
-              Đồng hồ: {item.clock}
+              Tên tuyến:{" "}
+              <Text style={{ fontFamily: "Quicksand_700Bold" }}>
+                {item.tenTuyenDoc}
+              </Text>
             </Text>
-            <Text color="green.600">Đồng hồ: {item.record}</Text>
+            <Text
+              color="coolGray.600"
+              _dark={{
+                color: "warmGray.200",
+              }}
+            >
+              Cán bộ:{" "}
+              <Text style={{ fontFamily: "Quicksand_700Bold" }}>
+                {item.nguoiQuanLyId}
+              </Text>
+            </Text>
+            <Text
+              color="coolGray.600"
+              _dark={{
+                color: "warmGray.200",
+              }}
+            >
+              Trạng thái sổ:{" "}
+              <Text style={{ fontFamily: "Quicksand_700Bold" }}>
+                {item.trangThai == 1 ? "Đang ghi" : "Chưa ghi"}
+              </Text>
+            </Text>
+            <Text
+              color="coolGray.600"
+              _dark={{
+                color: "warmGray.200",
+              }}
+            >
+              Trạng thái khóa sổ:{" "}
+              <Text
+                style={{
+                  color: item.trangThaiKhoaSo == 1 ? "blue" : "red",
+                  fontFamily: "Quicksand_700Bold",
+                }}
+              >
+                {item.trangThaiKhoaSo == 1 ? "Chưa khóa" : "Đã khóa"}
+              </Text>
+            </Text>
+            <Text color="green.600">Đồng hồ: {item.tongSoChiSoDongHo}</Text>
           </VStack>
         </HStack>
       </Box>
@@ -185,7 +163,8 @@ const WriteIndex = ({ navigation }) => {
         </View>
 
         <FlatList
-          data={data}
+          h="85%"
+          data={data.items}
           navigation={navigation}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}

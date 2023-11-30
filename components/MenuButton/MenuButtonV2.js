@@ -85,6 +85,7 @@ const MenuButtonV2 = ({
         fetchHuyChotSo({
           soDocChiSoId: checked,
           isStatus: false,
+          checkedKhoaSo: checkedKhoaSo,
         })
       );
 
@@ -101,7 +102,6 @@ const MenuButtonV2 = ({
       }
     } catch (error) {
       console.error("Error in handleChotSo:", error.message);
-      // Handle error as needed (e.g., show an error message to the user)
     }
   };
   const handleChotSoV2 = async () => {
@@ -110,6 +110,7 @@ const MenuButtonV2 = ({
         fetchHuyChotSo({
           soDocChiSoId: checked,
           isStatus: true,
+          checkedKhoaSo: checkedKhoaSo,
         })
       );
 

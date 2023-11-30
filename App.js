@@ -1,4 +1,4 @@
-import Routes from "./routes/routes";
+import Routes from "./routes/Routes";
 import { NativeBaseProvider } from "native-base";
 import { useEffect } from "react";
 import { LogBox } from "react-native";

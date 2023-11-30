@@ -20,6 +20,8 @@ import PaymentRecordListScreen from "../screens/user/PaymentRecordListScreen";
 import InvoiceInformationScreen from "../screens/user/InvoiceInformationScreen";
 import WriteIndex from "../screens/user/WriteIndex";
 import WriteIndexDetail from "../screens/user/WriteIndexDetail";
+import PaymentScreen from "../screens/user/PaymentScreen";
+import TestTable from "../screens/user/TestTable";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
@@ -38,8 +40,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import { List } from "react-native-paper";
 import * as React from "react";
-import PaymentScreen from "../screens/user/PaymentScreen";
-import TestTable from "../screens/user/TestTable";
 import { ServiceProvider, useService } from "../ServiceContext";
 import {
   useFonts,
@@ -171,6 +171,13 @@ const MyDrawer = () => {
               onPress={
                 () =>
                   navigation.navigate("Sổ đọc chỉ số", { serviceData: service }) // Truyền giá trị "service" vào params
+              }
+            />
+            <DrawerItem
+              label="Hóa đơn"
+              fontFamily="Quicksand_500Medium"
+              onPress={
+                () => navigation.navigate("Hóa đơn") // Truyền giá trị "service" vào params
               }
             />
           </List.Accordion>

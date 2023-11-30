@@ -17,11 +17,14 @@ const getTokenFromStorage = async () => {
 
 export const fetchHuyChotSo = createAsyncThunk(
   "huyChotSo/fetchHuyChotSo",
-  async ({ soDocChiSoId, isStatus }, { dispatch }) => {
+  async ({ soDocChiSoId, isStatus, checkedKhoaSo }, { dispatch }) => {
     const apiUrl = `${API_URL}/api/so-doc-chi-so/update/chot-so-so-doc-chi-so?soDocChiSoId=${soDocChiSoId}&isStatus=${isStatus}`;
 
     try {
       // Retrieve the token from AsyncStorage
+      if (checkedKhoaSo !== 1) {
+        throw new Error("Phai mo khoa truoc");
+      }
       const token = await getTokenFromStorage();
 
       // Now, you can make your API request with the retrieved token
