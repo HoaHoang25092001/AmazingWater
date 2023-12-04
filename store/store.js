@@ -5,6 +5,7 @@ import huyChotSoReducer from "./HandleHuyChotSoPUT/slice";
 import moKhoaReducer from "./HandleMoKhoa/slice";
 import khoaSoReducer from "./HandleKhoaSo/slice";
 import chiSoDongHoReducer from "./ChiSoDongHo/slice";
+import createNewSoDocReducer from "./CreateNewSoDoc/slice.js";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     moKhoa: moKhoaReducer,
     khoaSo: khoaSoReducer,
     chiSoDongHo: chiSoDongHoReducer,
+    createNewSoDoc: createNewSoDocReducer,
   },
 });
 

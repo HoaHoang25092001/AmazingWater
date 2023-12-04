@@ -20,12 +20,13 @@ const CreateMutiSoDocModal = ({
   setModalCreatedMuti,
   data,
   loading,
-  dataHopDong,
-  setDataHopDong,
   canBoDocData,
   service,
+  kyGCSData,
 }) => {
   const canBoDocs = canBoDocData ? canBoDocData.GetUsers.nodes : [];
+  const [selectedKyGhi, setSelectedKyGhi] = useState("");
+  const [dataHopDong, setDataHopDong] = useState();
   return (
     <View>
       <Modal
@@ -47,8 +48,11 @@ const CreateMutiSoDocModal = ({
                 setDataHopDong={setDataHopDong}
                 canBoDocs={canBoDocs}
                 service={service}
+                kyGCSData={kyGCSData}
+                setSelectedKyGhi={setSelectedKyGhi}
+                selectedKyGhi={selectedKyGhi}
               />
-              <TableCreateMuti data={data} loading={loading} />
+              <TableCreateMuti data={dataHopDong} loading={loading} />
             </VStack>
             <Center>
               <FormControl w="90%" maxW="300px">

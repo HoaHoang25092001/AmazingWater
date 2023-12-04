@@ -279,8 +279,10 @@ export default function BookIndexScreen({ navigation, route }) {
       )}
       {modalCreateMuti != null && (
         <CreateMutiSoDocModal
+          kyGCSData={kyGCSData}
           modalCreateMuti={modalCreateMuti}
           setModalCreatedMuti={setModalCreatedMuti}
+          service={service}
         />
       )}
       {modalVisible != null && (

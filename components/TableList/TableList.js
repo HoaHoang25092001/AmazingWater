@@ -1,4 +1,9 @@
-import { RefreshControl, View } from "react-native";
+import {
+  RefreshControl,
+  SafeAreaView,
+  TouchableHighlight,
+  View,
+} from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
@@ -8,6 +13,7 @@ import {
   Modal,
   ScrollView,
   Text,
+  VStack,
 } from "native-base";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
@@ -35,6 +41,7 @@ const TableList = ({
   const [boxTitleWidth, setBoxTitleWidth] = useState(300);
   const [refreshing, setRefreshing] = useState(false);
   const { service, setService } = useService([]);
+  const [selectedItems, setSelectedItems] = useState(null);
   const successMessage = useSelector((state) => state.huyChotSo.successMessage);
   const successMessageMoKhoa = useSelector(
     (state) => state.moKhoa.successMessage
@@ -67,366 +74,152 @@ const TableList = ({
     });
   }, [successMessage, successMessageMoKhoa, successMessageKhoaSo]);
 
-  const title = [
-    {
-      id: "2",
-      name: "Tuyến đọc",
-    },
-    {
-      id: "3",
-      name: "Cán bộ đọc",
-    },
-    {
-      id: "4",
-      name: "Tên sổ",
-    },
-    {
-      id: "5",
-      name: "Chưa ghi",
-    },
-    {
-      id: "6",
-      name: "Chốt sổ",
-    },
-    {
-      id: "7",
-      name: "Trạng thái",
-    },
-    {
-      id: "8",
-      name: "Ngày chốt",
-    },
-    {
-      id: "9",
-      name: "Hóa đơn",
-    },
-  ];
   // useEffect(
   //   () => console.log("Item checked:", checked),
   //   console.log("Item Chot So:", checkedChotSo),
   //   console.log("Item Khoa So:", checkedKhoaSo),
   //   [checked]
   // );
-  const styles = StyleSheet.create({
-    paginationContainer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      marginTop: 10,
-    },
-    paginationButton: {
-      paddingVertical: 5,
-      paddingHorizontal: 10,
-      marginHorizontal: 5,
-      borderRadius: 5,
-      borderWidth: 1,
-      borderColor: "#ccc",
-    },
-    paginationButtonActive: {
-      backgroundColor: "#ccc",
-    },
-    paginationText: {
-      color: "#333",
-      fontWeight: "bold",
-    },
-    paginationTextActive: {
-      color: "white",
-    },
-    textContent: {
-      textAlign: "center",
-      fontFamily: "Quicksand_700Bold",
-      fontSize: 14,
-      color: colors.text,
-      fontWeight: 600,
-      maxWidth: 300,
-    },
-    textTitle: {
-      textAlign: "center",
-      fontWeight: 600,
-      fontSize: 16,
-      fontFamily: "Quicksand_700Bold",
-    },
-    boxContent: {
-      width: boxTitleWidth,
-      borderBottomWidth: 1,
-      backgroundColor: "white",
-      minWidth: 60,
-    },
-    boxContent2: {
-      width: 60, // Set width to boxTitleWidth
-      borderBottomWidth: 1,
-      backgroundColor: "white",
-    },
-    boxIndex: {
-      minWidth: 60, // Set width to boxTitleWidth
-      borderBottomWidth: 1,
-      backgroundColor: "rgb(250,250,250)",
-    },
-    boxTitle: {
-      minWidth: boxTitleWidth,
-      borderBottomWidth: 1,
-      backgroundColor: "rgb(250,250,250)",
-    },
-    emptyContainer: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      marginTop: 150,
-    },
-    emptyText: {
-      marginTop: 8,
-    },
-  });
 
-  const renderItem = ({ item, index }) => (
-    <>
-      <TouchableOpacity
-        onPress={() => {
-          setChecked(item.id);
-          setCheckedKhoaSo(item.trangThaiKhoaSo);
-          setCheckedChotSo(item.chotSo);
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => {
+        setChecked(item.id);
+        setCheckedKhoaSo(item.trangThaiKhoaSo);
+        setCheckedChotSo(item.chotSo);
+      }}
+    >
+      <Box
+        style={{
+          borderRadius: "5px",
+          shadowOpacity: 0.2,
+          shadowOffset: {
+            width: 5,
+            height: 5,
+          },
+          backgroundColor: checked === item.id ? "lightblue" : "white",
         }}
+        mt={2}
+        mb={2}
+        mr={4}
+        ml={4}
+        pl={["3", "3"]}
+        pr={["2", "3"]}
+        py="2"
       >
-        <HStack minH={5} key={item.id}>
-          <Box
-            borderLeftWidth={1}
-            style={styles.boxContent2}
-            borderColor="muted.200"
-          >
-            <Center>
-              <Text style={styles.textContent}>
-                <RadioButton
-                  value={item.id}
-                  status={checked === item.id ? "checked" : "unchecked"}
-                  color="#5898e1"
-                />
-              </Text>
-            </Center>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            borderLeftWidth={1}
-            style={styles.boxContent2}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>{index + 1}</Text>
-          </Box>
-
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent2}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>
-              {item.trangThaiKhoaSo == 1 ? (
-                <Ionicons name="md-lock-open-outline" size={20} color="blue" />
-              ) : (
-                <Ionicons name="md-lock-closed-outline" size={20} color="red" />
-              )}
-            </Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
+        <VStack>
+          <Text style={styles.textTitle}>
+            Tên sổ: <Text style={styles.textTitle}>{item.tenSo}</Text>
+          </Text>
+          <Text style={styles.textTitle}>
+            Tuyến đọc:{" "}
             <Text style={styles.textContent}>{item.tenTuyenDoc}</Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
+          </Text>
+          <Text style={styles.textTitle}>
+            Cán bộ đọc:{" "}
             <Text style={styles.textContent}>{item.nguoiQuanLyId}</Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>{item.tenSo}</Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>{item.soChiSoDongHoChuaGhi}</Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>
-              {item.chotSo ? (
-                <Text style={{ color: "red" }}>Đã chốt</Text>
-              ) : (
-                <Text style={{ color: "blue" }}>Chưa chốt</Text>
-              )}
+          </Text>
+          <HStack space={3} justifyContent="space-between">
+            <Text style={styles.textTitle}>
+              Hóa đơn:{" "}
+              <Text style={styles.textContent}>
+                {item.soChiSoDongHoChuaGhi}
+              </Text>
             </Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>
-              {item.trangThai === 1
-                ? "Đang ghi"
-                : item.trangThai === 2
-                ? "Đã ngừng"
-                : ""}
+            <Text style={styles.textTitle}>
+              Chưa ghi:{" "}
+              <Text style={styles.textContent}>
+                {item.soChiSoDongHoChuaGhi}
+              </Text>
             </Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>
-              {item.ngayChot
-                ? `${item.ngayChot.substring(8, 10)}/${item.ngayChot.substring(
-                    5,
-                    7
-                  )}/${item.ngayChot.substring(0, 4)}`
-                : ""}
+          </HStack>
+          <HStack justifyContent="space-between">
+            <Text style={styles.textTitle}>
+              Chốt sổ:{" "}
+              <Text style={styles.textContent}>
+                {item.chotSo ? (
+                  <Text style={{ color: "red" }}>Đã chốt</Text>
+                ) : (
+                  <Text style={{ color: "blue" }}>Chưa chốt</Text>
+                )}
+              </Text>
             </Text>
-          </Box>
-          <Box
-            borderRightWidth={1}
-            style={styles.boxContent}
-            borderColor="muted.200"
-            pl={["5", "4"]}
-            pr={["5", "5"]}
-            py="2"
-          >
-            <Text style={styles.textContent}>{item.hoaDon}</Text>
-          </Box>
-        </HStack>
-      </TouchableOpacity>
-    </>
+            <Text style={styles.textTitle}>
+              Trạng thái:{" "}
+              <Text style={styles.textContent}>
+                {item.trangThai === 1
+                  ? "Đang ghi"
+                  : item.trangThai === 2
+                  ? "Đã ngừng"
+                  : ""}
+              </Text>
+            </Text>
+          </HStack>
+          <HStack justifyContent="space-between">
+            <Text style={styles.textTitle}>
+              Ngày chốt:{" "}
+              <Text style={styles.textContent}>
+                {item.ngayChot
+                  ? `${item.ngayChot.substring(
+                      8,
+                      10
+                    )}/${item.ngayChot.substring(
+                      5,
+                      7
+                    )}/${item.ngayChot.substring(0, 4)}`
+                  : ""}
+              </Text>
+            </Text>
+            {item.trangThaiKhoaSo == 1 ? (
+              <Ionicons name="md-lock-open-outline" size={20} color="blue" />
+            ) : (
+              <Ionicons name="md-lock-closed-outline" size={20} color="red" />
+            )}
+          </HStack>
+        </VStack>
+      </Box>
+    </TouchableOpacity>
   );
+  const handleRowPress = (itemId) => {
+    // Check if the item is already selected
+    if (selectedItems.includes(itemId)) {
+      // If selected, remove it from the selectedItems array
+      setSelectedItems((prevSelectedItems) => {
+        prevSelectedItems.filter((id) => id !== itemId);
+        console.log("Id ne:", selectedItems);
+      });
+    } else {
+      // If not selected, add it to the selectedItems array
+      setSelectedItems((prevSelectedItems) => [...prevSelectedItems, itemId]);
+    }
+  };
   return (
     <View>
-      <ScrollView horizontal nestedScrollEnabled={true}>
-        <Box>
-          <HStack
-            style={{
-              borderBottomLeftRadius: 5,
-              borderBottomRightRadius: 5,
-            }}
+      <FlatList
+        h={"70%"}
+        data={data.items}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={["#9Bd35A", "#689F38"]}
+          />
+        }
+        ListEmptyComponent={() => (
+          <View
+            style={styles.emptyContainer}
+            space={5}
+            justifyContent="space-between"
           >
-            <Box
-              borderRightWidth={1}
-              borderBottomWidth={1}
-              borderColor="muted.200"
-              style={[styles.boxIndex]}
-              pl={["5", "4"]}
-              pr={["5", "5"]}
-              py="2"
-            >
-              <Text style={styles.textTitle}></Text>
-            </Box>
-            <Box
-              borderRightWidth={1}
-              borderBottomWidth={1}
-              borderColor="muted.200"
-              style={[styles.boxIndex]}
-              pl={["5", "4"]}
-              pr={["5", "5"]}
-              py="2"
-            >
-              <Text style={styles.textTitle}>#</Text>
-            </Box>
-            <Box
-              borderRightWidth={1}
-              borderBottomWidth={1}
-              borderColor="muted.200"
-              style={[styles.boxIndex]}
-              pl={["5", "4"]}
-              pr={["5", "5"]}
-              py="2"
-            >
-              <Text style={styles.textTitle}></Text>
-            </Box>
-            {title.map((item, index) => (
-              <Box
-                key={index}
-                borderRightWidth={1}
-                borderBottomWidth={1}
-                borderColor="muted.200"
-                style={[styles.boxContent]}
-                pl={["5", "4"]}
-                pr={["5", "5"]}
-                py="2"
-              >
-                <Text style={styles.textTitle}>{item.name}</Text>
-              </Box>
-            ))}
-          </HStack>
-          {/* Nội dung của bảng */}
-          <ScrollView
-            h={"350"}
-            style={{ backgroundColor: "white" }}
-            nestedScrollEnabled={true}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                colors={["#9Bd35A", "#689F38"]}
-              />
-            }
-          >
-            <FlatList
-              nestedScrollEnabled={true}
-              windowSize={5}
-              scrollEnabled={false}
-              data={data.items}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-              ListEmptyComponent={() => (
-                <View style={styles.emptyContainer}>
-                  <Ionicons
-                    name="md-information-circle"
-                    size={60}
-                    color="black"
-                  />
-                  <Text style={{ fontFamily: "Quicksand_700Bold" }}>
-                    Không tìm thấy dữ liệu
-                  </Text>
-                </View>
-              )}
-            />
-          </ScrollView>
-        </Box>
-      </ScrollView>
+            <Ionicons name="md-information-circle" size={60} color="black" />
+            <Text style={{ fontFamily: "Quicksand_700Bold" }}>
+              Không tìm thấy dữ liệu
+            </Text>
+          </View>
+        )}
+      />
       <Pagination
         totalItems={data.totalCount}
         pageSize={10}
@@ -440,7 +233,6 @@ const TableList = ({
         textStyle={{ fontFamily: "Quicksand_700Bold" }}
         activeBtnStyle={{ backgroundColor: "gray" }}
       />
-
       {loading === "pending" && (
         <Modal
           isOpen={true}
@@ -459,5 +251,23 @@ const TableList = ({
     </View>
   );
 };
+const styles = StyleSheet.create({
+  textContent: {
+    fontFamily: "Quicksand_700Bold",
+    fontSize: 17,
+    color: "gray",
+    marginBottom: 8,
+  },
+  textTitle: {
+    fontSize: 18,
+    fontFamily: "Quicksand_700Bold",
+    marginBottom: 8,
+  },
+  emptyContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 150,
+  },
+});
 
 export default TableList;

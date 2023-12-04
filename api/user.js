@@ -69,6 +69,18 @@ export const createNewSoDocApi = async (filterParams) => {
     throw error.response.data;
   }
 };
+export const taoNgayTheoKyGhiApi = async (filterParams) => {
+  try {
+    const response = await axios.post(
+      `${API_URL}/api/so-doc-chi-so/tao-ngay-trong-so-doc-theo-ky?id=${filterParams.idKyGhi}&time=${filterParams.time}`
+    );
+    console.log("Create Successfully taoNgayTheoKyGhiApi", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Create data error taoNgayTheoKyGhiApi", error.response.data);
+    throw error.response.data;
+  }
+};
 
 export const filterHopDongApi = async (filterParams) => {
   try {
@@ -85,7 +97,7 @@ export const filterHopDongApi = async (filterParams) => {
     const loaiDH = filterParams.loaiDH ? `LoaiDH=${filterParams.loaiDH}` : "";
 
     const response = await axios.get(
-      `${API_URL}/api/hop-dong/filter-hop-dong-for-create-so-doc?${tuyenDocId}&${loaiKH}&${sdtKH}&${keyIdHopDong}&${loaiDH}&pageNumber=${filterParams.pageNumber}&pageSize=10`,
+      `${API_URL}/api/hop-dong/filter-hop-dong-for-create-so-doc?${tuyenDocId}&${loaiKH}&${sdtKH}&${keyIdHopDong}&${loaiDH}&pageNumber=${filterParams.pageNumber}&pageSize=100000`,
       filterParams
     );
     console.log("Filtered hop dong", response.data);
@@ -105,7 +117,7 @@ export const filterCreateMutiSoDoc = async (filterParams) => {
     return response.data;
   } catch (error) {
     console.log("Filtered data error", error.response.data);
-    throw error.response.data;
+    throw error.message;
   }
 };
 export const filterSoDocApi = async (filterParams) => {
@@ -130,12 +142,33 @@ export const tuyenDocAllApi = async () => {
     throw error.response.data;
   }
 };
+const getTokenFromStorage = async () => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    return token;
+  } catch (error) {
+    console.error("Error retrieving token from AsyncStorage:", error);
+    throw error;
+  }
+};
 export const kyGhiChiSoAllApi = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/ky-ghi-chi-so/get-all`);
+    const token = await getTokenFromStorage();
+    if (!token) {
+      // Handle the case where the token is not available
+      // (e.g., redirect to login screen)
+      console.log("Token is missing. Redirecting to login.");
+      return;
+    }
+    // Now, you can make your API request with the retrieved token
+    const response = await axios.get(`${API_URL}/api/ky-ghi-chi-so/get-all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.log("data error2", error.response.data);
+    console.log("data error2", error.message);
     throw error.response.data;
   }
 };

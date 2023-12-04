@@ -52,6 +52,9 @@ const AccordionCreateMuti = ({
   setDataHopDong,
   canBoDocs,
   service,
+  kyGCSData,
+  setSelectedKyGhi,
+  selectedKyGhi,
 }) => {
   const [expanded, setExpanded] = React.useState(true);
   const [value, setValue] = React.useState("");
@@ -65,20 +68,21 @@ const AccordionCreateMuti = ({
   const [dateSelected, setDateSelected] = useState(moment());
 
   const dispatch = useDispatch();
+
   const loading = useSelector((state) => state.loading); // Redux loading state
   const error = useSelector((state) => state.error);
   const handleFilterSoDoc = async () => {
     const filterParams = {
-      nhaMayId: "123",
-      time: "10/2023",
+      nhaMayId: service,
+      time: moment(dateSelected).format("MM/YYYY"),
     };
 
     try {
       const filterData = await filterCreateMutiSoDoc(filterParams);
-
+      console.log("Nha may id:", service);
       setDataHopDong(filterData.data);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error roi:", error);
     }
   };
 
@@ -135,27 +139,21 @@ const AccordionCreateMuti = ({
           </Button>
         </FormControl>
         <FormControl mt="3" style={styles.formControl}>
-          <FormControl.Label>Cán bộ</FormControl.Label>
+          <FormControl.Label>Kỳ ghi chỉ số</FormControl.Label>
           <Select
-            selectedValue={selectedCanBo}
+            selectedValue={selectedKyGhi}
             minWidth="200"
-            accessibilityLabel="Chọn cán bộ"
-            placeholder="Chọn cán bộ"
-            style={{ fontFamily: "Quicksand_500Medium" }}
-            fontSize={12}
+            accessibilityLabel="Chọn kỳ GCS"
+            placeholder="Chọn kỳ GCS"
             _selectedItem={{
               bg: "teal.600",
               endIcon: <CheckIcon size="5" />,
             }}
             mt={1}
-            onValueChange={(itemValue) => setSelectedCanBo(itemValue)}
+            onValueChange={(itemValue) => setSelectedKyGhi(itemValue)}
           >
-            {canBoDocs?.map((item) => (
-              <Select.Item
-                key={item.id}
-                label={item.userName}
-                value={item.id}
-              />
+            {kyGCSData?.map((item) => (
+              <Select.Item key={item.id} label={item.moTa} value={item.id} />
             ))}
           </Select>
         </FormControl>

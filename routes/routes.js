@@ -25,6 +25,8 @@ import TestTable from "../screens/user/TestTable";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
+import plus from "../assets/favicon.png";
+
 import {
   Button,
   Center,
@@ -32,12 +34,19 @@ import {
   Image,
   Select,
   Text,
+  ToastProvider,
   View,
 } from "native-base";
 import { logoutUser } from "../store/asyncAction";
 import Toast from "react-native-toast-message";
-import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import {
+  Animated,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
+  StyleSheet,
+} from "react-native";
 import { List } from "react-native-paper";
 import * as React from "react";
 import { ServiceProvider, useService } from "../ServiceContext";
@@ -49,6 +58,11 @@ import {
 import { ApolloClient, ApolloProvider } from "@apollo/client";
 import client from "../config/apolloClient";
 import store from "../store/store";
+
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import ScanNFCScreen from "../screens/user/ScanNFCScreen";
+import HomeScreen from "../screens/user/HomeScreen";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -177,7 +191,7 @@ const MyDrawer = () => {
               label="Hóa đơn"
               fontFamily="Quicksand_500Medium"
               onPress={
-                () => navigation.navigate("Hóa đơn") // Truyền giá trị "service" vào params
+                () => navigation.navigate("ScanNFCScreen") // Truyền giá trị "service" vào params
               }
             />
           </List.Accordion>
@@ -223,9 +237,14 @@ const MyDrawer = () => {
   return (
     <Drawer.Navigator
       useLegacyImplementation
-      initialRouteName="Sổ đọc chỉ số"
+      initialRouteName="Trang chủ"
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
+      <Drawer.Screen
+        name="Trang chủ"
+        component={MyTabs}
+        options={{ drawerLabel: "Trang chủ" }}
+      />
       <Drawer.Screen
         name="Sổ đọc chỉ số"
         component={BookIndexScreen}
@@ -248,13 +267,270 @@ const MyDrawer = () => {
         options={{ drawerLabel: "Thanh toán" }}
       />
       <Drawer.Screen
-        name="TestTable"
-        component={TestTable}
-        options={{ drawerLabel: "TestTable" }}
+        name="ScanNFCScreen"
+        component={ScanNFCScreen}
+        options={{ drawerLabel: "ScanNFCScreen" }}
       />
     </Drawer.Navigator>
   );
 };
+
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  const tabOffsetValue = React.useRef(new Animated.Value(0)).current;
+  return (
+    <>
+      <Tab.Navigator
+        screenOptions={{
+          showLabel: false,
+          // Floating Tab Bar...
+          style: {
+            backgroundColor: "white",
+            position: "absolute",
+            bottom: 40,
+            marginHorizontal: 20,
+            // Max Height...
+            height: 60,
+            borderRadius: 10,
+            // Shadow...
+            shadowColor: "#000",
+            shadowOpacity: 0.06,
+            shadowOffset: {
+              width: 10,
+              height: 10,
+            },
+            paddingHorizontal: 20,
+          },
+          headerShown: false,
+        }}
+      >
+        {
+          // Tab Screens....
+          // Tab ICons....
+        }
+        <Tab.Screen
+          name={"Home"}
+          component={HomeScreen}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: ({ focused }) => (
+              <View
+                style={{
+                  // centring Tab Button...
+                  position: "absolute",
+                  top: 20,
+                }}
+              >
+                <FontAwesome5
+                  name="home"
+                  size={20}
+                  color={focused ? "#4B94E3" : "gray"}
+                ></FontAwesome5>
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            // Onpress Update....
+            tabPress: (e) => {
+              Animated.spring(tabOffsetValue, {
+                toValue: 0,
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        ></Tab.Screen>
+
+        <Tab.Screen
+          name={"Ghi chỉ số"}
+          component={WriteIndex}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: ({ focused }) => (
+              <View
+                style={{
+                  // centring Tab Button...
+                  position: "absolute",
+                  top: 20,
+                }}
+              >
+                <FontAwesome5
+                  name="search"
+                  size={20}
+                  color={focused ? "#4B94E3" : "gray"}
+                ></FontAwesome5>
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            // Onpress Update....
+            tabPress: (e) => {
+              Animated.spring(tabOffsetValue, {
+                toValue: getWidth(),
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        ></Tab.Screen>
+
+        {
+          // Extra Tab Screen For Action Button..
+        }
+
+        <Tab.Screen
+          name={"ScanNFCScreen"}
+          component={ScanNFCScreen}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: ({ focused, navigation }) => (
+              <View
+                style={{
+                  width: 55,
+                  height: 55,
+                  backgroundColor: focused ? "#4B94E3" : "#0CE3BC",
+                  borderRadius: 30,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="credit-card-scan-outline"
+                  size={24}
+                  color={focused ? "black" : "gray"}
+                />
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            // Onpress Update....
+            tabPress: (e) => {
+              Animated.spring(tabOffsetValue, {
+                toValue: getWidth() * 2,
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        ></Tab.Screen>
+
+        <Tab.Screen
+          name={"Hóa đơn"}
+          component={NotificationScreen}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: ({ focused }) => (
+              <View
+                style={{
+                  // centring Tab Button...
+                  position: "absolute",
+                  top: 20,
+                }}
+              >
+                <Ionicons
+                  name="receipt"
+                  size={20}
+                  color={focused ? "#4B94E3" : "gray"}
+                />
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            // Onpress Update....
+            tabPress: (e) => {
+              Animated.spring(tabOffsetValue, {
+                toValue: getWidth() * 3,
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        ></Tab.Screen>
+
+        <Tab.Screen
+          name={"Sự cố"}
+          component={SettingsScreen}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: ({ focused }) => (
+              <View
+                style={{
+                  // centring Tab Button...
+                  position: "absolute",
+                  top: 20,
+                }}
+              >
+                <Ionicons name="warning" size={24} color={focused ? "#4B94E3" : "gray"} />
+              </View>
+            ),
+          }}
+          listeners={({ navigation, route }) => ({
+            // Onpress Update....
+            tabPress: (e) => {
+              Animated.spring(tabOffsetValue, {
+                toValue: getWidth() * 4,
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        ></Tab.Screen>
+      </Tab.Navigator>
+
+      <Animated.View
+        style={{
+          width: getWidth() - 20,
+          height: 2,
+          backgroundColor: "#4B94E3",
+          position: "absolute",
+          bottom: 98,
+          // Horizontal Padding = 20...
+          left: 50,
+          borderRadius: 20,
+          transform: [{ translateX: tabOffsetValue }],
+        }}
+      ></Animated.View>
+    </>
+  );
+}
+
+function getWidth() {
+  let width = Dimensions.get("window").width;
+
+  // Horizontal Padding = 20...
+  width = width - 80;
+
+  // Total five Tabs...
+  return width / 5;
+}
+
+function EmptyScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      Empty
+    </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+function NotificationScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Notifications!</Text>
+    </View>
+  );
+}
+
+function SearchScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Search!</Text>
+    </View>
+  );
+}
 const RootNavigation = () => {
   return (
     <>
@@ -265,7 +541,16 @@ const RootNavigation = () => {
         >
           <Stack.Screen name="selectfactory" component={SelectFactoryScreen} />
           <Stack.Screen name="login" component={LoginScreen} />
-          <Stack.Screen name="mydrawer" component={MyDrawer} />
+          <Stack.Screen
+            name="Trang chủ"
+            component={MyTabs}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="mydrawer"
+            component={MyDrawer}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="PaymentRecordListScreen"
             component={PaymentRecordListScreen}
@@ -280,8 +565,10 @@ const RootNavigation = () => {
             name="InvoiceInformationScreen"
             component={InvoiceInformationScreen}
           />
+          <Stack.Screen name="ScanNFCScreen" component={ScanNFCScreen} />
         </Stack.Navigator>
       </NavigationContainer>
+
       <Toast />
     </>
   );
@@ -295,9 +582,11 @@ const Routes = () => {
   if (fontsLoaded) {
     return (
       <ServiceProvider>
-        <ApolloProvider client={client}>
-          <RootNavigation />
-        </ApolloProvider>
+        <ToastProvider>
+          <ApolloProvider client={client}>
+            <RootNavigation />
+          </ApolloProvider>
+        </ToastProvider>
       </ServiceProvider>
     );
   }

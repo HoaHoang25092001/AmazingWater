@@ -45,6 +45,7 @@ import moment from "moment";
 import App from "../../screens/user/TestTable";
 import YearMonthPicker from "../PickYearMonth/PickYearMonth";
 import { useDispatch, useSelector } from "react-redux";
+import Toast from "react-native-toast-message";
 
 const AccordionCreateSoDoc = ({
   dataHopDong,
@@ -54,6 +55,8 @@ const AccordionCreateSoDoc = ({
   setTotalCount,
   setTotalPages,
   currentPage,
+  setSelectedThangTaoSo,
+  selectedThangTaoSo,
 }) => {
   const [expanded, setExpanded] = React.useState(true);
   const [value, setValue] = React.useState("");
@@ -71,12 +74,12 @@ const AccordionCreateSoDoc = ({
   const [selectedSDTKH, setSDTKH] = useState(null);
   const [loaiDH, setLoaiDH] = useState(null);
   const [allData, setAllData] = useState();
-  const [dateSelected, setDateSelected] = useState(moment());
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.loading); // Redux loading state
-  const error = useSelector((state) => state.error);
+
   const handleFilterSoDoc = async () => {
+    setLoading(true);
     const filterParams = {
       tuyenDocId: selectedTuyenDoc,
       loaiKH: selectedLoaiKH,
@@ -93,12 +96,15 @@ const AccordionCreateSoDoc = ({
       setTotalCount(filterData.totalCount);
       setTotalPages(filterData.totalPages);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error1:", error);
+     
+    } finally {
+      setLoading(false);
     }
   };
-  useEffect(() => {
-    handleFilterSoDoc();
-  },[currentPage]);
+  // useEffect(() => {
+  //   handleFilterSoDoc();
+  // },[currentPage]);
 
   useEffect(() => {
     async function fetchTuyenDocData() {
@@ -115,10 +121,10 @@ const AccordionCreateSoDoc = ({
     fetchTuyenDocData();
   }, []);
   const handleTimMoi = () => {
-    setSelectedLoaiKH();
-    setKeyIdHopDong();
-    setSelectedTuyenDoc();
-    setLoaiDH();
+    setSelectedLoaiKH(null);
+    setKeyIdHopDong(null);
+    setSelectedTuyenDoc(null);
+    setLoaiDH(null);
   };
   // useEffect(() => {
   //   setData(responseData);
@@ -148,7 +154,7 @@ const AccordionCreateSoDoc = ({
             onPress={() => setShowDatePickerModal(true)}
           >
             <Text style={{ fontFamily: "Quicksand_500Medium" }}>
-              {moment(dateSelected).format("MM/YYYY")}
+              {moment(selectedThangTaoSo).format("MM/YYYY")}
             </Text>
           </Button>
         </FormControl>
@@ -276,7 +282,6 @@ const AccordionCreateSoDoc = ({
           <HStack mt="3" mb="3" style={{ alignContent: "space-between" }}>
             <Button.Group space={2}>
               <Button
-                variant={"outline"}
                 onPress={handleFilterSoDoc}
                 leftIcon={
                   <Icon
@@ -286,13 +291,16 @@ const AccordionCreateSoDoc = ({
                     color={"black"}
                   />
                 }
+                isLoading={loading}
+                spinnerPlacement="end"
+                isLoadingText="Đang tìm kiếm"
               >
                 <Text style={{ fontFamily: "Quicksand_700Bold" }}>
                   Tìm kiếm
                 </Text>
               </Button>
               <Button
-                variant={"outline"}
+                variant="subtle"
                 onPress={handleTimMoi}
                 leftIcon={
                   <Icon
@@ -318,8 +326,8 @@ const AccordionCreateSoDoc = ({
             <Modal.Header>Chọn tháng</Modal.Header>
             <Modal.Body>
               <YearMonthPicker
-                dateSelected={dateSelected}
-                setDateSelected={setDateSelected}
+                selectedThangTaoSo={selectedThangTaoSo}
+                setSelectedThangTaoSo={setSelectedThangTaoSo}
               />
             </Modal.Body>
             <Modal.Footer>

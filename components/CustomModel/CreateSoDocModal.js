@@ -16,12 +16,13 @@ import {
   Input,
   Modal,
   Select,
+  useToast,
   VStack,
 } from "native-base";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { MaterialIcons } from "@expo/vector-icons";
 import AccordionCreateSoDoc from "../AcordionCustom/AcordionCreateSoDoc";
-import { createNewSoDocApi } from "../../api/user";
+import { createNewSoDocApi, taoNgayTheoKyGhiApi } from "../../api/user";
 import TableCreate from "../TableList/TableCreate";
 import moment from "moment";
 import Toast from "react-native-toast-message";
@@ -47,6 +48,7 @@ const CreateSoDocModal = ({
   const [selectedTenSoDoc, setSelectedTenSoDoc] = useState(null);
   const [selectedHopDongId, setSelectedHopDongId] = useState([]);
   const [selectedKyGhiId, setSelectedKyGhiId] = useState(null);
+  const [selectedThangTaoSo, setSelectedThangTaoSo] = useState();
   const [createSoDocData, setCreateSoDocData] = useState();
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const canBoDocs = canBoDocData ? canBoDocData.GetUsers.nodes : [];
@@ -54,16 +56,23 @@ const CreateSoDocModal = ({
   const [totalPages, setTotalPages] = React.useState(1);
   const [dataHopDong, setDataHopDong] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCanBoDoc, setSelectedCanBoDoc] = useState("");
+  const [updateDate, setUpdateDate] = useState();
+  const [ngayCuoiKy, setNgayCuoiKy] = useState();
+  const [ngayDauKy, setNgayDauKy] = useState();
+  const [ngayHoaDon, setNgayHoaDon] = useState();
+  const toast = useToast();
+
   const handleCreateNewSoDoc = async () => {
     const createSoDocField = {
       nguoiQuanLyId: selectedTenCanBo,
       tenSo: "Tháng 01/2034 luongvantuong",
       hopDongId: selectedHopDongId,
-      kyGhiChiSoId: "ed0b09b9d087484fa3a636814d186080",
-      ngayDauKy: selectedDauKy,
-      thangTaoSoDoc: "01/2034",
-      ngayCuoiKy: selectedDateCuoiKy,
-      ngayHoaDon: selectedDate,
+      kyGhiChiSoId: selectedKyGhiId,
+      ngayDauKy: ngayDauKy,
+      thangTaoSoDoc: moment(selectedThangTaoSo).format("MM/YYYY"),
+      ngayCuoiKy: ngayCuoiKy,
+      ngayHoaDon: ngayHoaDon,
       nhaMayId: service,
     };
     try {
@@ -81,8 +90,43 @@ const CreateSoDocModal = ({
         setCreateSoDocData(error.StatusCode);
       }
       console.error("Error:", error);
+      // Display error using Toast
+      if (error.status === 400) {
+        toast.show({
+          title: "Vui lòng nhập kỳ ghi chỉ số id",
+          status: "warning",
+          placement: "top",
+          variant: "subtle",
+        });
+        return;
+      }
     }
   };
+  const handleCreateDate = async () => {
+    const filterParams = {
+      idKyGhi: selectedKyGhiId,
+      time: moment(selectedThangTaoSo).format("MM/YYYY"),
+    };
+    try {
+      const dataCreate = await taoNgayTheoKyGhiApi(filterParams);
+      setUpdateDate(dataCreate.data);
+      console.log("Successfully created", dataCreate.data.ngayDauKy);
+    } catch (error) {
+      console.error("Error ky ghi id:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedKyGhiId !== null) {
+      handleCreateDate();
+      if (updateDate) {
+        setNgayDauKy(moment(updateDate.ngayDauKy).format("DD/MM/YYYY"));
+        setNgayHoaDon(moment(updateDate.ngayHoaDon).format("DD/MM/YYYY"));
+        setNgayCuoiKy(moment(updateDate.ngayCuoiKy).format("DD/MM/YYYY"));
+      }
+    }
+  }, [selectedKyGhiId]);
+  console.log("Nguoi quan li id:", selectedTenCanBo);
 
   return (
     <View>
@@ -110,6 +154,8 @@ const CreateSoDocModal = ({
                 setTotalCount={setTotalCount}
                 setTotalPages={setTotalPages}
                 currentPage={currentPage}
+                setSelectedThangTaoSo={setSelectedThangTaoSo}
+                selectedThangTaoSo={selectedThangTaoSo}
               />
               <TableCreate
                 dataHopDong={dataHopDong}
@@ -128,7 +174,7 @@ const CreateSoDocModal = ({
                 <FormControl.Label>Cán bộ</FormControl.Label>
                 <Select
                   selectedValue={selectedTenCanBo}
-                  style={{ fontFamily: "Quicksand_500Medium" }}
+                  style={{ fontFamily: "Quicksand_500Medium", fontSize: 16 }}
                   minWidth="200"
                   accessibilityLabel="Chọn cán bộ"
                   placeholder="Chọn cán bộ"
@@ -137,7 +183,14 @@ const CreateSoDocModal = ({
                     endIcon: <CheckIcon size="5" />,
                   }}
                   mt={1}
-                  onValueChange={(itemValue) => setSelectedTenCanBo(itemValue)}
+                  onValueChange={(itemValue) => {
+                    const selectedItem = canBoDocs.find(
+                      (item) => item.id === itemValue
+                    );
+                    const selectedUserName = selectedItem?.userName || "";
+                    setSelectedTenCanBo(itemValue);
+                    setSelectedCanBoDoc(selectedUserName);
+                  }}
                 >
                   {canBoDocs?.map((item) => (
                     <Select.Item
@@ -153,7 +206,7 @@ const CreateSoDocModal = ({
                 <Select
                   selectedValue={selectedKyGhiId}
                   minWidth="200"
-                  style={{ fontFamily: "Quicksand_500Medium" }}
+                  style={{ fontFamily: "Quicksand_500Medium", fontSize: 16 }}
                   accessibilityLabel="Chọn kỳ ghi chỉ số"
                   placeholder="Chọn kỳ ghi chỉ số"
                   _selectedItem={{
@@ -166,7 +219,7 @@ const CreateSoDocModal = ({
                   {kyGCSData?.map((item) => (
                     <Select.Item
                       key={item.id}
-                      label={item.tenKyGCS}
+                      label={item.moTa}
                       value={item.id}
                     />
                   ))}
@@ -183,7 +236,9 @@ const CreateSoDocModal = ({
                   }}
                 >
                   <Text style={{ fontFamily: "Quicksand_500Medium" }}>
-                    {moment(selectedDate).format("DD/MM/YYYY")}
+                    {updateDate
+                      ? moment(updateDate.ngayHoaDon).format("DD/MM/YYYY")
+                      : moment(selectedDate).format("DD/MM/YYYY")}
                   </Text>
                 </Button>
                 <DateTimePickerModal
@@ -211,7 +266,9 @@ const CreateSoDocModal = ({
                   }}
                 >
                   <Text style={{ fontFamily: "Quicksand_500Medium" }}>
-                    {moment(selectedDauKy).format("DD/MM/YYYY")}
+                    {updateDate
+                      ? moment(updateDate.ngayDauKy).format("DD/MM/YYYY")
+                      : moment(selectedDauKy).format("DD/MM/YYYY")}
                   </Text>
                 </Button>
                 <DateTimePickerModal
@@ -239,7 +296,9 @@ const CreateSoDocModal = ({
                   }}
                 >
                   <Text style={{ fontFamily: "Quicksand_500Medium" }}>
-                    {moment(selectedDateCuoiKy).format("DD/MM/YYYY")}
+                    {updateDate
+                      ? moment(updateDate.ngayCuoiKy).format("DD/MM/YYYY")
+                      : moment(selectedDateCuoiKy).format("DD/MM/YYYY")}
                   </Text>
                 </Button>
                 <DateTimePickerModal
@@ -259,7 +318,15 @@ const CreateSoDocModal = ({
 
               <FormControl w="90%" maxW="300px">
                 <FormControl.Label>Tên sổ</FormControl.Label>
-                <Input style={{ fontFamily: "Quicksand_500Medium" }} />
+                <Input
+                  style={{ fontFamily: "Quicksand_500Medium", fontSize: 16 }}
+                  value={"Tháng".concat(
+                    " ",
+                    moment(selectedThangTaoSo).format("MM/YYYY"),
+                    " ",
+                    selectedCanBoDoc
+                  )}
+                />
               </FormControl>
               <HStack space={2} mt={10}>
                 <Checkbox value="one">

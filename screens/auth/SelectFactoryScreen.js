@@ -51,7 +51,7 @@ const SelectFactoryScreen = ({ navigation }) => {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-        navigation.navigate("mydrawer");
+        navigation.navigate("Trang chủ");
       }, 100);
     }
   };

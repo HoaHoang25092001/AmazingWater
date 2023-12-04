@@ -179,7 +179,7 @@ const MenuButtonV2 = ({
   };
 
   return (
-    <Box w="98%" h="60%" alignItems="flex-end">
+    <Box w="98%" alignItems="flex-end">
       <Menu
         w="200"
         placement="top right"

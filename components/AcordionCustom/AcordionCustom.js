@@ -249,11 +249,7 @@ const AccordionCustom = ({ kyGCSData, setData, currentPage }) => {
             onValueChange={(itemValue) => setSelectedKyGhi(itemValue)}
           >
             {kyGCSData?.map((item) => (
-              <Select.Item
-                key={item.id}
-                label={item.tenKyGCS}
-                value={item.id}
-              />
+              <Select.Item key={item.id} label={item.moTa} value={item.id} />
             ))}
           </Select>
         </FormControl>
@@ -331,7 +327,7 @@ export default AccordionCustom;
 const styles = StyleSheet.create({
   accordionTitle: {
     backgroundColor: "#cccc",
-    height: 55,
+    height: 40,
     borderRadius: "15px",
     padding: 3,
   },

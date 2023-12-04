@@ -12,9 +12,9 @@ function TableCreateMuti({ data, loading }) {
   const [service, setService] = React.useState("");
   const [groupValues, setGroupValues] = React.useState([]);
   const [groupValue, setGroupValue] = React.useState([]);
-  const hopDongs = data ? data.GetHopDongs.nodes : [];
-  const totalPages = Math.ceil(hopDongs.length / itemsPerPage);
-  const paginatedData = hopDongs.slice(
+  // const hopDongs = data ? data.GetHopDongs.nodes : [];
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
+  const paginatedData = data?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -116,7 +116,7 @@ function TableCreateMuti({ data, loading }) {
   }
 
   const handleSelectAll = () => {
-    const allCheckboxValues = paginatedData.map((hopDong) => hopDong.id);
+    const allCheckboxValues = paginatedData?.map((hopDong) => hopDong.id);
     setGroupValue(allCheckboxValues);
   };
   useEffect(() => {
@@ -153,7 +153,7 @@ function TableCreateMuti({ data, loading }) {
                 />
               </Center>
             </Box>
-            {title.map((item, index) => (
+            {title?.map((item, index) => (
               <Box
                 key={index}
                 borderTopWidth={1}
@@ -183,7 +183,7 @@ function TableCreateMuti({ data, loading }) {
                 setGroupValue(values || []);
               }}
             >
-              {paginatedData.map((hopDong, index) => (
+              {paginatedData?.map((hopDong, index) => (
                 <HStack minH={5} key={hopDong.id}>
                   <Box
                     borderLeftWidth={1}
@@ -208,7 +208,9 @@ function TableCreateMuti({ data, loading }) {
                     pr={["5", "5"]}
                     py="2"
                   >
-                    <Text style={styles.textContent}>{hopDong.keyId}</Text>
+                    <Text style={styles.textContent}>
+                      {hopDong.nguoiThuTienId}
+                    </Text>
                   </Box>
                   <Box
                     borderLeftWidth={1}
@@ -220,20 +222,6 @@ function TableCreateMuti({ data, loading }) {
                   >
                     <Text style={styles.textContent}>{hopDong.keyId}</Text>
                   </Box>
-                  {hopDong.khachHang && (
-                    <Box
-                      borderLeftWidth={1}
-                      style={styles.boxContent2}
-                      borderColor="muted.200"
-                      pl={["5", "4"]}
-                      pr={["5", "5"]}
-                      py="2"
-                    >
-                      <Text style={styles.textContent}>
-                        {hopDong.khachHang.tenKhachHang}
-                      </Text>
-                    </Box>
-                  )}
                   <Box
                     borderLeftWidth={1}
                     style={styles.boxContent2}
@@ -242,7 +230,19 @@ function TableCreateMuti({ data, loading }) {
                     pr={["5", "5"]}
                     py="2"
                   >
-                    <Text style={styles.textContent}>{hopDong.diachi}</Text>
+                    <Text style={styles.textContent}>{hopDong.tenTuyen}</Text>
+                  </Box>
+                  <Box
+                    borderLeftWidth={1}
+                    style={styles.boxContent2}
+                    borderColor="muted.200"
+                    pl={["5", "4"]}
+                    pr={["5", "5"]}
+                    py="2"
+                  >
+                    <Text style={styles.textContent}>
+                      {hopDong.kyGhiChiSoId}
+                    </Text>
                   </Box>
                   <Box
                     borderRightWidth={1}

@@ -10,19 +10,23 @@ import {
   Text,
   VStack,
 } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import { Button, StyleSheet, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { color } from "react-native-reanimated";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../constants";
+import { useService } from "../../ServiceContext";
+import { fetchSoDocChiSoByNhaMayId } from "../../store/SoDocChiSoTheoNM/action";
 
 const WriteIndex = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const navigator = useNavigation();
-  const { loading, error, data } = useSelector((state) => state.soDocChiSo);
-
+  const { service, setService } = useService([]);
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -30,6 +34,23 @@ const WriteIndex = ({ navigation }) => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
+
+  useEffect(() => {
+    dispatch(
+      fetchSoDocChiSoByNhaMayId({
+        service,
+        currentPage,
+      })
+    ).then((result) => {
+      if (result.payload) {
+        console.log("Data returned:", result.payload);
+        const data = result.payload;
+        setData(data);
+      } else {
+        console.log("No data returned");
+      }
+    });
+  }, [service, currentPage]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -134,7 +155,7 @@ const WriteIndex = ({ navigation }) => {
         locale={"vi-VN"}
   />*/}
 
-        <View style={{ alignItems: "flex-start", justifyContent: "center" }}>
+        {/* <View style={{ alignItems: "flex-start", justifyContent: "center" }}>
           <TouchableOpacity
             style={{
               flexDirection: "row",
@@ -160,7 +181,7 @@ const WriteIndex = ({ navigation }) => {
               <Text style={styles.buttonText}>Trở về</Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </View>*/}
 
         <FlatList
           h="85%"

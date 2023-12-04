@@ -13,7 +13,6 @@ function TableCreate({
   setSelectedHopDongId,
   selectedHopDongId,
   totalCount,
-  totalPages,
   setCurrentPage,
   currentPage,
 }) {
@@ -122,7 +121,7 @@ function TableCreate({
   if (error) {
     return <Text>Error: {error.message}</Text>;
   }
-
+  const totalPages = Math.ceil(dataHopDong?.length / itemsPerPage);
   const paginatedData = dataHopDong
     ? dataHopDong.slice(
         (currentPage - 1) * itemsPerPage,
@@ -131,15 +130,15 @@ function TableCreate({
     : [];
 
   const handleSelectAll = () => {
-    const allCheckboxValues = dataHopDong.map((hopDong) => hopDong.id);
+    const allCheckboxValues = paginatedData.map((hopDong) => hopDong.id);
     setGroupValue(allCheckboxValues);
   };
   useEffect(() => {
     console.log("Group Item Selected", selectedHopDongId);
   }, [selectedHopDongId]);
   useEffect(() => {
-    console.log("Group Item data hop dong", dataHopDong);
-  }, [dataHopDong]);
+    console.log("Group Item data hop dong", paginatedData);
+  }, [paginatedData]);
 
   return (
     <View>
@@ -201,7 +200,7 @@ function TableCreate({
                 setSelectedHopDongId(values || []);
               }}
             >
-              {dataHopDong.map((hopDong, index) => (
+              {paginatedData.map((hopDong, index) => (
                 <HStack minH={5} key={hopDong.id}>
                   <Box
                     borderLeftWidth={1}

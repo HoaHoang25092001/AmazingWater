@@ -99,7 +99,7 @@ const WriteIndexDetail = ({ navigation }) => {
         console.log("No data returned");
       }
     });
-  }, []);
+  }, [itemId]);
 
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -408,7 +408,11 @@ const WriteIndexDetail = ({ navigation }) => {
   );
 
   if (loading === "pending") {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </SafeAreaView>
+    );
   }
   return (
     <SafeAreaView>
@@ -435,7 +439,7 @@ const WriteIndexDetail = ({ navigation }) => {
                 borderRadius: 10,
                 backgroundColor: colors.blue_400,
               }}
-              onPress={() => navigation.navigate("WriteIndex")}
+              onPress={() => navigation.navigate("Trang chủ")}
             >
               <View>
                 <Ionicons
